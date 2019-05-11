@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<beans xmlns="http://www.springframework.org/schema/beans"    
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"    
+       xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"    
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd    
+  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd    
+  http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd    
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">    
+
+        
+    <!--URL Mapping-->
+    <mvc:annotation-driven/>
+    <context:component-scan base-package = "eg.iti.et3am" />
+            
+    <!--Spring dataSource-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/et3am" />
+        <property name="username" value="root" />
+        <property name="password" value="1234" />
+    </bean>
+    
+    <bean id="sessionFactory"    
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">    
+        <property name="dataSource" ref="dataSource" />    
+        <property name="annotatedClasses">
+            <list>    
+                <value>eg.iti.et3am.model.User</value>    
+            </list>    
+        </property>    
+        <property name="hibernateProperties">    
+            <props>    
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>    
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>    
+            </props>    
+        </property>    
+    </bean>    
+    
+    <bean id="txManager"    
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">    
+        <property name="sessionFactory" ref="sessionFactory" />    
+    </bean>    
+    
+    <bean id="persistenceExceptionTranslationPostProcessor"    
+          class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />    
+    
+    <bean id="userDao" class="eg.iti.et3am.dao.UserDaoImpl"></bean>    
+    <bean id="userService" class="eg.iti.et3am.service.UserServiceImpl"></bean>
+        
+</beans>
