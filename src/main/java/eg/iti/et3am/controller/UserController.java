@@ -9,8 +9,8 @@ import eg.iti.et3am.model.Status;
 import eg.iti.et3am.model.User;
 import eg.iti.et3am.service.UserService;
 import java.util.List;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,13 +20,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
 
-    @Autowired
     private UserService userService;
 
+    public UserService getUserService() {
+        return userService;
+    }
+
+    @Autowired(required = true)
+    @Qualifier(value = "userService")
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
     /*---Add new user---*/
-    @RequestMapping(value = "/user_add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     Status addEntity(@RequestBody User user) {
         try {
@@ -38,7 +48,7 @@ public class UserController {
     }
 
     /*---Get user by id---*/
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/u/{id}", method = RequestMethod.GET)
     public @ResponseBody
     User getEntityById(@PathVariable("id") long id) {
         User user = null;
@@ -50,8 +60,8 @@ public class UserController {
         return user;
     }
 
-    /*---get all users---*/
-    @RequestMapping(value = "/user_list", method = RequestMethod.GET)
+    /*---get all user---*/
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public @ResponseBody
     List<User> list() {
         List<User> userList = null;
@@ -64,7 +74,7 @@ public class UserController {
     }
 
     /*---Update a user by id---*/
-    @RequestMapping(value = "/user_update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public @ResponseBody
     Status update(@PathVariable("id") long id, @RequestBody User user) {
         try {
@@ -76,7 +86,7 @@ public class UserController {
     }
 
     /*---Delete a book by id---*/
-    @RequestMapping(value = "/user_delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public @ResponseBody
     Status delete(@PathVariable("id") long id) {
         try {

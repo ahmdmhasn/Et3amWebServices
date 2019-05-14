@@ -10,19 +10,24 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-@Component
+@Repository
 public class UserDaoImpl implements UserDao {
-
-    @Autowired
+    
     private SessionFactory sessionFactory;
-
+    
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+    
+    public void setSessionFactory(SessionFactory sf) {
+        this.sessionFactory = sf;
+    }
+    
     Session session = null;
     Transaction tx = null;
-
+    
     @Override
     public long addEntity(User user) throws Exception {
         session = sessionFactory.openSession();
@@ -33,7 +38,7 @@ public class UserDaoImpl implements UserDao {
         session.close();
         return id;
     }
-
+    
     @Override
     public User getEntityById(long id) throws Exception {
         session = sessionFactory.openSession();
@@ -43,29 +48,29 @@ public class UserDaoImpl implements UserDao {
         tx.commit();
         return user;
     }
-
+    
     @Override
     public List<User> getEntityList() throws Exception {
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
-        List<User> usersList = session.createCriteria(User.class).list();
+        List<User> userList = session.createCriteria(User.class).list();
         tx.commit();
         session.close();
-        return usersList;
+        return userList;
     }
-
+    
     @Override
     public boolean updateEntity(long id, User user) throws Exception {
         session = sessionFactory.openSession();
         User user2 = (User) session.load(User.class, id);
-        user2.setEmail(user.getEmail());
-        user2.setIsReceiver(user.getIsReceiver());
+        user2.setUserEmail(user.getUserEmail());
+        user2.setVerified(user.getVerified());
         user2.setPassword(user.getPassword());
-        user2.setUsername(user.getUsername());
+        user2.setUserName(user.getUserName());
         session.flush();
         return true;
     }
-
+    
     @Override
     public boolean deleteEntity(long id) throws Exception {
         session = sessionFactory.openSession();
@@ -76,5 +81,5 @@ public class UserDaoImpl implements UserDao {
         tx.commit();
         return true;
     }
-
+    
 }

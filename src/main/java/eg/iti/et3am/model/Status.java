@@ -5,13 +5,19 @@
  */
 package eg.iti.et3am.model;
 
+/**
+ *
+ * @author A7med
+ */
 public class Status {
-
+    
     private int code;
     private String message;
 
     public Status() {
     }
+    
+    
 
     public Status(int code, String message) {
         this.code = code;
@@ -33,4 +39,7 @@ public class Status {
     public void setMessage(String message) {
         this.message = message;
     }
+    
+    
+    
 }

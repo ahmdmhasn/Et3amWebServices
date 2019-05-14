@@ -1,3 +1,4 @@
+eg\iti\et3am\controller\RestaurantController.class
 eg\iti\et3am\model\User.class
 eg\iti\et3am\controller\UserController.class
 eg\iti\et3am\model\Status.class
@@ -5,3 +6,4 @@ eg\iti\et3am\service\UserServiceImpl.class
 eg\iti\et3am\service\UserService.class
 eg\iti\et3am\dao\UserDao.class
 eg\iti\et3am\dao\UserDaoImpl.class
+eg\iti\et3am\controller\CouponController.class
