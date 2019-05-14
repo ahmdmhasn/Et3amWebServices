@@ -17,11 +17,11 @@
     
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources 
     in the /WEB-INF/views directory -->
-<!--    <bean
+    <bean
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/" />
         <property name="suffix" value=".jsp" />
-    </bean>-->
+    </bean>
         
     <!--URL Mapping-->
     <context:component-scan base-package="eg.iti.et3am">
