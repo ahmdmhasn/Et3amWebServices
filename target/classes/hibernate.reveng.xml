@@ -40,16 +40,6 @@ made subject to such option by the copyright holder.
 Contributor(s):
 -->
 <hibernate-reverse-engineering>
-  <schema-selection match-catalog="et3am"/>
-  <table-filter match-name="reserved_coupons"/>
-  <table-filter match-name="used_coupons"/>
-  <table-filter match-name="balance_coupons"/>
-  <table-filter match-name="coupons"/>
-  <table-filter match-name="admins"/>
-  <table-filter match-name="meals"/>
-  <table-filter match-name="restaurants"/>
-  <table-filter match-name="user"/>
-  <table-filter match-name="user_details"/>
-  <table-filter match-name="remaining_balance"/>
-  <table-filter match-name="available_coupons"/>
+  <schema-selection match-catalog="heroku_24f192cc0bbf6af"/>
+  <table-filter match-name="users"/>
 </hibernate-reverse-engineering>
