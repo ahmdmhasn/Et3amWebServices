@@ -44,7 +44,7 @@
     <!--Spring dataSource-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://b7ea7f298a1796:87eeaffa@us-cdbr-iron-east-02.cleardb.net/heroku_24f192cc0bbf6af?reconnect=true" />
+        <property name="url" value="jdbc:mysql://us-cdbr-iron-east-02.cleardb.net/heroku_24f192cc0bbf6af?reconnect=true" />
         <property name="username" value="b7ea7f298a1796" />
         <property name="password" value="87eeaffa" />
     </bean>

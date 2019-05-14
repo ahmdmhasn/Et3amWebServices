@@ -43,7 +43,7 @@ Contributor(s):
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://b7ea7f298a1796:87eeaffa@us-cdbr-iron-east-02.cleardb.net/heroku_24f192cc0bbf6af?reconnect=true</property>
+    <property name="hibernate.connection.url">jdbc:mysql://us-cdbr-iron-east-02.cleardb.net/heroku_24f192cc0bbf6af?reconnect=true</property>
     <property name="hibernate.connection.username">b7ea7f298a1796</property>
     <property name="hibernate.connection.password">87eeaffa</property>
     <mapping resource="eg/iti/et3am/model/Users.hbm.xml"/>
