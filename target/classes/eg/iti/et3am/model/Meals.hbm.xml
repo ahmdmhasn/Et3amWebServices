@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 15, 2019 11:40:29 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="eg.iti.et3am.model.Meals" table="meals" catalog="heroku_24f192cc0bbf6af" optimistic-lock="version">
+        <id name="mealId" type="java.lang.Integer">
+            <column name="meal_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="restaurants" class="eg.iti.et3am.model.Restaurants" fetch="select">
+            <column name="resturant_id" not-null="true" />
+        </many-to-one>
+        <property name="mealName" type="string">
+            <column name="meal_name" length="45" not-null="true" />
+        </property>
+        <property name="mealValue" type="float">
+            <column name="meal_value" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="mealImage" type="binary">
+            <column name="meal_image" />
+        </property>
+    </class>
+</hibernate-mapping>

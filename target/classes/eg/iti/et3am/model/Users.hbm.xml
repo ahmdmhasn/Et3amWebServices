@@ -1,23 +1,48 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated May 14, 2019 11:07:05 PM by Hibernate Tools 4.3.1 -->
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 15, 2019 11:40:29 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-  <class catalog="heroku_24f192cc0bbf6af" name="eg.iti.et3am.model.User" optimistic-lock="version" table="users">
-    <id name="userId" type="long">
-      <column name="user_id"/>
-      <generator class="identity"/>
-    </id>
-    <property name="userName" type="string">
-      <column length="45" name="user_name" not-null="true"/>
-    </property>
-    <property name="userEmail" type="string">
-      <column length="45" name="user_email" not-null="true" unique="true"/>
-    </property>
-    <property name="password" type="string">
-      <column length="45" name="password" not-null="true"/>
-    </property>
-    <property name="verified" type="java.lang.Integer">
-      <column name="verified"/>
-    </property>
-  </class>
+    <class name="eg.iti.et3am.model.Users" table="users" catalog="heroku_24f192cc0bbf6af" optimistic-lock="version">
+        <id name="userId" type="string">
+            <column name="user_id" length="128" />
+            <generator class="uuid" />
+        </id>
+        <property name="userName" type="string">
+            <column name="user_name" length="45" not-null="true" />
+        </property>
+        <property name="userEmail" type="string">
+            <column name="user_email" length="45" not-null="true" unique="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="45" not-null="true" />
+        </property>
+        <property name="verified" type="int">
+            <column name="verified" not-null="true" />
+        </property>
+        <set name="userBalanceCoupons" table="user_balance_coupon" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="users_user_id" length="128" not-null="true" />
+            </key>
+            <one-to-many class="eg.iti.et3am.model.UserBalanceCoupon" />
+        </set>
+        <set name="userReserveCoupons" table="user_reserve_coupon" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="reserver_id" length="128" not-null="true" />
+            </key>
+            <one-to-many class="eg.iti.et3am.model.UserReserveCoupon" />
+        </set>
+        <set name="couponses" table="coupons" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="donator_id" length="128" not-null="true" />
+            </key>
+            <one-to-many class="eg.iti.et3am.model.Coupons" />
+        </set>
+        <set name="userDetailses" table="user_details" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="users_user_id" length="128" not-null="true" />
+            </key>
+            <one-to-many class="eg.iti.et3am.model.UserDetails" />
+        </set>
+    </class>
 </hibernate-mapping>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 15, 2019 11:40:29 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="eg.iti.et3am.model.UserUseCoupon" table="user_use_coupon" catalog="heroku_24f192cc0bbf6af" optimistic-lock="version">
+        <id name="usedCouponId" type="java.lang.Integer">
+            <column name="used_coupon_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="restaurants" class="eg.iti.et3am.model.Restaurants" fetch="select">
+            <column name="restaurant_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="userReserveCoupon" class="eg.iti.et3am.model.UserReserveCoupon" fetch="select">
+            <column name="user_reserve_coupon_reserved_coupon_id" not-null="true" />
+        </many-to-one>
+        <property name="useDate" type="timestamp">
+            <column name="use_date" length="26" not-null="true" />
+        </property>
+        <property name="price" type="float">
+            <column name="price" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="status" type="int">
+            <column name="status" not-null="true" />
+        </property>
+        <set name="remainingBalances" table="remaining_balance" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_use_coupon_used_coupon_id" not-null="true" />
+            </key>
+            <one-to-many class="eg.iti.et3am.model.RemainingBalance" />
+        </set>
+    </class>
+</hibernate-mapping>

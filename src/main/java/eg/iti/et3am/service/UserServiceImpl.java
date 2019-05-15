@@ -6,7 +6,7 @@
 package eg.iti.et3am.service;
 
 import eg.iti.et3am.dao.UserDao;
-import eg.iti.et3am.model.User;
+import eg.iti.et3am.model.Users;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,25 +26,25 @@ public class UserServiceImpl implements UserService {
     
     @Override
     @Transactional
-    public long addEntity(User user) throws Exception {
+    public String addEntity(Users user) throws Exception {
         return userDao.addEntity(user);
     }
 
     @Override
     @Transactional
-    public User getEntityById(long id) throws Exception {
+    public Users getEntityById(long id) throws Exception {
         return userDao.getEntityById(id);
     }
 
     @Override
     @Transactional
-    public List<User> getEntityList() throws Exception {
+    public List<Users> getEntityList() throws Exception {
         return userDao.getEntityList();
     }
 
     @Override
     @Transactional
-    public boolean updateEntity(long id, User user) throws Exception {
+    public boolean updateEntity(long id, Users user) throws Exception {
         return userDao.updateEntity(id, user);
     }
 

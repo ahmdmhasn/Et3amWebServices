@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 15, 2019 11:40:29 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="eg.iti.et3am.model.Admins" table="admins" catalog="heroku_24f192cc0bbf6af" optimistic-lock="version">
+        <id name="adminId" type="java.lang.Integer">
+            <column name="admin_id" />
+            <generator class="identity" />
+        </id>
+        <property name="adminName" type="string">
+            <column name="admin_name" length="45" not-null="true" />
+        </property>
+        <property name="adminEmail" type="string">
+            <column name="admin_email" length="45" not-null="true" unique="true" />
+        </property>
+        <property name="adminPassword" type="string">
+            <column name="admin_password" length="45" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

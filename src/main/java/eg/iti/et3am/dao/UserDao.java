@@ -5,7 +5,7 @@
  */
 package eg.iti.et3am.dao;
 
-import eg.iti.et3am.model.User;
+import eg.iti.et3am.model.Users;
 import java.util.List;
 
 /**
@@ -14,10 +14,10 @@ import java.util.List;
  */
 public interface UserDao {
     
-    long addEntity(User user) throws Exception;
-    User getEntityById(long id) throws Exception;
-    List<User> getEntityList() throws Exception;
-    boolean updateEntity(long id, User user) throws Exception;
+    String addEntity(Users user) throws Exception;
+    Users getEntityById(long id) throws Exception;
+    List<Users> getEntityList() throws Exception;
+    boolean updateEntity(long id, Users user) throws Exception;
     boolean deleteEntity(long id) throws Exception;
     
 }

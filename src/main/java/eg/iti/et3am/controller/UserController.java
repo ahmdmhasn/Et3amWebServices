@@ -6,7 +6,7 @@
 package eg.iti.et3am.controller;
 
 import eg.iti.et3am.model.Status;
-import eg.iti.et3am.model.User;
+import eg.iti.et3am.model.Users;
 import eg.iti.et3am.service.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +38,9 @@ public class UserController {
     /*---Add new user---*/
     @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    Status addEntity(@RequestBody User user) {
+    Status addEntity(@RequestBody Users user) {
         try {
-            long id = userService.addEntity(user);
+            String id = userService.addEntity(user);
 //            return new Status(1, "User " + id + " added Successfully!");
             return new Status(1, user);
         } catch (Exception ex) {
@@ -52,8 +52,8 @@ public class UserController {
     /*---Get user by id---*/
     @RequestMapping(value = "/u/{id}", method = RequestMethod.GET)
     public @ResponseBody
-    User getEntityById(@PathVariable("id") long id) {
-        User user = null;
+    Users getEntityById(@PathVariable("id") long id) {
+        Users user = null;
         try {
             user = userService.getEntityById(id);
         } catch (Exception ex) {
@@ -65,8 +65,8 @@ public class UserController {
     /*---get all user---*/
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public @ResponseBody
-    List<User> list() {
-        List<User> userList = null;
+    List<Users> list() {
+        List<Users> userList = null;
         try {
             userList = userService.getEntityList();
         } catch (Exception ex) {
@@ -78,7 +78,7 @@ public class UserController {
     /*---Update a user by id---*/
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public @ResponseBody
-    Status update(@PathVariable("id") long id, @RequestBody User user) {
+    Status update(@PathVariable("id") long id, @RequestBody Users user) {
         try {
             userService.updateEntity(id, user);
             return new Status(1, "User updated Successfully!");

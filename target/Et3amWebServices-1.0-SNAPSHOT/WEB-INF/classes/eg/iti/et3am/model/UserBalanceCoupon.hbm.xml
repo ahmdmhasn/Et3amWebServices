@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 15, 2019 11:40:29 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="eg.iti.et3am.model.UserBalanceCoupon" table="user_balance_coupon" catalog="heroku_24f192cc0bbf6af" optimistic-lock="version">
+        <id name="balanceId" type="java.lang.Integer">
+            <column name="balance_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="coupons" class="eg.iti.et3am.model.Coupons" fetch="select">
+            <column name="coupons_coupon_id" length="128" not-null="true" />
+        </many-to-one>
+        <many-to-one name="users" class="eg.iti.et3am.model.Users" fetch="select">
+            <column name="users_user_id" length="128" not-null="true" />
+        </many-to-one>
+        <property name="status" type="int">
+            <column name="status" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

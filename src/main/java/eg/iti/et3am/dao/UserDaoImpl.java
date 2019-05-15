@@ -5,7 +5,8 @@
  */
 package eg.iti.et3am.dao;
 
-import eg.iti.et3am.model.User;
+import eg.iti.et3am.model.Users;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -29,21 +30,21 @@ public class UserDaoImpl implements UserDao {
     Transaction tx = null;
     
     @Override
-    public long addEntity(User user) throws Exception {
+    public String addEntity(Users user) throws Exception {
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
         System.out.println(session.save(user) + "~~~~~~~~~~~~");
         tx.commit();
-        Long id = (Long) session.getIdentifier(user);
+        String id = (String) session.getIdentifier(user);
         System.out.println(user.getUserId() +"\t" + id + "\t" + "~~~~~~~~~~~~~~~~~~~~");
         session.close();
         return id;
     }
     
     @Override
-    public User getEntityById(long id) throws Exception {
+    public Users getEntityById(long id) throws Exception {
         session = sessionFactory.openSession();
-        User user = (User) session.load(User.class, id);
+        Users user = (Users) session.load(Users.class, id);
         tx = session.getTransaction();
         session.beginTransaction();
         tx.commit();
@@ -51,19 +52,32 @@ public class UserDaoImpl implements UserDao {
     }
     
     @Override
-    public List<User> getEntityList() throws Exception {
+    public List<Users> getEntityList() throws Exception {
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
-        List<User> userList = session.createCriteria(User.class).list();
+        List<Users> userList = session.createCriteria(Users.class).list();
+        
+        // Create another array to be sent on response
+        List<Users> userList2 = new ArrayList<>();
+        for (Users user : userList) {
+            Users user2 = new Users();
+            user2.setUserId(user.getUserId());
+            user2.setUserName(user.getUserName());
+            user2.setPassword(user.getPassword());
+            user2.setUserEmail(user.getUserEmail());
+            user2.setVerified(user.getVerified());
+            userList2.add(user2);
+        }
+        
         tx.commit();
         session.close();
-        return userList;
+        return userList2;
     }
     
     @Override
-    public boolean updateEntity(long id, User user) throws Exception {
+    public boolean updateEntity(long id, Users user) throws Exception {
         session = sessionFactory.openSession();
-        User user2 = (User) session.load(User.class, id);
+        Users user2 = (Users) session.load(Users.class, id);
         user2.setUserEmail(user.getUserEmail());
         user2.setVerified(user.getVerified());
         user2.setPassword(user.getPassword());
@@ -75,7 +89,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean deleteEntity(long id) throws Exception {
         session = sessionFactory.openSession();
-        Object o = session.load(User.class, id);
+        Object o = session.load(Users.class, id);
         tx = session.getTransaction();
         session.beginTransaction();
         session.delete(o);

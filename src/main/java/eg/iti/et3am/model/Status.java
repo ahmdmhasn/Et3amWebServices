@@ -13,18 +13,18 @@ public class Status {
     
     private int code;
     private String message;
-    private User user;
+    private Users user;
 
-    public Status(int code, User user) {
+    public Status(int code, Users user) {
         this.code = code;
         this.user = user;
     }
 
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
 
