@@ -32,9 +32,10 @@ public class UserDaoImpl implements UserDao {
     public long addEntity(User user) throws Exception {
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
-        session.save(user);
+        System.out.println(session.save(user) + "~~~~~~~~~~~~");
         tx.commit();
         Long id = (Long) session.getIdentifier(user);
+        System.out.println(user.getUserId() +"\t" + id + "\t" + "~~~~~~~~~~~~~~~~~~~~");
         session.close();
         return id;
     }

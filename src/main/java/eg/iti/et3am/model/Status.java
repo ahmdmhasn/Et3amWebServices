@@ -13,6 +13,20 @@ public class Status {
     
     private int code;
     private String message;
+    private User user;
+
+    public Status(int code, User user) {
+        this.code = code;
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Status() {
     }

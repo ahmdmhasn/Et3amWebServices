@@ -41,8 +41,10 @@ public class UserController {
     Status addEntity(@RequestBody User user) {
         try {
             long id = userService.addEntity(user);
-            return new Status(1, "User " + id + " added Successfully!");
+//            return new Status(1, "User " + id + " added Successfully!");
+            return new Status(1, user);
         } catch (Exception ex) {
+            ex.printStackTrace();
             return new Status(0, ex.getMessage());
         }
     }

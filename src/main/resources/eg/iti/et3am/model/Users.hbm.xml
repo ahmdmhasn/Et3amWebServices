@@ -1,24 +1,23 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated May 14, 2019 9:31:11 PM by Hibernate Tools 4.3.1 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 14, 2019 11:07:05 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="eg.iti.et3am.model.User" table="users" catalog="heroku_24f192cc0bbf6af" optimistic-lock="version">
-        <id name="userId" type="java.lang.Integer">
-            <column name="user_id" />
-            <generator class="identity" />
-        </id>
-        <property name="userName" type="string">
-            <column name="user_name" length="45" not-null="true" />
-        </property>
-        <property name="userEmail" type="string">
-            <column name="user_email" length="45" not-null="true" unique="true" />
-        </property>
-        <property name="password" type="string">
-            <column name="password" length="45" not-null="true" />
-        </property>
-        <property name="verified" type="java.lang.Integer">
-            <column name="verified" />
-        </property>
-    </class>
+  <class catalog="heroku_24f192cc0bbf6af" name="eg.iti.et3am.model.User" optimistic-lock="version" table="users">
+    <id name="userId" type="long">
+      <column name="user_id"/>
+      <generator class="identity"/>
+    </id>
+    <property name="userName" type="string">
+      <column length="45" name="user_name" not-null="true"/>
+    </property>
+    <property name="userEmail" type="string">
+      <column length="45" name="user_email" not-null="true" unique="true"/>
+    </property>
+    <property name="password" type="string">
+      <column length="45" name="password" not-null="true"/>
+    </property>
+    <property name="verified" type="java.lang.Integer">
+      <column name="verified"/>
+    </property>
+  </class>
 </hibernate-mapping>
