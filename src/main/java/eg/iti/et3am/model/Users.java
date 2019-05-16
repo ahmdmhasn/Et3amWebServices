@@ -41,12 +41,20 @@ public class Users  implements java.io.Serializable {
      private String password;
 @Column(name="verified", nullable=false)
      private int verified;
+
+@JsonIgnore
 @OneToMany(fetch=FetchType.LAZY, mappedBy="users")
      private Set<UserBalanceCoupon> userBalanceCoupons = new HashSet<UserBalanceCoupon>(0);
+
+@JsonIgnore
 @OneToMany(fetch=FetchType.LAZY, mappedBy="users")
      private Set<UserReserveCoupon> userReserveCoupons = new HashSet<UserReserveCoupon>(0);
+
+@JsonIgnore
 @OneToMany(fetch=FetchType.LAZY, mappedBy="users")
      private Set<Coupons> couponses = new HashSet<Coupons>(0);
+
+@JsonIgnore
 @OneToMany(fetch=FetchType.LAZY, mappedBy="users")
      private Set<UserDetails> userDetailses = new HashSet<UserDetails>(0);
 

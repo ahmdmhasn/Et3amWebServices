@@ -34,4 +34,7 @@ public interface UserService {
     
     /*---Check if the same username exists---*/
     boolean isUsernameValid(String username) throws Exception;
+    
+    /*---Login method using email & password---*/
+    Users login(String email, String password) throws Exception;
 }

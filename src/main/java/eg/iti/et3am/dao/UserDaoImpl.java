@@ -129,4 +129,21 @@ public class UserDaoImpl implements UserDao {
         
         return false;
     }
+
+    @Override
+    public Users login(String email, String password) throws Exception {
+        session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(Users.class);
+        criteria.add(Restrictions.eq("userEmail", email));
+        criteria.add(Restrictions.eq("password", password));
+
+        Users user = (Users) criteria.uniqueResult();
+        Users user2 = new Users(user.getUserId(), 
+                user.getUserName(), 
+                user.getUserEmail(), 
+                null, 
+                user.getVerified());
+        return user2;
+    }
+    
 }

@@ -65,4 +65,10 @@ public class UserServiceImpl implements UserService {
     public boolean isUsernameValid(String username) throws Exception {
         return userDao.isUsernameValid(username);
     }
+    
+    @Override
+    @Transactional
+    public Users login(String email, String password) throws Exception {
+        return userDao.login(email, password);
+    }
 }

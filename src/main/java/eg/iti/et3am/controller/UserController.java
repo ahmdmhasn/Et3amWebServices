@@ -9,7 +9,6 @@ import eg.iti.et3am.model.Status;
 import eg.iti.et3am.model.Users;
 import eg.iti.et3am.service.UserService;
 import java.util.List;
-import javax.transaction.NotSupportedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -100,10 +100,11 @@ public class UserController {
             return new Status(0, e.toString());
         }
     }
-    
+
     /*---Check if the same email exists---*/
     @RequestMapping(value = "/validate/email/{email}", method = RequestMethod.GET)
-    public @ResponseBody Status isEmailValid(@PathVariable("email") String email) {
+    public @ResponseBody
+    Status isEmailValid(@PathVariable("email") String email) {
         try {
             if (userService.isEmailValid(email)) {
                 return new Status(1, "Email is valid!");
@@ -114,10 +115,11 @@ public class UserController {
             return new Status(0, e.toString());
         }
     }
-    
+
     /*---Check if the same username exists---*/
     @RequestMapping(value = "/validate/username/{username}", method = RequestMethod.GET)
-    public @ResponseBody Status isUsernameValid(@PathVariable("username") String username) {
+    public @ResponseBody
+    Status isUsernameValid(@PathVariable("username") String username) {
         try {
             if (userService.isUsernameValid(username)) {
                 return new Status(1, "Username is valid!");
@@ -126,6 +128,26 @@ public class UserController {
             }
         } catch (Exception e) {
             return new Status(0, e.toString());
+        }
+    }
+
+    /*---Check if the same username exists---*/
+    @RequestMapping(value = "/validate/login", method = RequestMethod.GET)
+    public @ResponseBody
+    Status login(@RequestParam("email") String email, @RequestParam("password") String password) {
+        if (!email.isEmpty() && !password.isEmpty()) {
+            try {
+                Users user = userService.login(email, password);
+                if (user != null) {
+                    return new Status(1, user);
+                } else {
+                    return new Status(0, "User doesn't exist!");
+                }
+            } catch (Exception e) {
+                return new Status(0, e.toString());
+            }
+        } else {
+            return new Status(0, "Email or password must not be empty");
         }
     }
 }
