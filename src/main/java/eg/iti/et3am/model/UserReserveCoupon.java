@@ -1,5 +1,5 @@
 package eg.iti.et3am.model;
-// Generated May 15, 2019 11:40:21 PM by Hibernate Tools 4.3.1
+// Generated May 16, 2019 11:54:55 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -33,7 +33,7 @@ public class UserReserveCoupon  implements java.io.Serializable {
      private Users users;
      private Date reservationDate;
      private int status;
-     private Set<UserUseCoupon> userUseCoupons = new HashSet<UserUseCoupon>(0);
+     private Set<UserUsedCoupon> userUsedCoupons = new HashSet<UserUsedCoupon>(0);
 
     public UserReserveCoupon() {
     }
@@ -45,12 +45,12 @@ public class UserReserveCoupon  implements java.io.Serializable {
         this.reservationDate = reservationDate;
         this.status = status;
     }
-    public UserReserveCoupon(Coupons coupons, Users users, Date reservationDate, int status, Set<UserUseCoupon> userUseCoupons) {
+    public UserReserveCoupon(Coupons coupons, Users users, Date reservationDate, int status, Set<UserUsedCoupon> userUsedCoupons) {
        this.coupons = coupons;
        this.users = users;
        this.reservationDate = reservationDate;
        this.status = status;
-       this.userUseCoupons = userUseCoupons;
+       this.userUsedCoupons = userUsedCoupons;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -106,12 +106,12 @@ public class UserReserveCoupon  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="userReserveCoupon")
-    public Set<UserUseCoupon> getUserUseCoupons() {
-        return this.userUseCoupons;
+    public Set<UserUsedCoupon> getUserUsedCoupons() {
+        return this.userUsedCoupons;
     }
     
-    public void setUserUseCoupons(Set<UserUseCoupon> userUseCoupons) {
-        this.userUseCoupons = userUseCoupons;
+    public void setUserUsedCoupons(Set<UserUsedCoupon> userUsedCoupons) {
+        this.userUsedCoupons = userUsedCoupons;
     }
 
 

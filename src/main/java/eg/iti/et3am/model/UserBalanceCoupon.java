@@ -1,7 +1,9 @@
 package eg.iti.et3am.model;
-// Generated May 15, 2019 11:40:21 PM by Hibernate Tools 4.3.1
+// Generated May 16, 2019 11:54:55 PM by Hibernate Tools 4.3.1
 
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +12,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -23,17 +26,22 @@ public class UserBalanceCoupon  implements java.io.Serializable {
 
 
      private Integer balanceId;
-     private Coupons coupons;
      private Users users;
      private int status;
+     private Set<Coupons> couponses = new HashSet<Coupons>(0);
 
     public UserBalanceCoupon() {
     }
 
-    public UserBalanceCoupon(Coupons coupons, Users users, int status) {
-       this.coupons = coupons;
+	
+    public UserBalanceCoupon(Users users, int status) {
+        this.users = users;
+        this.status = status;
+    }
+    public UserBalanceCoupon(Users users, int status, Set<Coupons> couponses) {
        this.users = users;
        this.status = status;
+       this.couponses = couponses;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -46,16 +54,6 @@ public class UserBalanceCoupon  implements java.io.Serializable {
     
     public void setBalanceId(Integer balanceId) {
         this.balanceId = balanceId;
-    }
-
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="coupons_coupon_id", nullable=false)
-    public Coupons getCoupons() {
-        return this.coupons;
-    }
-    
-    public void setCoupons(Coupons coupons) {
-        this.coupons = coupons;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
@@ -76,6 +74,15 @@ public class UserBalanceCoupon  implements java.io.Serializable {
     
     public void setStatus(int status) {
         this.status = status;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="userBalanceCoupon")
+    public Set<Coupons> getCouponses() {
+        return this.couponses;
+    }
+    
+    public void setCouponses(Set<Coupons> couponses) {
+        this.couponses = couponses;
     }
 
 

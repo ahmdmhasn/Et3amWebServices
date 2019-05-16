@@ -1,5 +1,5 @@
 package eg.iti.et3am.model;
-// Generated May 15, 2019 11:40:21 PM by Hibernate Tools 4.3.1
+// Generated May 16, 2019 11:54:55 PM by Hibernate Tools 4.3.1
 
 
 import javax.persistence.Column;
@@ -26,7 +26,7 @@ public class Meals  implements java.io.Serializable {
      private Restaurants restaurants;
      private String mealName;
      private float mealValue;
-     private byte[] mealImage;
+     private String mealImage;
 
     public Meals() {
     }
@@ -37,7 +37,7 @@ public class Meals  implements java.io.Serializable {
         this.mealName = mealName;
         this.mealValue = mealValue;
     }
-    public Meals(Restaurants restaurants, String mealName, float mealValue, byte[] mealImage) {
+    public Meals(Restaurants restaurants, String mealName, float mealValue, String mealImage) {
        this.restaurants = restaurants;
        this.mealName = mealName;
        this.mealValue = mealValue;
@@ -87,12 +87,12 @@ public class Meals  implements java.io.Serializable {
     }
 
     
-    @Column(name="meal_image")
-    public byte[] getMealImage() {
+    @Column(name="meal_image", length=45)
+    public String getMealImage() {
         return this.mealImage;
     }
     
-    public void setMealImage(byte[] mealImage) {
+    public void setMealImage(String mealImage) {
         this.mealImage = mealImage;
     }
 

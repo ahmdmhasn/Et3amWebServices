@@ -46,17 +46,19 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:mysql://us-cdbr-iron-east-02.cleardb.net/heroku_24f192cc0bbf6af?reconnect=true</property>
     <property name="hibernate.connection.username">b7ea7f298a1796</property>
     <property name="hibernate.connection.password">87eeaffa</property>
-    <mapping resource="eg/iti/et3am/model/RemainingBalance.hbm.xml"/>
-    <mapping resource="eg/iti/et3am/model/Users.hbm.xml"/>
-    <mapping resource="eg/iti/et3am/model/Meals.hbm.xml"/>
-    <mapping resource="eg/iti/et3am/model/AvailableCoupons.hbm.xml"/>
-    <mapping resource="eg/iti/et3am/model/RestaurantAdmin.hbm.xml"/>
-    <mapping resource="eg/iti/et3am/model/UserUseCoupon.hbm.xml"/>
-    <mapping resource="eg/iti/et3am/model/Coupons.hbm.xml"/>
-    <mapping resource="eg/iti/et3am/model/Admins.hbm.xml"/>
-    <mapping resource="eg/iti/et3am/model/UserReserveCoupon.hbm.xml"/>
-    <mapping resource="eg/iti/et3am/model/UserDetails.hbm.xml"/>
-    <mapping resource="eg/iti/et3am/model/UserBalanceCoupon.hbm.xml"/>
-    <mapping resource="eg/iti/et3am/model/Restaurants.hbm.xml"/>
+    <mapping class="eg.iti.et3am.model.RemainingBalance"/>
+    <mapping class="eg.iti.et3am.model.Coupons"/>
+    <mapping class="eg.iti.et3am.model.RestaurantAdmin"/>
+    <mapping class="eg.iti.et3am.model.Restaurants"/>
+    <mapping class="eg.iti.et3am.model.UserUsedCoupon"/>
+    <mapping class="eg.iti.et3am.model.Status"/>
+    <mapping class="eg.iti.et3am.model.AvailableCoupons"/>
+    <mapping class="eg.iti.et3am.model.UserDetails"/>
+    <mapping class="eg.iti.et3am.model.Meals"/>
+    <mapping class="eg.iti.et3am.model.Admins"/>
+    <mapping class="eg.iti.et3am.model.Users"/>
+    <mapping class="eg.iti.et3am.model.RestaurantAdminId"/>
+    <mapping class="eg.iti.et3am.model.UserBalanceCoupon"/>
+    <mapping class="eg.iti.et3am.model.UserReserveCoupon"/>
   </session-factory>
 </hibernate-configuration>

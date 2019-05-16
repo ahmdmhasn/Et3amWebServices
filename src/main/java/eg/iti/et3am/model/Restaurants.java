@@ -1,5 +1,5 @@
 package eg.iti.et3am.model;
-// Generated May 15, 2019 11:40:21 PM by Hibernate Tools 4.3.1
+// Generated May 16, 2019 11:54:55 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -29,10 +29,11 @@ public class Restaurants  implements java.io.Serializable {
      private String country;
      private float latitude;
      private float longitude;
-     private byte[] restaurantImage;
+     private String restaurantImage;
+     private String restaurantscol;
      private Set<RestaurantAdmin> restaurantAdmins = new HashSet<RestaurantAdmin>(0);
      private Set<Meals> mealses = new HashSet<Meals>(0);
-     private Set<UserUseCoupon> userUseCoupons = new HashSet<UserUseCoupon>(0);
+     private Set<UserUsedCoupon> userUsedCoupons = new HashSet<UserUsedCoupon>(0);
 
     public Restaurants() {
     }
@@ -45,16 +46,17 @@ public class Restaurants  implements java.io.Serializable {
         this.latitude = latitude;
         this.longitude = longitude;
     }
-    public Restaurants(String restaurantName, String city, String country, float latitude, float longitude, byte[] restaurantImage, Set<RestaurantAdmin> restaurantAdmins, Set<Meals> mealses, Set<UserUseCoupon> userUseCoupons) {
+    public Restaurants(String restaurantName, String city, String country, float latitude, float longitude, String restaurantImage, String restaurantscol, Set<RestaurantAdmin> restaurantAdmins, Set<Meals> mealses, Set<UserUsedCoupon> userUsedCoupons) {
        this.restaurantName = restaurantName;
        this.city = city;
        this.country = country;
        this.latitude = latitude;
        this.longitude = longitude;
        this.restaurantImage = restaurantImage;
+       this.restaurantscol = restaurantscol;
        this.restaurantAdmins = restaurantAdmins;
        this.mealses = mealses;
-       this.userUseCoupons = userUseCoupons;
+       this.userUsedCoupons = userUsedCoupons;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -120,13 +122,23 @@ public class Restaurants  implements java.io.Serializable {
     }
 
     
-    @Column(name="restaurant_image")
-    public byte[] getRestaurantImage() {
+    @Column(name="restaurant_image", length=45)
+    public String getRestaurantImage() {
         return this.restaurantImage;
     }
     
-    public void setRestaurantImage(byte[] restaurantImage) {
+    public void setRestaurantImage(String restaurantImage) {
         this.restaurantImage = restaurantImage;
+    }
+
+    
+    @Column(name="restaurantscol", length=45)
+    public String getRestaurantscol() {
+        return this.restaurantscol;
+    }
+    
+    public void setRestaurantscol(String restaurantscol) {
+        this.restaurantscol = restaurantscol;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="restaurants")
@@ -148,12 +160,12 @@ public class Restaurants  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="restaurants")
-    public Set<UserUseCoupon> getUserUseCoupons() {
-        return this.userUseCoupons;
+    public Set<UserUsedCoupon> getUserUsedCoupons() {
+        return this.userUsedCoupons;
     }
     
-    public void setUserUseCoupons(Set<UserUseCoupon> userUseCoupons) {
-        this.userUseCoupons = userUseCoupons;
+    public void setUserUsedCoupons(Set<UserUsedCoupon> userUsedCoupons) {
+        this.userUsedCoupons = userUsedCoupons;
     }
 
 

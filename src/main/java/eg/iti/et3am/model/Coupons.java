@@ -1,5 +1,5 @@
 package eg.iti.et3am.model;
-// Generated May 15, 2019 11:40:21 PM by Hibernate Tools 4.3.1
+// Generated May 16, 2019 11:54:55 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -29,34 +29,35 @@ public class Coupons  implements java.io.Serializable {
 
 
      private String couponId;
+     private UserBalanceCoupon userBalanceCoupon;
      private Users users;
      private String couponValue;
      private String couponBarcode;
      private Date creationDate;
-     private byte[] couponQrcode;
+     private String couponQrcode;
      private Set<AvailableCoupons> availableCouponses = new HashSet<AvailableCoupons>(0);
-     private Set<UserBalanceCoupon> userBalanceCoupons = new HashSet<UserBalanceCoupon>(0);
      private Set<UserReserveCoupon> userReserveCoupons = new HashSet<UserReserveCoupon>(0);
 
     public Coupons() {
     }
 
 	
-    public Coupons(String couponId, Users users, String couponValue, String couponBarcode) {
+    public Coupons(String couponId, UserBalanceCoupon userBalanceCoupon, Users users, String couponValue, String couponBarcode) {
         this.couponId = couponId;
+        this.userBalanceCoupon = userBalanceCoupon;
         this.users = users;
         this.couponValue = couponValue;
         this.couponBarcode = couponBarcode;
     }
-    public Coupons(String couponId, Users users, String couponValue, String couponBarcode, Date creationDate, byte[] couponQrcode, Set<AvailableCoupons> availableCouponses, Set<UserBalanceCoupon> userBalanceCoupons, Set<UserReserveCoupon> userReserveCoupons) {
+    public Coupons(String couponId, UserBalanceCoupon userBalanceCoupon, Users users, String couponValue, String couponBarcode, Date creationDate, String couponQrcode, Set<AvailableCoupons> availableCouponses, Set<UserReserveCoupon> userReserveCoupons) {
        this.couponId = couponId;
+       this.userBalanceCoupon = userBalanceCoupon;
        this.users = users;
        this.couponValue = couponValue;
        this.couponBarcode = couponBarcode;
        this.creationDate = creationDate;
        this.couponQrcode = couponQrcode;
        this.availableCouponses = availableCouponses;
-       this.userBalanceCoupons = userBalanceCoupons;
        this.userReserveCoupons = userReserveCoupons;
     }
    
@@ -70,6 +71,16 @@ public class Coupons  implements java.io.Serializable {
     
     public void setCouponId(String couponId) {
         this.couponId = couponId;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="user_balance_coupon_balance_id", nullable=false)
+    public UserBalanceCoupon getUserBalanceCoupon() {
+        return this.userBalanceCoupon;
+    }
+    
+    public void setUserBalanceCoupon(UserBalanceCoupon userBalanceCoupon) {
+        this.userBalanceCoupon = userBalanceCoupon;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
@@ -113,12 +124,12 @@ public class Coupons  implements java.io.Serializable {
     }
 
     
-    @Column(name="coupon_qrcode")
-    public byte[] getCouponQrcode() {
+    @Column(name="coupon_qrcode", length=45)
+    public String getCouponQrcode() {
         return this.couponQrcode;
     }
     
-    public void setCouponQrcode(byte[] couponQrcode) {
+    public void setCouponQrcode(String couponQrcode) {
         this.couponQrcode = couponQrcode;
     }
 
@@ -129,15 +140,6 @@ public class Coupons  implements java.io.Serializable {
     
     public void setAvailableCouponses(Set<AvailableCoupons> availableCouponses) {
         this.availableCouponses = availableCouponses;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="coupons")
-    public Set<UserBalanceCoupon> getUserBalanceCoupons() {
-        return this.userBalanceCoupons;
-    }
-    
-    public void setUserBalanceCoupons(Set<UserBalanceCoupon> userBalanceCoupons) {
-        this.userBalanceCoupons = userBalanceCoupons;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="coupons")

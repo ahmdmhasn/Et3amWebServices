@@ -1,7 +1,8 @@
 package eg.iti.et3am.model;
-// Generated May 15, 2019 11:40:21 PM by Hibernate Tools 4.3.1
+// Generated May 16, 2019 11:54:55 PM by Hibernate Tools 4.3.1
 
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -11,9 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -24,37 +27,47 @@ import org.hibernate.annotations.GenericGenerator;
     ,catalog="heroku_24f192cc0bbf6af"
     , uniqueConstraints = @UniqueConstraint(columnNames="user_email") 
 )
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Users  implements java.io.Serializable {
 
 
-    @Id 
+    @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name="user_id", unique=true, nullable=false, length=128)
      private String userId;
+    
     @Column(name="user_name", nullable=false, length=45)
      private String userName;
+    
 @Column(name="user_email", unique=true, nullable=false, length=45)
      private String userEmail;
+
 @Column(name="password", nullable=false, length=45)
      private String password;
+
+@ColumnDefault("0")
 @Column(name="verified", nullable=false)
      private int verified;
 
-@JsonIgnore
+//@Temporal(TemporalType.DATE)
+@CreationTimestamp
+@Temporal(TemporalType.TIMESTAMP)
+     @Column(name="creation_date", length=10)
+     private Date creationDate;
+
+@ColumnDefault("1")
+@Column(name="user_status")
+     private Integer userStatus;
+
 @OneToMany(fetch=FetchType.LAZY, mappedBy="users")
      private Set<UserBalanceCoupon> userBalanceCoupons = new HashSet<UserBalanceCoupon>(0);
 
-@JsonIgnore
 @OneToMany(fetch=FetchType.LAZY, mappedBy="users")
      private Set<UserReserveCoupon> userReserveCoupons = new HashSet<UserReserveCoupon>(0);
 
-@JsonIgnore
 @OneToMany(fetch=FetchType.LAZY, mappedBy="users")
      private Set<Coupons> couponses = new HashSet<Coupons>(0);
 
-@JsonIgnore
 @OneToMany(fetch=FetchType.LAZY, mappedBy="users")
      private Set<UserDetails> userDetailses = new HashSet<UserDetails>(0);
 
@@ -69,12 +82,14 @@ public class Users  implements java.io.Serializable {
         this.password = password;
         this.verified = verified;
     }
-    public Users(String userId, String userName, String userEmail, String password, int verified, Set<UserBalanceCoupon> userBalanceCoupons, Set<UserReserveCoupon> userReserveCoupons, Set<Coupons> couponses, Set<UserDetails> userDetailses) {
+    public Users(String userId, String userName, String userEmail, String password, int verified, Date creationDate, Integer userStatus, Set<UserBalanceCoupon> userBalanceCoupons, Set<UserReserveCoupon> userReserveCoupons, Set<Coupons> couponses, Set<UserDetails> userDetailses) {
        this.userId = userId;
        this.userName = userName;
        this.userEmail = userEmail;
        this.password = password;
        this.verified = verified;
+       this.creationDate = creationDate;
+       this.userStatus = userStatus;
        this.userBalanceCoupons = userBalanceCoupons;
        this.userReserveCoupons = userReserveCoupons;
        this.couponses = couponses;
@@ -124,6 +139,23 @@ public class Users  implements java.io.Serializable {
     
     public void setVerified(int verified) {
         this.verified = verified;
+    }
+
+    public Date getCreationDate() {
+        return this.creationDate;
+    }
+    
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    
+    public Integer getUserStatus() {
+        return this.userStatus;
+    }
+    
+    public void setUserStatus(Integer userStatus) {
+        this.userStatus = userStatus;
     }
 
     public Set<UserBalanceCoupon> getUserBalanceCoupons() {

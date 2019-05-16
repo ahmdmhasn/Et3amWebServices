@@ -41,16 +41,16 @@ Contributor(s):
 -->
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="heroku_24f192cc0bbf6af"/>
-  <table-filter match-name="remaining_balance"/>
   <table-filter match-name="user_balance_coupon"/>
-  <table-filter match-name="user_details"/>
+  <table-filter match-name="restaurants"/>
   <table-filter match-name="restaurant_admin"/>
   <table-filter match-name="admins"/>
+  <table-filter match-name="remaining_balance"/>
+  <table-filter match-name="user_details"/>
   <table-filter match-name="user_reserve_coupon"/>
-  <table-filter match-name="available_coupons"/>
-  <table-filter match-name="restaurants"/>
-  <table-filter match-name="coupons"/>
+  <table-filter match-name="user_used_coupon"/>
   <table-filter match-name="users"/>
-  <table-filter match-name="user_use_coupon"/>
+  <table-filter match-name="coupons"/>
   <table-filter match-name="meals"/>
+  <table-filter match-name="available_coupons"/>
 </hibernate-reverse-engineering>

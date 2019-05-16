@@ -1,5 +1,5 @@
 package eg.iti.et3am.model;
-// Generated May 15, 2019 11:40:21 PM by Hibernate Tools 4.3.1
+// Generated May 16, 2019 11:54:55 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -32,22 +32,22 @@ public class UserDetails  implements java.io.Serializable {
      private String mobileNumber;
      private String nationalId;
      private String job;
-     private byte[] nationalIdFront;
-     private byte[] nationalIdBack;
-     private byte[] profileImage;
+     private String nationalIdFront;
+     private String nationalIdBack;
+     private String profileImage;
      private Date barthdate;
 
     public UserDetails() {
     }
 
 	
-    public UserDetails(Users users, byte[] nationalIdFront, byte[] nationalIdBack, Date barthdate) {
+    public UserDetails(Users users, String nationalIdFront, String nationalIdBack, Date barthdate) {
         this.users = users;
         this.nationalIdFront = nationalIdFront;
         this.nationalIdBack = nationalIdBack;
         this.barthdate = barthdate;
     }
-    public UserDetails(Users users, String mobileNumber, String nationalId, String job, byte[] nationalIdFront, byte[] nationalIdBack, byte[] profileImage, Date barthdate) {
+    public UserDetails(Users users, String mobileNumber, String nationalId, String job, String nationalIdFront, String nationalIdBack, String profileImage, Date barthdate) {
        this.users = users;
        this.mobileNumber = mobileNumber;
        this.nationalId = nationalId;
@@ -111,32 +111,32 @@ public class UserDetails  implements java.io.Serializable {
     }
 
     
-    @Column(name="national_id_front", nullable=false)
-    public byte[] getNationalIdFront() {
+    @Column(name="national_id_front", nullable=false, length=45)
+    public String getNationalIdFront() {
         return this.nationalIdFront;
     }
     
-    public void setNationalIdFront(byte[] nationalIdFront) {
+    public void setNationalIdFront(String nationalIdFront) {
         this.nationalIdFront = nationalIdFront;
     }
 
     
-    @Column(name="national_id_back", nullable=false)
-    public byte[] getNationalIdBack() {
+    @Column(name="national_id_back", nullable=false, length=45)
+    public String getNationalIdBack() {
         return this.nationalIdBack;
     }
     
-    public void setNationalIdBack(byte[] nationalIdBack) {
+    public void setNationalIdBack(String nationalIdBack) {
         this.nationalIdBack = nationalIdBack;
     }
 
     
-    @Column(name="profile_image")
-    public byte[] getProfileImage() {
+    @Column(name="profile_image", length=45)
+    public String getProfileImage() {
         return this.profileImage;
     }
     
-    public void setProfileImage(byte[] profileImage) {
+    public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
     }
 

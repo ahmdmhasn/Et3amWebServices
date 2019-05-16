@@ -1,5 +1,5 @@
 package eg.iti.et3am.model;
-// Generated May 15, 2019 11:40:21 PM by Hibernate Tools 4.3.1
+// Generated May 16, 2019 11:54:55 PM by Hibernate Tools 4.3.1
 
 
 import javax.persistence.Column;
@@ -23,14 +23,14 @@ public class RemainingBalance  implements java.io.Serializable {
 
 
      private Integer changeId;
-     private UserUseCoupon userUseCoupon;
+     private UserUsedCoupon userUsedCoupon;
      private float changeValue;
 
     public RemainingBalance() {
     }
 
-    public RemainingBalance(UserUseCoupon userUseCoupon, float changeValue) {
-       this.userUseCoupon = userUseCoupon;
+    public RemainingBalance(UserUsedCoupon userUsedCoupon, float changeValue) {
+       this.userUsedCoupon = userUsedCoupon;
        this.changeValue = changeValue;
     }
    
@@ -47,13 +47,13 @@ public class RemainingBalance  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="user_use_coupon_used_coupon_id", nullable=false)
-    public UserUseCoupon getUserUseCoupon() {
-        return this.userUseCoupon;
+    @JoinColumn(name="user_used_coupon_used_coupon_id", nullable=false)
+    public UserUsedCoupon getUserUsedCoupon() {
+        return this.userUsedCoupon;
     }
     
-    public void setUserUseCoupon(UserUseCoupon userUseCoupon) {
-        this.userUseCoupon = userUseCoupon;
+    public void setUserUsedCoupon(UserUsedCoupon userUsedCoupon) {
+        this.userUsedCoupon = userUsedCoupon;
     }
 
     
