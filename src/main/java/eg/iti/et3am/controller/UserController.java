@@ -9,6 +9,7 @@ import eg.iti.et3am.model.Status;
 import eg.iti.et3am.model.Users;
 import eg.iti.et3am.service.UserService;
 import java.util.List;
+import javax.transaction.NotSupportedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
@@ -41,7 +42,6 @@ public class UserController {
     Status addEntity(@RequestBody Users user) {
         try {
             String id = userService.addEntity(user);
-//            return new Status(1, "User " + id + " added Successfully!");
             return new Status(1, user);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -75,6 +75,7 @@ public class UserController {
         return userList;
     }
 
+    // Not supported
     /*---Update a user by id---*/
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public @ResponseBody
@@ -87,13 +88,42 @@ public class UserController {
         }
     }
 
-    /*---Delete a book by id---*/
+    // Not supported
+    /*---Delete a user by id---*/
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public @ResponseBody
     Status delete(@PathVariable("id") long id) {
         try {
             userService.deleteEntity(id);
             return new Status(1, "User deleted Successfully !");
+        } catch (Exception e) {
+            return new Status(0, e.toString());
+        }
+    }
+    
+    /*---Check if the same email exists---*/
+    @RequestMapping(value = "/validate/email/{email}", method = RequestMethod.GET)
+    public @ResponseBody Status isEmailValid(@PathVariable("email") String email) {
+        try {
+            if (userService.isEmailValid(email)) {
+                return new Status(1, "Email is valid!");
+            } else {
+                return new Status(0, "Email is not valid!");
+            }
+        } catch (Exception e) {
+            return new Status(0, e.toString());
+        }
+    }
+    
+    /*---Check if the same username exists---*/
+    @RequestMapping(value = "/validate/username/{username}", method = RequestMethod.GET)
+    public @ResponseBody Status isUsernameValid(@PathVariable("username") String username) {
+        try {
+            if (userService.isUsernameValid(username)) {
+                return new Status(1, "Username is valid!");
+            } else {
+                return new Status(0, "Username is not valid!");
+            }
         } catch (Exception e) {
             return new Status(0, e.toString());
         }

@@ -53,5 +53,16 @@ public class UserServiceImpl implements UserService {
     public boolean deleteEntity(long id) throws Exception {
         return userDao.deleteEntity(id);
     }
+
+    @Override
+    @Transactional
+    public boolean isEmailValid(String email) throws Exception {
+        return userDao.isEmailValid(email);
+    }
     
+    @Override
+    @Transactional
+    public boolean isUsernameValid(String username) throws Exception {
+        return userDao.isUsernameValid(username);
+    }
 }
