@@ -132,14 +132,12 @@ public class RestaurantDaoImpl implements RestaurantDao {
     }
 
     @Override
-    public String addMeal(Meals meal) throws Exception {
-        Integer str = meal.getRestaurants().getRestaurantId();
+    public Integer addMeal(Meals meal) throws Exception {
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
-        System.out.println(session.save(meal) + "~~~~~~~~~~~~");
+        session.save(meal);
         tx.commit();
-        String id = (String) session.getIdentifier(meal);
-        System.out.println(meal.getMealId() + "\t" + id + "\t" + "~~~~~~~~~~~~~~~~~~~~");
+        Integer id = (Integer) session.getIdentifier(meal);
         session.close();
         return id;
     }

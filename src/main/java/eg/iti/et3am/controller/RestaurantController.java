@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -48,7 +49,7 @@ public class RestaurantController {
         }
         return meals;
     }
-    
+
     // Get Restaurant by id
     @RequestMapping(value = "/rest/{r_id}", method = RequestMethod.GET)
     public Restaurants getRestaurantById(@PathVariable("r_id") Integer id) {
@@ -60,12 +61,19 @@ public class RestaurantController {
         }
         return restaurants;
     }
+
     // Add new meal to restaurant
     @RequestMapping(value = "/r/addMeal", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Status addMeal(@RequestBody Meals meal) {
+    public Status addMeal(@RequestParam("id") Integer ids, @RequestBody Meals meal) {
         try {
-            String id = restaurantService.addMeal(meal);
+
+            System.out.println("addddddddddddddddddddd");
+            Integer id = restaurantService.addMeal(meal);
+            if (ids == null) {
+                System.out.println("afffffffffffffffffff");
+            }
             return new Status(1, meal);
+
         } catch (Exception ex) {
             ex.printStackTrace();
             return new Status(0, ex.getMessage());

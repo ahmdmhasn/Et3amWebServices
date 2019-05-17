@@ -18,7 +18,7 @@ public interface RestaurantDao {
 
     String addRestaurant(Restaurants restaurant) throws Exception;
 
-    String addMeal(Meals meal) throws Exception;
+    Integer addMeal(Meals meal) throws Exception;
 
     Restaurants getRestaurantById(Integer id) throws Exception;
 

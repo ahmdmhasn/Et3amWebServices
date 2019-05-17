@@ -29,7 +29,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public String addMeal(Meals meal) throws Exception {
+    public Integer addMeal(Meals meal) throws Exception {
         return restaurantDao.addMeal(meal);
     }
 
