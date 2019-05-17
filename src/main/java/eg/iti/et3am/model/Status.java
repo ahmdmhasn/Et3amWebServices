@@ -10,14 +10,28 @@ package eg.iti.et3am.model;
  * @author A7med
  */
 public class Status {
-    
+
     private int code;
     private String message;
     private Users user;
+    private Meals meal;
+
+    public Status() {
+    }
+
+    public Status(int code, String message) {
+        this.code = code;
+        this.message = message;
+    }
 
     public Status(int code, Users user) {
         this.code = code;
         this.user = user;
+    }
+
+    public Status(int code, Meals meal) {
+        this.code = code;
+        this.meal = meal;
     }
 
     public Users getUser() {
@@ -26,16 +40,6 @@ public class Status {
 
     public void setUser(Users user) {
         this.user = user;
-    }
-
-    public Status() {
-    }
-    
-    
-
-    public Status(int code, String message) {
-        this.code = code;
-        this.message = message;
     }
 
     public int getCode() {
@@ -53,7 +57,5 @@ public class Status {
     public void setMessage(String message) {
         this.message = message;
     }
-    
-    
-    
+
 }
