@@ -34,53 +34,50 @@ public class RestaurantDaoImpl implements RestaurantDao {
     public Restaurants getRestaurantById(Integer id) throws Exception {
         session = sessionFactory.openSession();
         Restaurants restaurants = (Restaurants) session.load(Restaurants.class, id);
-
+        //Copy Data from object To another
         Restaurants restaurants1 = (Restaurants) restaurants.clone();
-        restaurants1.setMealses(getMealsById(restaurants.getRestaurantId()));
-//        tx = session.getTransaction();
-//        session.beginTransaction();
-//        tx.commit();
+        restaurants1.setMealses(getMealsSetById(restaurants.getRestaurantId()));
         return restaurants1;
-//        return restaurants;
-    }
-
-    @Override
-    public Restaurants getRestaurantDetailsById(Integer id) throws Exception {
-        session = sessionFactory.openSession();
-        Restaurants restaurants = (Restaurants) session.load(Restaurants.class, id);
-        //Restaurants restaurants1 = (Restaurants) restaurants.clone();
-//        restaurants1.setMealses(getMealsById(restaurants.getRestaurantId()));
-//        tx = session.getTransaction();
-//        session.beginTransaction();
-//        tx.commit();
-        return restaurants;
     }
 
     @Override
     public List<Restaurants> getRestaurantsList() throws Exception {
         session = sessionFactory.openSession();
-//        tx = session.beginTransaction();
+        tx = session.beginTransaction();
         List<Restaurants> restaurantses = session.createCriteria(Restaurants.class).list();
 
         // Create another array to be sent on response
         List<Restaurants> restaurantList = new ArrayList<>();
-//          Restaurants restaurantsResponse = new Restaurants();
-//          Restaurants restaurantsResponse1 = (Restaurants) restaurantsResponse.clone();
-
         for (Restaurants restaurants : restaurantses) {
             Restaurants restaurantsResponse = (Restaurants) restaurants.clone();
-//            restaurantsResponse.setMealses(getMealsById(restaurants.getRestaurantId()));
             restaurantList.add(restaurantsResponse);
         }
-//        tx.commit();
-//        session.close();
+        tx.commit();
+        session.close();
         return restaurantList;
     }
 
     @Override
-    public Set<Meals> getMealsById(Integer id) throws Exception {
+    public List<Restaurants> getRestaurantsListWithMeals() throws Exception {
         session = sessionFactory.openSession();
-//        tx = session.beginTransaction();
+        tx = session.beginTransaction();
+        List<Restaurants> restaurantses = session.createCriteria(Restaurants.class).list();
+
+        // Create another array to be sent on response
+        List<Restaurants> restaurantList = new ArrayList<>();
+        for (Restaurants restaurants : restaurantses) {
+            Restaurants restaurantsResponse = (Restaurants) restaurants.clone();
+            restaurantsResponse.setMealses(getMealsSetById(restaurants.getRestaurantId()));
+            restaurantList.add(restaurantsResponse);
+        }
+        tx.commit();
+        session.close();
+        return restaurantList;
+    }
+
+    @Override
+    public Set<Meals> getMealsSetById(Integer id) throws Exception {
+        session = sessionFactory.openSession();
         List<Meals> mealses = session.createCriteria(Meals.class)
                 .add(Restrictions.eq("restaurants.restaurantId", id)).list();
 
@@ -91,16 +88,13 @@ public class RestaurantDaoImpl implements RestaurantDao {
             mealsResponse.setMealId(meals.getMealId());
             mealsResponse.setMealName(meals.getMealName());
             mealsResponse.setMealValue(meals.getMealValue());
-            //mealsResponse.setRestaurants(meals.getRestaurants());
             mealList.add(mealsResponse);
         }
-//        tx.commit();
-//        session.close();
         return mealList;
     }
 
     @Override
-    public List<Meals> getMealById(Integer id) throws Exception {
+    public List<Meals> getMealsListById(Integer id) throws Exception {
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
         List<Meals> mealses = session.createCriteria(Meals.class)
@@ -113,12 +107,20 @@ public class RestaurantDaoImpl implements RestaurantDao {
             mealsResponse.setMealId(meals.getMealId());
             mealsResponse.setMealName(meals.getMealName());
             mealsResponse.setMealValue(meals.getMealValue());
-            //mealsResponse.setRestaurants(meals.getRestaurants());
             mealList.add(mealsResponse);
         }
         tx.commit();
         session.close();
         return mealList;
+    }
+
+    @Override
+    public Meals findMealById(Integer id) throws Exception {
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        Meals meals = (Meals) session.load(Meals.class, id);
+        tx.commit();
+        return meals;
     }
 
     @Override
@@ -148,6 +150,20 @@ public class RestaurantDaoImpl implements RestaurantDao {
     }
 
     @Override
+    public boolean updateMeal(Integer mealId, Meals meals) throws Exception {
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        Meals meal = (Meals) session.load(Meals.class, mealId);
+        meal.setMealName(meals.getMealName());
+        meal.setMealValue(meals.getMealValue());
+        meal.setMealImage(meals.getMealImage());
+        session.update(meal);
+        tx.commit();
+        session.close();
+        return true;
+    }
+
+    @Override
     public boolean deleteMeal(Integer restaurantId, Integer mealId) throws Exception {
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
@@ -163,29 +179,6 @@ public class RestaurantDaoImpl implements RestaurantDao {
         tx.commit();
         session.close();
         return false;
-    }
-
-    @Override
-    public boolean updateMeal(Integer mealId, Meals meals) throws Exception {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        Meals meal = (Meals) session.load(Meals.class, mealId);
-        meal.setMealName(meals.getMealName());
-        meal.setMealValue(meals.getMealValue());
-        meal.setMealImage(meals.getMealImage());
-        session.update(meal);
-        tx.commit();
-        session.close();
-        return true;
-    }
-
-    @Override
-    public Meals findMealById(Integer id) throws Exception {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        Meals meals = (Meals) session.load(Meals.class, id);
-        tx.commit();
-        return meals;
     }
 
 }

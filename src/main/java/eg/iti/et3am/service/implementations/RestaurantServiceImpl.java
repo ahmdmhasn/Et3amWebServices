@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package eg.iti.et3am.service.implementations;
 
 import eg.iti.et3am.dao.interfaces.RestaurantDao;
@@ -45,7 +40,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public List<Meals> getMealById(Integer id) throws Exception {
-        return restaurantDao.getMealById(id);
+        return restaurantDao.getMealsListById(id);
     }
 
     @Override

@@ -26,7 +26,7 @@ public class RestaurantController {
     private RestaurantService restaurantService;
 
     // List of nearest restaurants
-    @RequestMapping(value = "/rest_list", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/rest_list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Restaurants> RestaurantsList() {
         List<Restaurants> restaurantList = null;
         try {
@@ -38,7 +38,7 @@ public class RestaurantController {
     }
 
     // Restaurant deatails
-    @RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
+    //@RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
     public List<Meals> getMealById(@PathVariable("rest_id") Integer id) {
         List<Meals> meals = null;
         try {
@@ -47,6 +47,18 @@ public class RestaurantController {
             ex.printStackTrace();
         }
         return meals;
+    }
+
+    @RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
+    public ResponseEntity<List<Meals>> get(@PathVariable("rest_id") Integer id) throws Exception {
+        LOG.info("getting user with id: {}");
+        List<Meals> mealses = restaurantService.getMealById(id);
+
+        if (mealses.isEmpty()) {
+            LOG.info("user with id {} not found");
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(mealses, HttpStatus.OK);
     }
 
     // Get Restaurant by id
@@ -77,21 +89,7 @@ public class RestaurantController {
         }
     }
 
-    @RequestMapping(value = "/rest/{rest_id}/deleteMeal/{meal_id}", method = RequestMethod.DELETE)
-    public Status removeMeal(@PathVariable("meal_id") Integer id, @PathVariable("rest_id") Integer resturantId) {
-        try {
-            boolean deleted = restaurantService.deleteMeal(resturantId, id);
-            if (deleted == true) {
-                return new Status(1, "Meal Is deleted");
-            } else {
-                return new Status(0, "Meal Not Deleted Becouse No Resturant or Meal by this ID " + id);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return new Status(0, ex.getMessage());
-        }
-    }
-
+    // Update meal to restaurant
     @RequestMapping(value = "/rest/{rest_id}/updateMeal/{meal_id}", method = RequestMethod.PUT)
     public ResponseEntity<Meals> updateMeal(@PathVariable("meal_id") Integer id, @RequestBody Meals meals) throws Exception {
         Meals meal = restaurantService.findMealById(id);
@@ -107,4 +105,21 @@ public class RestaurantController {
         restaurantService.updateMeal(id, meals);
         return new ResponseEntity<>(meal, HttpStatus.OK);
     }
+
+    // Remove meal to restaurant
+    @RequestMapping(value = "/rest/{rest_id}/deleteMeal/{meal_id}", method = RequestMethod.DELETE)
+    public Status removeMeal(@PathVariable("meal_id") Integer id, @PathVariable("rest_id") Integer resturantId) {
+        try {
+            boolean deleted = restaurantService.deleteMeal(resturantId, id);
+            if (deleted == true) {
+                return new Status(1, "Meal Is deleted");
+            } else {
+                return new Status(0, "Meal Not Deleted Becouse No Resturant or Meal by this ID " + id);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new Status(0, ex.getMessage());
+        }
+    }
+
 }

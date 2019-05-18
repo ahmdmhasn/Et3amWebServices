@@ -35,9 +35,7 @@
     </bean>
         
     <!--URL Mapping-->
-    <context:component-scan base-package="eg.iti.et3am">
-        <context:include-filter type="aspectj" expression="eg.iti.et3am.*" />
-    </context:component-scan>
+    <context:component-scan base-package="eg.iti.et3am"/>
     
     <!-- Hibernate 4 SessionFactory Bean definition -->
     <bean id="sessionFactory"    
@@ -61,12 +59,4 @@
     
     <bean id="persistenceExceptionTranslationPostProcessor"    
           class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />  
-    
-    <bean id="userDao" class="eg.iti.et3am.dao.UserDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
-    <bean id="userService" class="eg.iti.et3am.service.UserServiceImpl">
-        <property name="userDao" ref="userDao"></property>
-    </bean>
-    
 </beans>

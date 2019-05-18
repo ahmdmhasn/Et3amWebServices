@@ -15,20 +15,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserDaoImpl implements UserDao {
 
+    @Autowired(required = true)
     private SessionFactory sessionFactory;
-
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    public void setSessionFactory(SessionFactory sf) {
-        this.sessionFactory = sf;
-    }
 
     Session session = null;
     Transaction tx = null;
@@ -113,7 +107,7 @@ public class UserDaoImpl implements UserDao {
         if (user == null) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -128,7 +122,7 @@ public class UserDaoImpl implements UserDao {
         if (user == null) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -140,12 +134,12 @@ public class UserDaoImpl implements UserDao {
         criteria.add(Restrictions.eq("password", password));
 
         Users user = (Users) criteria.uniqueResult();
-        Users user2 = new Users(user.getUserId(), 
-                user.getUserName(), 
-                user.getUserEmail(), 
-                null, 
+        Users user2 = new Users(user.getUserId(),
+                user.getUserName(),
+                user.getUserEmail(),
+                null,
                 user.getVerified());
         return user2;
     }
-    
+
 }
