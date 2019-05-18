@@ -7,7 +7,7 @@ package eg.iti.et3am.controller;
 
 import eg.iti.et3am.model.Status;
 import eg.iti.et3am.model.Users;
-import eg.iti.et3am.service.UserService;
+import eg.iti.et3am.service.interfaces.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
