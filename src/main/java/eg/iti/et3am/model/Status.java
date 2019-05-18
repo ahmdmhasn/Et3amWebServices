@@ -15,6 +15,37 @@ public class Status {
     private String message;
     private Users user;
     private Meals meal;
+    private Restaurants restaurant;
+    private RestaurantAdmin restaurantAdmin;
+
+    public Meals getMeal() {
+        return meal;
+    }
+
+    public void setMeal(Meals meal) {
+        this.meal = meal;
+    }
+
+    public Restaurants getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurants restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public RestaurantAdmin getRestaurantAdmin() {
+        return restaurantAdmin;
+    }
+
+    public void setRestaurantAdmin(RestaurantAdmin restaurantAdmin) {
+        this.restaurantAdmin = restaurantAdmin;
+    }
+
+    public Status(int code, Restaurants restaurant) {
+        this.code = code;
+        this.restaurant = restaurant;
+    }
 
     public Status() {
     }
@@ -32,6 +63,11 @@ public class Status {
     public Status(int code, Meals meal) {
         this.code = code;
         this.meal = meal;
+    }
+
+    public Status(int code, RestaurantAdmin restaurantAdmin) {
+        this.code = code;
+        this.restaurantAdmin = restaurantAdmin;
     }
 
     public Users getUser() {

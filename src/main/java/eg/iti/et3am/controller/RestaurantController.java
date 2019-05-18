@@ -6,6 +6,7 @@
 package eg.iti.et3am.controller;
 
 import eg.iti.et3am.model.Meals;
+import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.model.Status;
 import eg.iti.et3am.service.RestaurantService;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -48,7 +51,7 @@ public class RestaurantController {
         }
         return meals;
     }
-    
+
     // Get Restaurant by id
     @RequestMapping(value = "/rest/{r_id}", method = RequestMethod.GET)
     public Restaurants getRestaurantById(@PathVariable("r_id") Integer id) {
@@ -60,6 +63,7 @@ public class RestaurantController {
         }
         return restaurants;
     }
+
     // Add new meal to restaurant
     @RequestMapping(value = "/r/addMeal", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Status addMeal(@RequestBody Meals meal) {
@@ -69,6 +73,26 @@ public class RestaurantController {
         } catch (Exception ex) {
             ex.printStackTrace();
             return new Status(0, ex.getMessage());
+        }
+    }
+
+    /*---Check if the same username exists---*/
+    @RequestMapping(value = "/validate/login", method = RequestMethod.GET)
+    public @ResponseBody
+    Status login(@RequestParam("email") String email, @RequestParam("password") String password) {
+        if (email.isEmpty() || password.isEmpty()) {
+            return new Status(0, "Email or password must not be empty");
+        }
+
+        try {
+            RestaurantAdmin admin = restaurantService.login(email, password);
+            if (admin != null) {
+                return new Status(1, admin);
+            } else {
+                return new Status(0, "Restaurant doesn't exist!");
+            }
+        } catch (Exception e) {
+            return new Status(0, e.toString());
         }
     }
 }

@@ -6,7 +6,9 @@
 package eg.iti.et3am.service;
 
 import eg.iti.et3am.model.Meals;
+import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
+import eg.iti.et3am.model.Users;
 import java.util.List;
 
 /**
@@ -14,6 +16,9 @@ import java.util.List;
  * @author Wael M Elmahask
  */
 public interface RestaurantService {
+    
+    /*---Login method using email & password---*/
+    RestaurantAdmin login(String email, String password) throws Exception;
 
     String addRestaurant(Restaurants restaurant) throws Exception;
 

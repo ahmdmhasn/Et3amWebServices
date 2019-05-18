@@ -1,11 +1,14 @@
 package eg.iti.et3am.dao;
 
 import eg.iti.et3am.model.Meals;
+import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
+import eg.iti.et3am.model.UserUsedCoupon;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -142,6 +145,28 @@ public class RestaurantDaoImpl implements RestaurantDao {
         System.out.println(meal.getMealId() + "\t" + id + "\t" + "~~~~~~~~~~~~~~~~~~~~");
         session.close();
         return id;
+    }
+
+    @Override
+    public RestaurantAdmin login(String email, String password) throws Exception {
+        session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(RestaurantAdmin.class);
+        criteria.add(Restrictions.eq("restaurantAdminEmail", email));
+        criteria.add(Restrictions.eq("restaurantAdminPassword", password));
+
+        RestaurantAdmin admin = (RestaurantAdmin) criteria.uniqueResult();
+        Restaurants restaurant = admin.getRestaurants();
+        
+        RestaurantAdmin admin2 = new RestaurantAdmin();
+        Restaurants restaurant2 = new Restaurants(restaurant.getRestaurantName(),
+                restaurant.getCity(), restaurant.getCountry(), restaurant.getLatitude(), 
+                restaurant.getLongitude(), restaurant.getRestaurantImage(), null, null, null);
+        
+        admin2.setId(admin.getId());
+        admin2.setRestaurantAdminEmail(admin.getRestaurantAdminEmail());
+        admin2.setRestaurants(restaurant2);
+        session.close();
+        return admin2;
     }
 
 }

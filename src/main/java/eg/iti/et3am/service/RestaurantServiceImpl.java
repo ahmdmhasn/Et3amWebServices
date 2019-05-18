@@ -7,6 +7,7 @@ package eg.iti.et3am.service;
 
 import eg.iti.et3am.dao.*;
 import eg.iti.et3am.model.Meals;
+import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,11 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public List<Meals> getMealById(Integer id) throws Exception {
         return restaurantDao.getMealById(id);
+    }
+
+    @Override
+    public RestaurantAdmin login(String email, String password) throws Exception {
+        return restaurantDao.login(email, password);
     }
 
 }

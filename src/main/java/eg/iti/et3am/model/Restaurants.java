@@ -28,7 +28,6 @@ public class Restaurants implements java.io.Serializable, Cloneable {
     private float latitude;
     private float longitude;
     private String restaurantImage;
-    private String restaurantscol;
     private Set<RestaurantAdmin> restaurantAdmins = new HashSet<>(0);
     private Set<Meals> mealses = new HashSet<>(0);
     private Set<UserUsedCoupon> userUsedCoupons = new HashSet<>(0);
@@ -44,14 +43,13 @@ public class Restaurants implements java.io.Serializable, Cloneable {
         this.longitude = longitude;
     }
 
-    public Restaurants(String restaurantName, String city, String country, float latitude, float longitude, String restaurantImage, String restaurantscol, Set<RestaurantAdmin> restaurantAdmins, Set<Meals> mealses, Set<UserUsedCoupon> userUsedCoupons) {
+    public Restaurants(String restaurantName, String city, String country, float latitude, float longitude, String restaurantImage, Set<RestaurantAdmin> restaurantAdmins, Set<Meals> mealses, Set<UserUsedCoupon> userUsedCoupons) {
         this.restaurantName = restaurantName;
         this.city = city;
         this.country = country;
         this.latitude = latitude;
         this.longitude = longitude;
         this.restaurantImage = restaurantImage;
-        this.restaurantscol = restaurantscol;
         this.restaurantAdmins = restaurantAdmins;
         this.mealses = mealses;
         this.userUsedCoupons = userUsedCoupons;
@@ -121,16 +119,6 @@ public class Restaurants implements java.io.Serializable, Cloneable {
 
     public void setRestaurantImage(String restaurantImage) {
         this.restaurantImage = restaurantImage;
-    }
-
-    @JsonIgnore
-    @Column(name = "restaurantscol", length = 45)
-    public String getRestaurantscol() {
-        return this.restaurantscol;
-    }
-
-    public void setRestaurantscol(String restaurantscol) {
-        this.restaurantscol = restaurantscol;
     }
 
     @JsonIgnore
