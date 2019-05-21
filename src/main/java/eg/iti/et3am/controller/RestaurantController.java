@@ -29,7 +29,7 @@ public class RestaurantController {
     private RestaurantService restaurantService;
 
     // List of nearest restaurants
-    @RequestMapping(value = "/rest_list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Restaurants> RestaurantsList() {
         List<Restaurants> restaurantList = null;
         try {
