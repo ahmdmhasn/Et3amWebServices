@@ -1,29 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package eg.iti.et3am.service;
+package eg.iti.et3am.service.implementations;
 
-import eg.iti.et3am.dao.UserDao;
+import eg.iti.et3am.service.interfaces.UserService;
+import eg.iti.et3am.dao.interfaces.UserDao;
 import eg.iti.et3am.model.Users;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
+    @Autowired
     private UserDao userDao;
 
-    public UserDao getUserDao() {
-        return userDao;
-    }
-
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
-    
     @Override
     @Transactional
     public String addEntity(Users user) throws Exception {
@@ -59,13 +49,13 @@ public class UserServiceImpl implements UserService {
     public boolean isEmailValid(String email) throws Exception {
         return userDao.isEmailValid(email);
     }
-    
+
     @Override
     @Transactional
     public boolean isUsernameValid(String username) throws Exception {
         return userDao.isUsernameValid(username);
     }
-    
+
     @Override
     @Transactional
     public Users login(String email, String password) throws Exception {

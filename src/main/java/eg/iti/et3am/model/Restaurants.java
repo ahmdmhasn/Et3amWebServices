@@ -11,7 +11,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
@@ -130,8 +129,8 @@ public class Restaurants implements java.io.Serializable, Cloneable {
     public void setRestaurantAdmins(Set<RestaurantAdmin> restaurantAdmins) {
         this.restaurantAdmins = restaurantAdmins;
     }
-    
-//    @JsonIgnore
+
+    @JsonIgnore //if uncomment this will retrive meals:[]
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurants")
     public Set<Meals> getMealses() {
         return this.mealses;
