@@ -29,12 +29,12 @@ public class Coupons  implements java.io.Serializable {
 
 
      private String couponId;
-     private UserBalanceCoupon userBalanceCoupon;
      private Users users;
      private String couponValue;
      private String couponBarcode;
      private Date creationDate;
      private String couponQrcode;
+     private int isBalance;
      private Set<AvailableCoupons> availableCouponses = new HashSet<AvailableCoupons>(0);
      private Set<UserReserveCoupon> userReserveCoupons = new HashSet<UserReserveCoupon>(0);
 
@@ -42,16 +42,14 @@ public class Coupons  implements java.io.Serializable {
     }
 
 	
-    public Coupons(String couponId, UserBalanceCoupon userBalanceCoupon, Users users, String couponValue, String couponBarcode) {
+    public Coupons(String couponId, Users users, String couponValue, String couponBarcode) {
         this.couponId = couponId;
-        this.userBalanceCoupon = userBalanceCoupon;
         this.users = users;
         this.couponValue = couponValue;
         this.couponBarcode = couponBarcode;
     }
-    public Coupons(String couponId, UserBalanceCoupon userBalanceCoupon, Users users, String couponValue, String couponBarcode, Date creationDate, String couponQrcode, Set<AvailableCoupons> availableCouponses, Set<UserReserveCoupon> userReserveCoupons) {
+    public Coupons(String couponId, Users users, String couponValue, String couponBarcode, Date creationDate, String couponQrcode, Set<AvailableCoupons> availableCouponses, Set<UserReserveCoupon> userReserveCoupons) {
        this.couponId = couponId;
-       this.userBalanceCoupon = userBalanceCoupon;
        this.users = users;
        this.couponValue = couponValue;
        this.couponBarcode = couponBarcode;
@@ -71,16 +69,6 @@ public class Coupons  implements java.io.Serializable {
     
     public void setCouponId(String couponId) {
         this.couponId = couponId;
-    }
-
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="user_balance_coupon_balance_id", nullable=false)
-    public UserBalanceCoupon getUserBalanceCoupon() {
-        return this.userBalanceCoupon;
-    }
-    
-    public void setUserBalanceCoupon(UserBalanceCoupon userBalanceCoupon) {
-        this.userBalanceCoupon = userBalanceCoupon;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
@@ -151,9 +139,14 @@ public class Coupons  implements java.io.Serializable {
         this.userReserveCoupons = userReserveCoupons;
     }
 
+    @Column(name="in_balance", nullable = false)
+    public int getIsBalance() {
+        return isBalance;
+    }
 
-
-
+    public void setIsBalance(int isBalance) {
+        this.isBalance = isBalance;
+    }
 }
 
 

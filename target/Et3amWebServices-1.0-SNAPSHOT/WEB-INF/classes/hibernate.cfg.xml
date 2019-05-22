@@ -58,7 +58,6 @@ Contributor(s):
     <mapping class="eg.iti.et3am.model.Admins"/>
     <mapping class="eg.iti.et3am.model.Users"/>
     <mapping class="eg.iti.et3am.model.RestaurantAdminId"/>
-    <mapping class="eg.iti.et3am.model.UserBalanceCoupon"/>
     <mapping class="eg.iti.et3am.model.UserReserveCoupon"/>
   </session-factory>
 </hibernate-configuration>

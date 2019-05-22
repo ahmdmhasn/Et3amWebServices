@@ -41,7 +41,6 @@ Contributor(s):
 -->
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="heroku_24f192cc0bbf6af"/>
-  <table-filter match-name="user_balance_coupon"/>
   <table-filter match-name="restaurants"/>
   <table-filter match-name="restaurant_admin"/>
   <table-filter match-name="admins"/>

@@ -60,9 +60,6 @@ public class Users  implements java.io.Serializable {
      private Integer userStatus;
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="users")
-     private Set<UserBalanceCoupon> userBalanceCoupons = new HashSet<UserBalanceCoupon>(0);
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="users")
      private Set<UserReserveCoupon> userReserveCoupons = new HashSet<UserReserveCoupon>(0);
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="users")
@@ -82,7 +79,7 @@ public class Users  implements java.io.Serializable {
         this.password = password;
         this.verified = verified;
     }
-    public Users(String userId, String userName, String userEmail, String password, int verified, Date creationDate, Integer userStatus, Set<UserBalanceCoupon> userBalanceCoupons, Set<UserReserveCoupon> userReserveCoupons, Set<Coupons> couponses, Set<UserDetails> userDetailses) {
+    public Users(String userId, String userName, String userEmail, String password, int verified, Date creationDate, Integer userStatus, Set<UserReserveCoupon> userReserveCoupons, Set<Coupons> couponses, Set<UserDetails> userDetailses) {
        this.userId = userId;
        this.userName = userName;
        this.userEmail = userEmail;
@@ -90,7 +87,6 @@ public class Users  implements java.io.Serializable {
        this.verified = verified;
        this.creationDate = creationDate;
        this.userStatus = userStatus;
-       this.userBalanceCoupons = userBalanceCoupons;
        this.userReserveCoupons = userReserveCoupons;
        this.couponses = couponses;
        this.userDetailses = userDetailses;
@@ -156,14 +152,6 @@ public class Users  implements java.io.Serializable {
     
     public void setUserStatus(Integer userStatus) {
         this.userStatus = userStatus;
-    }
-
-    public Set<UserBalanceCoupon> getUserBalanceCoupons() {
-        return this.userBalanceCoupons;
-    }
-    
-    public void setUserBalanceCoupons(Set<UserBalanceCoupon> userBalanceCoupons) {
-        this.userBalanceCoupons = userBalanceCoupons;
     }
 
     public Set<UserReserveCoupon> getUserReserveCoupons() {
