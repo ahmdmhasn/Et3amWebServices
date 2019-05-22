@@ -130,9 +130,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Users login(String email, String password) throws Exception {
         session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(RestaurantAdmin.class);
-        criteria.add(Restrictions.eq("restaurantAdminEmail", email));
-        criteria.add(Restrictions.eq("restaurantAdminPassword", password));
+        Criteria criteria = session.createCriteria(Users.class);
+        criteria.add(Restrictions.eq("userEmail", email));
+        criteria.add(Restrictions.eq("password", password));
 
         Users user = (Users) criteria.uniqueResult();
         Users user2 = new Users(user.getUserId(),

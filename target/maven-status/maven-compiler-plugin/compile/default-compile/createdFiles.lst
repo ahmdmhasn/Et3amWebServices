@@ -1,6 +1,8 @@
 eg\iti\et3am\dao\interfaces\UserDao.class
 eg\iti\et3am\service\implementations\UserServiceImpl.class
 eg\iti\et3am\model\UserBalanceCoupon.class
+eg\iti\et3am\dao\implementions\CouponDaoImpl.class
+eg\iti\et3am\service\interfaces\CouponService.class
 eg\iti\et3am\model\RestaurantAdminId.class
 eg\iti\et3am\dao\implementions\UserDaoImpl.class
 eg\iti\et3am\model\Meals.class
@@ -19,7 +21,9 @@ eg\iti\et3am\model\RemainingBalance.class
 eg\iti\et3am\model\UserUsedCoupon.class
 eg\iti\et3am\model\Users.class
 eg\iti\et3am\service\implementations\RestaurantServiceImpl.class
+eg\iti\et3am\dao\interfaces\CouponDao.class
 eg\iti\et3am\model\RestaurantAdmin.class
+eg\iti\et3am\service\implementations\CouponServiceImpl.class
 eg\iti\et3am\model\AvailableCoupons.class
 eg\iti\et3am\service\interfaces\UserService.class
 eg\iti\et3am\controller\AdminController.class

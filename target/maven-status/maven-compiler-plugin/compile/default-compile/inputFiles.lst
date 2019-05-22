@@ -7,6 +7,7 @@ C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\controller\AdminController.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserUsedCoupon.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\Status.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\CouponService.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\Meals.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\UserDao.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\Admins.java
@@ -16,7 +17,10 @@ C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserReserveCoupon.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\RestaurantDao.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\RemainingBalance.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\CouponDao.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\CouponDaoImpl.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\Coupons.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\CouponServiceImpl.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\controller\UserController.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\AvailableCoupons.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\UserService.java
