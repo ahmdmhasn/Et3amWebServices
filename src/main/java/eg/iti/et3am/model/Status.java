@@ -12,35 +12,11 @@ package eg.iti.et3am.model;
 public class Status {
 
     private int code;
+    private Integer id;
     private String message;
     private Users user;
-    private Meals meal;
     private Restaurants restaurant;
     private RestaurantAdmin restaurantAdmin;
-
-    public Meals getMeal() {
-        return meal;
-    }
-
-    public void setMeal(Meals meal) {
-        this.meal = meal;
-    }
-
-    public Restaurants getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurants restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public RestaurantAdmin getRestaurantAdmin() {
-        return restaurantAdmin;
-    }
-
-    public void setRestaurantAdmin(RestaurantAdmin restaurantAdmin) {
-        this.restaurantAdmin = restaurantAdmin;
-    }
 
     public Status(int code, Restaurants restaurant) {
         this.code = code;
@@ -60,22 +36,15 @@ public class Status {
         this.user = user;
     }
 
-    public Status(int code, Meals meal) {
+    public Status(int code, Integer mealID, String message) {
         this.code = code;
-        this.meal = meal;
+        this.id = mealID;
+        this.message = message;
     }
 
     public Status(int code, RestaurantAdmin restaurantAdmin) {
         this.code = code;
         this.restaurantAdmin = restaurantAdmin;
-    }
-
-    public Users getUser() {
-        return user;
-    }
-
-    public void setUser(Users user) {
-        this.user = user;
     }
 
     public int getCode() {
@@ -86,12 +55,44 @@ public class Status {
         this.code = code;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getMessage() {
         return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Users getUser() {
+        return user;
+    }
+
+    public void setUser(Users user) {
+        this.user = user;
+    }
+
+    public Restaurants getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurants restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public RestaurantAdmin getRestaurantAdmin() {
+        return restaurantAdmin;
+    }
+
+    public void setRestaurantAdmin(RestaurantAdmin restaurantAdmin) {
+        this.restaurantAdmin = restaurantAdmin;
     }
 
 }
