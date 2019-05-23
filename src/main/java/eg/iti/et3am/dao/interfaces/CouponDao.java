@@ -6,6 +6,7 @@
 package eg.iti.et3am.dao.interfaces;
 
 import eg.iti.et3am.model.Coupons;
+import eg.iti.et3am.model.Users;
 
 /**
  *
@@ -13,6 +14,7 @@ import eg.iti.et3am.model.Coupons;
  */
 public interface CouponDao {
 
-    public Coupons findByCode(String code);
+    public Coupons findByCode(String code) throws Exception;
     
+    public String addCoupon(String userId, Double couponValue) throws Exception;
 }

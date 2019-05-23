@@ -1,6 +1,5 @@
 eg\iti\et3am\dao\interfaces\UserDao.class
 eg\iti\et3am\service\implementations\UserServiceImpl.class
-eg\iti\et3am\model\UserBalanceCoupon.class
 eg\iti\et3am\dao\implementions\CouponDaoImpl.class
 eg\iti\et3am\service\interfaces\CouponService.class
 eg\iti\et3am\model\RestaurantAdminId.class

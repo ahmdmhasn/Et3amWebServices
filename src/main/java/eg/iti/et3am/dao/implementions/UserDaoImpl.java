@@ -6,11 +6,9 @@
 package eg.iti.et3am.dao.implementions;
 
 import eg.iti.et3am.dao.interfaces.UserDao;
-import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Users;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.NoResultException;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -42,7 +40,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Users getEntityById(long id) throws Exception {
+    public Users getEntityById(String id) throws Exception {
         session = sessionFactory.openSession();
         Users user = (Users) session.load(Users.class, id);
         tx = session.getTransaction();

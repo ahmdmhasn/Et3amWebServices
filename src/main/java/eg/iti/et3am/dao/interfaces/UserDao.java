@@ -13,7 +13,7 @@ public interface UserDao {
     String addEntity(Users user) throws Exception;
     
     /*---Get user by id---*/
-    Users getEntityById(long id) throws Exception;
+    Users getEntityById(String id) throws Exception;
     
     /*---Get all user---*/
     List<Users> getEntityList() throws Exception;
