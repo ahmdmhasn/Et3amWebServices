@@ -5,6 +5,8 @@ import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +33,9 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     Session session = null;
     Transaction tx = null;
+
+    float longitude;
+    float latitude;
 
     @Override
     public Restaurants getRestaurantById(Integer id) throws Exception {
@@ -72,6 +77,12 @@ public class RestaurantDaoImpl implements RestaurantDao {
             restaurantsResponse.setMealses(getMealsSetById(restaurants.getRestaurantId()));
             restaurantList.add(restaurantsResponse);
         }
+//        Collections.sort(restaurantList, new Comparator<Restaurants>(){
+//             @Override
+//             public int compare(Restaurants s1, Restaurants s2) {
+//               return s1.getLongitude().;
+//            }
+//        });
         tx.commit();
         session.close();
         return restaurantList;
@@ -147,6 +158,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
         session.save(meal);
         tx.commit();
         Integer id = (Integer) session.getIdentifier(meal);
+        //Meals meals = (Meals) session.get(Meals.class, id);
         session.close();
         return id;
     }
@@ -160,12 +172,12 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
         RestaurantAdmin admin = (RestaurantAdmin) criteria.uniqueResult();
         Restaurants restaurant = admin.getRestaurants();
-        
+
         RestaurantAdmin admin2 = new RestaurantAdmin();
         Restaurants restaurant2 = new Restaurants(restaurant.getRestaurantName(),
-                restaurant.getCity(), restaurant.getCountry(), restaurant.getLatitude(), 
+                restaurant.getCity(), restaurant.getCountry(), restaurant.getLatitude(),
                 restaurant.getLongitude(), restaurant.getRestaurantImage(), null, null, null);
-        
+
         admin2.setId(admin.getId());
         admin2.setRestaurantAdminEmail(admin.getRestaurantAdminEmail());
         admin2.setRestaurants(restaurant2);
@@ -203,6 +215,12 @@ public class RestaurantDaoImpl implements RestaurantDao {
         tx.commit();
         session.close();
         return false;
+    }
+
+    @Override
+    public void currentLocation(float longitude, float latitude) {
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
 }

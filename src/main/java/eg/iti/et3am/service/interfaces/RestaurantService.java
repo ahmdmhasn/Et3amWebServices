@@ -28,4 +28,6 @@ public interface RestaurantService {
     public boolean deleteMeal(Integer restaurantId, Integer mealId) throws Exception;
     
     public RestaurantAdmin login(String email, String password) throws Exception;
+
+    public void currentLocation(float longitude, float latitude);
 }

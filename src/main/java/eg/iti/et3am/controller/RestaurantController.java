@@ -29,6 +29,12 @@ public class RestaurantController {
     private RestaurantService restaurantService;
 
     // List of nearest restaurants
+    @RequestMapping(value = "/userloc", method = RequestMethod.GET)
+    public void currentLocation(@RequestParam("longitude") float longitude, @RequestParam("latitude") float latitude) {
+        restaurantService.currentLocation(longitude, latitude);
+    }
+
+    // List of nearest restaurants
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Restaurants> RestaurantsList() {
         List<Restaurants> restaurantList = null;
@@ -82,12 +88,12 @@ public class RestaurantController {
         try {
             Integer id = restaurantService.addMeal(meal, resturantId);
             if (resturantId != null) {
-                return new Status(1, "Meal Is Added");
+                return new Status(1, id, "Meal is added");
             } else {
-                return new Status(0, "Meal Not Added Becouse No Resturant by this ID " + id);
+                return new Status(0, "Meal Not Added Becouse No Resturant by this ID " + resturantId);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
             return new Status(0, ex.getMessage());
         }
     }

@@ -64,4 +64,9 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantDao.login(email, password);
     }
 
+    @Override
+    public void currentLocation(float longitude, float latitude) {
+        restaurantDao.currentLocation(longitude, latitude);
+    }
+
 }
