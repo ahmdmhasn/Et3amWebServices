@@ -37,4 +37,6 @@ public interface RestaurantDao {
     boolean deleteMeal(Integer restaurantId, Integer mealId) throws Exception;
     
     RestaurantAdmin login(String email, String password) throws Exception;
+
+    public void currentLocation(float longitude, float latitude);
 }
