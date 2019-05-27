@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Users getEntityById(long id) throws Exception {
+    public Users getEntityById(String id) throws Exception {
         return userDao.getEntityById(id);
     }
 

@@ -37,7 +37,7 @@ public class UserController {
     /*---Get user by id---*/
     @RequestMapping(value = "/u/{id}", method = RequestMethod.GET)
     public @ResponseBody
-    Users getEntityById(@PathVariable("id") long id) {
+    Users getEntityById(@PathVariable("id") String id) {
         Users user = null;
         try {
             user = userService.getEntityById(id);

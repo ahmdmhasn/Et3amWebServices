@@ -35,7 +35,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Users getEntityById(long id) throws Exception {
+    public Users getEntityById(String id) throws Exception {
         session = sessionFactory.openSession();
         Users user = (Users) session.load(Users.class, id);
         tx = session.getTransaction();
@@ -135,5 +135,4 @@ public class UserDaoImpl implements UserDao {
                 user.getVerified());
         return user2;
     }
-
 }
