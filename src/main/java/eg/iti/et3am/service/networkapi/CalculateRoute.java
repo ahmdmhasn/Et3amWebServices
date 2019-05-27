@@ -1,48 +1,52 @@
 package eg.iti.et3am.service.networkapi;
 
-import eg.iti.et3am.dao.implementions.RestaurantDaoImpl;
-import eg.iti.et3am.dao.interfaces.RestaurantDao;
+import eg.iti.et3am.model.Restaurants;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Wael M Elmahask
  */
+@Service
 public class CalculateRoute {
 
-    //List<Restaurants> restaurantDao;
-    RestaurantDao rd;
-    RestaurantDao rds = new RestaurantDaoImpl();
-//    public static void main(String[] args) throws java.lang.Exception {
-//        System.out.println(distance(32.9697, -96.80322, 29.46786, -98.53506, "M") + " Miles\n");
-//        System.out.println(distance(32.9697, -96.80322, 29.46786, -98.53506, "K") + " Kilometers\n");
-//        System.out.println(distance(32.9697, -96.80322, 29.46786, -98.53506, "N") + " Nautical Miles\n");
-//    }
-
-    private static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
-        if ((lat1 == lat2) && (lon1 == lon2)) {
-            return 0;
-        } else {
-            double theta = lon1 - lon2;
-            double dist = Math.sin(Math.toRadians(lat1))
-                    * Math.sin(Math.toRadians(lat2))
-                    + Math.cos(Math.toRadians(lat1))
-                    * Math.cos(Math.toRadians(lat2))
-                    * Math.cos(Math.toRadians(theta));
-            dist = Math.acos(dist);
-            dist = Math.toDegrees(dist);
-            dist = dist * 60 * 1.1515;
-            if (unit == "K") {
-                dist = dist * 1.609344;
-            } else if (unit == "N") {
-                dist = dist * 0.8684;
+    public List<Restaurants> calculateRoute(List<Restaurants> restaurantList, double lat, double log) throws Exception {
+        List<Restaurants> listOfActualDistance = new ArrayList<>();
+        HttpHandler handler = new HttpHandler();
+        // Making a request to url and getting response
+        for (Restaurants restaurants : restaurantList) {
+            String url = "https://route.api.here.com/routing/7.2/calculateroute.json?waypoint0="
+                    + lat + "," + log + "&waypoint1=" + restaurants.getLatitude() + ","
+                    + restaurants.getLongitude() + "&mode=fastest%3Bcar%3Btraffic%3Aenabled&app_id=yKkygBHyQ46ZJcEmOwf7&app_code=RoY6RYkL_tNcAMEAnRKkZQ&departure=now";
+            String jsonStr = handler.getURL(url);
+            Logger.getLogger("Response from url: " + jsonStr);
+            if (jsonStr != null) {
+                JSONObject reader = new JSONObject(jsonStr);
+                JSONObject response = reader.getJSONObject("response");
+                JSONArray routeArray = response.getJSONArray("route");
+                try {
+                    for (int i = 0; i < routeArray.length(); i++) {
+                        //get the JSON Object 
+                        JSONObject obj = routeArray.getJSONObject(i);
+                        JSONObject summary = obj.getJSONObject("summary");
+                        double distance = summary.getDouble("distance");
+                        restaurants.setDistance(distance);
+                        listOfActualDistance.add(restaurants);
+                        System.out.println(distance);
+                    }
+                } catch (final JSONException e) {
+                    Logger.getLogger("Json parsing error: " + e.getMessage());
+                }
+            } else {
+                System.out.println("Get URL Is Failed");
             }
-            return (dist);
         }
-    }
-
-    public CalculateRoute() throws Exception {
-        this.rd = new RestaurantDaoImpl();
-        rd.getRestaurantsList();
-        //this.restaurantDao = new RestaurantDaoImpl().getRestaurantsList();
+        return listOfActualDistance;
     }
 }
