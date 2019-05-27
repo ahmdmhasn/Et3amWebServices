@@ -88,6 +88,12 @@
             <artifactId>cloudinary-http44</artifactId>
             <version>[Cloudinary API version, e.g. 1.1.3]</version>
         </dependency>-->
+        <dependency>
+            <groupId>com.github.jsimone</groupId>
+            <artifactId>webapp-runner</artifactId>
+            <version>8.5.11.2</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
     <build>

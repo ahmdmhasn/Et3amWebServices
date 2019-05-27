@@ -36,8 +36,6 @@ public class RestaurantDaoImpl implements RestaurantDao {
     Session session = null;
     Transaction tx = null;
 
-//    double longitude = 32.26879;
-//    double latitude = 30.62135;
     @Override
     public Restaurants getRestaurantById(Integer id) throws Exception {
         session = sessionFactory.openSession();

@@ -1,6 +1,7 @@
 package eg.iti.et3am.model;
 // Generated May 16, 2019 11:54:55 PM by Hibernate Tools 4.3.1
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
@@ -18,23 +20,37 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  */
 @Entity
 @Table(name = "restaurants", catalog = "heroku_24f192cc0bbf6af")
-public class Restaurants implements java.io.Serializable, Cloneable {
+public class Restaurants implements Serializable, Cloneable, Comparable<Restaurants> {
 
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "restaurant_id", unique = true, nullable = false)
     private Integer restaurantId;
+    @Column(name = "restaurant_name", nullable = false, length = 45)
     private String restaurantName;
+    @Column(name = "city", nullable = false, length = 45)
     private String city;
+    @Column(name = "country", nullable = false, length = 45)
     private String country;
-    private float latitude;
-    private float longitude;
+    @Column(name = "latitude", nullable = false, precision = 12, scale = 0)
+    private double latitude;
+    @Column(name = "longitude", nullable = false, precision = 12, scale = 0)
+    private double longitude;
+    @Transient
+    private double distance;
+    @Column(name = "restaurant_image", length = 45)
     private String restaurantImage;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurants")
     private Set<RestaurantAdmin> restaurantAdmins = new HashSet<>(0);
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurants")
     private Set<Meals> mealses = new HashSet<>(0);
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurants")
     private Set<UserUsedCoupon> userUsedCoupons = new HashSet<>(0);
 
     public Restaurants() {
     }
 
-    public Restaurants(String restaurantName, String city, String country, float latitude, float longitude) {
+    public Restaurants(String restaurantName, String city, String country, double latitude, double longitude) {
         this.restaurantName = restaurantName;
         this.city = city;
         this.country = country;
@@ -42,7 +58,7 @@ public class Restaurants implements java.io.Serializable, Cloneable {
         this.longitude = longitude;
     }
 
-    public Restaurants(String restaurantName, String city, String country, float latitude, float longitude, String restaurantImage, Set<RestaurantAdmin> restaurantAdmins, Set<Meals> mealses, Set<UserUsedCoupon> userUsedCoupons) {
+    public Restaurants(String restaurantName, String city, String country, double latitude, double longitude, String restaurantImage, Set<RestaurantAdmin> restaurantAdmins, Set<Meals> mealses, Set<UserUsedCoupon> userUsedCoupons) {
         this.restaurantName = restaurantName;
         this.city = city;
         this.country = country;
@@ -54,10 +70,6 @@ public class Restaurants implements java.io.Serializable, Cloneable {
         this.userUsedCoupons = userUsedCoupons;
     }
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-
-    @Column(name = "restaurant_id", unique = true, nullable = false)
     public Integer getRestaurantId() {
         return this.restaurantId;
     }
@@ -66,7 +78,6 @@ public class Restaurants implements java.io.Serializable, Cloneable {
         this.restaurantId = restaurantId;
     }
 
-    @Column(name = "restaurant_name", nullable = false, length = 45)
     public String getRestaurantName() {
         return this.restaurantName;
     }
@@ -75,7 +86,6 @@ public class Restaurants implements java.io.Serializable, Cloneable {
         this.restaurantName = restaurantName;
     }
 
-    @Column(name = "city", nullable = false, length = 45)
     public String getCity() {
         return this.city;
     }
@@ -84,7 +94,6 @@ public class Restaurants implements java.io.Serializable, Cloneable {
         this.city = city;
     }
 
-    @Column(name = "country", nullable = false, length = 45)
     public String getCountry() {
         return this.country;
     }
@@ -93,25 +102,30 @@ public class Restaurants implements java.io.Serializable, Cloneable {
         this.country = country;
     }
 
-    @Column(name = "latitude", nullable = false, precision = 12, scale = 0)
-    public float getLatitude() {
+    public double getLatitude() {
         return this.latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    @Column(name = "longitude", nullable = false, precision = 12, scale = 0)
-    public float getLongitude() {
+    public double getLongitude() {
         return this.longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    @Column(name = "restaurant_image", length = 45)
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
     public String getRestaurantImage() {
         return this.restaurantImage;
     }
@@ -121,7 +135,6 @@ public class Restaurants implements java.io.Serializable, Cloneable {
     }
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurants")
     public Set<RestaurantAdmin> getRestaurantAdmins() {
         return this.restaurantAdmins;
     }
@@ -131,7 +144,6 @@ public class Restaurants implements java.io.Serializable, Cloneable {
     }
 
     @JsonIgnore //if uncomment this will retrive meals:[]
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurants")
     public Set<Meals> getMealses() {
         return this.mealses;
     }
@@ -141,7 +153,6 @@ public class Restaurants implements java.io.Serializable, Cloneable {
     }
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurants")
     public Set<UserUsedCoupon> getUserUsedCoupons() {
         return this.userUsedCoupons;
     }
@@ -153,6 +164,11 @@ public class Restaurants implements java.io.Serializable, Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    @Override
+    public int compareTo(Restaurants o) {
+        return new Double(getLatitude()).compareTo(o.getLatitude());
     }
 
 }
