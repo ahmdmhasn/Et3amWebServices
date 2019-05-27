@@ -4,6 +4,7 @@ import eg.iti.et3am.dao.interfaces.RestaurantDao;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
+import static java.lang.Integer.min;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,6 +20,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import utils.Utils;
 
 /**
  *
@@ -34,9 +36,8 @@ public class RestaurantDaoImpl implements RestaurantDao {
     Session session = null;
     Transaction tx = null;
 
-    float longitude;
-    float latitude;
-
+//    double longitude = 32.26879;
+//    double latitude = 30.62135;
     @Override
     public Restaurants getRestaurantById(Integer id) throws Exception {
         session = sessionFactory.openSession();
@@ -48,20 +49,35 @@ public class RestaurantDaoImpl implements RestaurantDao {
     }
 
     @Override
-    public List<Restaurants> getRestaurantsList() throws Exception {
+    public List<Restaurants> getRestaurantsList(double latitude, double longitude) throws Exception {
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
         List<Restaurants> restaurantses = session.createCriteria(Restaurants.class).list();
 
         // Create another array to be sent on response
         List<Restaurants> restaurantList = new ArrayList<>();
+        List<Restaurants> restaurantListSort = new ArrayList<>();
         for (Restaurants restaurants : restaurantses) {
             Restaurants restaurantsResponse = (Restaurants) restaurants.clone();
-            restaurantList.add(restaurantsResponse);
+            double distance = Utils.distance(restaurantsResponse.getLatitude(), latitude, restaurantsResponse.getLongitude(), longitude, 0.0, 0.0);
+            restaurantsResponse.setDistance(distance);
+            restaurantListSort.add(restaurantsResponse);
+            Collections.sort(restaurantListSort, new Comparator<Restaurants>() {
+                @Override
+                public int compare(Restaurants u1, Restaurants u2) {
+                    return new Double(u1.getDistance()).compareTo(u2.getDistance());
+                }
+            });
+            // get first 20 element that must be arrange    
+            //restaurantList.add(restaurantsResponse);
         }
-        tx.commit();
-        session.close();
-        return restaurantList;
+        restaurantListSort.subList(0, min(restaurantListSort.size(), 20));
+        for (Restaurants number : restaurantListSort) {
+            System.out.println("Number = " + number.getDistance());
+        }
+//        Collections.sort(restaurantList);
+//        return restaurantList;
+        return restaurantListSort;
     }
 
     @Override
@@ -77,12 +93,8 @@ public class RestaurantDaoImpl implements RestaurantDao {
             restaurantsResponse.setMealses(getMealsSetById(restaurants.getRestaurantId()));
             restaurantList.add(restaurantsResponse);
         }
-//        Collections.sort(restaurantList, new Comparator<Restaurants>(){
-//             @Override
-//             public int compare(Restaurants s1, Restaurants s2) {
-//               return s1.getLongitude().;
-//            }
-//        });
+        Collections.sort(restaurantList);
+        System.out.println("List " + restaurantList);
         tx.commit();
         session.close();
         return restaurantList;
@@ -216,11 +228,4 @@ public class RestaurantDaoImpl implements RestaurantDao {
         session.close();
         return false;
     }
-
-    @Override
-    public void currentLocation(float longitude, float latitude) {
-        this.longitude = longitude;
-        this.latitude = latitude;
-    }
-
 }
