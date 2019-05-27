@@ -5,6 +5,8 @@ import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.model.Status;
 import eg.iti.et3am.service.interfaces.RestaurantService;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,18 +31,13 @@ public class RestaurantController {
     private RestaurantService restaurantService;
 
     // List of nearest restaurants
-    @RequestMapping(value = "/userloc", method = RequestMethod.GET)
-    public void currentLocation(@RequestParam("longitude") float longitude, @RequestParam("latitude") float latitude) {
-        restaurantService.currentLocation(longitude, latitude);
-    }
-
-    // List of nearest restaurants
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Restaurants> RestaurantsList() {
+    public List<Restaurants> RestaurantsList(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude) {
         List<Restaurants> restaurantList = null;
         try {
-            restaurantList = restaurantService.getRestaurantsList();
+            restaurantList = restaurantService.getRestaurantsList(latitude, longitude);
         } catch (Exception ex) {
+            ex.getMessage();
             ex.printStackTrace();
         }
         return restaurantList;
