@@ -6,7 +6,9 @@
 package eg.iti.et3am.controller;
 
 import eg.iti.et3am.model.Coupons;
+import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.service.interfaces.CouponService;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +16,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,11 +36,9 @@ public class CouponController {
         try {
             System.out.println("getting user with code: " + code);
             Coupons coupon = couponService.findByCode(code);
-            
             if (coupon == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            
             return new ResponseEntity<>(coupon, HttpStatus.OK);
         } catch (Exception ex) {
             Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
@@ -47,7 +49,7 @@ public class CouponController {
     /*Add coupon - for testing only*/
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> addCoupon(@RequestParam("user_id") String userId,
-            @RequestParam("value_50") int value50, 
+            @RequestParam("value_50") int value50,
             @RequestParam("value_100") int value100,
             @RequestParam("value_200") int value200) {
 
@@ -61,6 +63,55 @@ public class CouponController {
         } catch (Exception ex) {
             Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
             result.put("status", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+    }
+
+    @RequestMapping(value = "/checkReservation", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> getreservedCoupon(@RequestParam("code") String code) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            System.out.println("getting user with code: " + code);
+            UserReserveCoupon coupon = couponService.checkCouponReservation(code);
+            if (coupon != null && coupon.getStatus() == 1) {
+                result.put("code", 1);
+                result.put("coupon", coupon.getCoupons());
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                result.put("code", 0);
+                result.put("message", "not found");
+                return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
+            result.put("code", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+
+    }
+
+    // reserve meal  
+    @RequestMapping(value = "/reserveMeal", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> reserveCoupon(@RequestParam("reserver_id") String reserver_id,
+            @RequestParam("coupon_id") String coupon_id,
+            @RequestParam("reservationDate") Date reservationDate) {
+        Map<String, Object> result = new HashMap<>();
+        System.out.println("try ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg");
+
+        try{
+            
+            int id = couponService.reserveCoupon(reserver_id , coupon_id ,reservationDate);
+            result.put("code", 1);
+            result.put("id", id);
+            result.put("message", "coupon is reserved sucessfuly");
+            return new ResponseEntity<>(result, HttpStatus.OK);
+
+        } catch (Exception ex) {
+            System.out.println("ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg" + ex.getMessage());
+            ex.printStackTrace();
+            result.put("code", 0);
             result.put("message", ex.getMessage());
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
