@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package eg.iti.et3am.dao.implementions;
 
 import eg.iti.et3am.dao.interfaces.CouponDao;
@@ -12,6 +7,7 @@ import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.Users;
+
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -84,6 +80,7 @@ public class CouponDaoImpl implements CouponDao {
         return id;
     }
 
+
     @Override
     public UserReserveCoupon checkCoupon(String code) throws Exception {
         session = sessionFactory.openSession();
@@ -119,5 +116,6 @@ public class CouponDaoImpl implements CouponDao {
         session.close();
         return id;
     }
+
 
 }

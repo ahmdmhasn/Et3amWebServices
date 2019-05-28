@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -29,3 +30,4 @@ public interface CouponService {
     public int reserveCoupon(String reserverId, String couponId ,Date reservationDate ) throws Exception; 
     
 }
+
