@@ -6,9 +6,7 @@
 package eg.iti.et3am.service.interfaces;
 
 import eg.iti.et3am.model.Coupons;
-import eg.iti.et3am.model.Users;
 import java.util.List;
-import java.util.Map;
 
 /**
  *

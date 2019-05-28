@@ -5,6 +5,7 @@ import eg.iti.et3am.service.interfaces.RestaurantService;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
+import eg.iti.et3am.service.networkapi.CalculateRoute;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
     private RestaurantDao restaurantDao;
+    @Autowired
+    private CalculateRoute calculateRoute;
 
     @Override
     public String addRestaurant(Restaurants restaurant) throws Exception {
@@ -35,8 +38,10 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public List<Restaurants> getRestaurantsList() throws Exception {
-        return restaurantDao.getRestaurantsList();
+    public List<Restaurants> getRestaurantsList(double latitude, double longitude) throws Exception {
+        System.out.println("lat ->" + latitude);
+        List<Restaurants> list = restaurantDao.getRestaurantsList(latitude, longitude);
+        return calculateRoute.calculateRoute(list, latitude, longitude);
     }
 
     @Override
@@ -63,10 +68,4 @@ public class RestaurantServiceImpl implements RestaurantService {
     public RestaurantAdmin login(String email, String password) throws Exception {
         return restaurantDao.login(email, password);
     }
-
-    @Override
-    public void currentLocation(float longitude, float latitude) {
-        restaurantDao.currentLocation(longitude, latitude);
-    }
-
 }
