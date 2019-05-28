@@ -58,9 +58,11 @@ public class Users implements java.io.Serializable {
     @Column(name = "user_status")
     private Integer userStatus;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
     private Set<UserReserveCoupon> userReserveCoupons = new HashSet<UserReserveCoupon>(0);
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
     private Set<Coupons> couponses = new HashSet<Coupons>(0);
 
