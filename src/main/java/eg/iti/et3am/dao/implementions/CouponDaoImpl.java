@@ -80,13 +80,13 @@ public class CouponDaoImpl implements CouponDao {
         return id;
     }
 
-
     @Override
     public UserReserveCoupon checkCoupon(String code) throws Exception {
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
         Criteria criteria = session.createCriteria(UserReserveCoupon.class);
-        criteria.add(Restrictions.eq("coupons.couponBarcode", code));
+        criteria.createAlias("coupons", "c")
+                .add(Restrictions.eq("c.couponBarcode", code));
         UserReserveCoupon coupon = (UserReserveCoupon) criteria.uniqueResult();
         tx.commit();
         session.close();
@@ -116,6 +116,5 @@ public class CouponDaoImpl implements CouponDao {
         session.close();
         return id;
     }
-
 
 }
