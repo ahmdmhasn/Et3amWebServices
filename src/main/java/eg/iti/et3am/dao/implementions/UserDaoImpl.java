@@ -38,10 +38,18 @@ public class UserDaoImpl implements UserDao {
     public Users getEntityById(String id) throws Exception {
         session = sessionFactory.openSession();
         Users user = (Users) session.load(Users.class, id);
+        
+        Users user2 = new Users();
+        user2.setUserId(user.getUserId());
+        user2.setUserName(user.getUserName());
+        user2.setPassword(user.getPassword());
+        user2.setUserEmail(user.getUserEmail());
+        user2.setVerified(user.getVerified());
+        
         tx = session.getTransaction();
         session.beginTransaction();
         tx.commit();
-        return user;
+        return user2;
     }
 
     @Override
@@ -75,6 +83,7 @@ public class UserDaoImpl implements UserDao {
         user2.setVerified(user.getVerified());
         user2.setPassword(user.getPassword());
         user2.setUserName(user.getUserName());
+        System.out.println();
         session.flush();
         return true;
     }
@@ -135,4 +144,5 @@ public class UserDaoImpl implements UserDao {
                 user.getVerified());
         return user2;
     }
+
 }

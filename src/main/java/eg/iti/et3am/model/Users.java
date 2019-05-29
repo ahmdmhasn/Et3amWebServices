@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -57,9 +58,11 @@ public class Users implements java.io.Serializable {
     @Column(name = "user_status")
     private Integer userStatus;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
     private Set<UserReserveCoupon> userReserveCoupons = new HashSet<UserReserveCoupon>(0);
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
     private Set<Coupons> couponses = new HashSet<Coupons>(0);
 
