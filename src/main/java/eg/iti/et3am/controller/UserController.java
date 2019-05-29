@@ -3,9 +3,15 @@ package eg.iti.et3am.controller;
 import eg.iti.et3am.model.Status;
 import eg.iti.et3am.model.Users;
 import eg.iti.et3am.service.interfaces.UserService;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,8 +32,7 @@ public class UserController {
     public @ResponseBody
     Status addEntity(@RequestBody Users user) {
         try {
-            String id = userService.addEntity(user);
-            return new Status(1, user);
+            return new Status(1, userService.addEntity(user));
         } catch (Exception ex) {
             ex.printStackTrace();
             return new Status(0, ex.getMessage());
@@ -37,14 +42,19 @@ public class UserController {
     /*---Get user by id---*/
     @RequestMapping(value = "/u/{id}", method = RequestMethod.GET)
     public @ResponseBody
-    Users getEntityById(@PathVariable("id") String id) {
-        Users user = null;
+    ResponseEntity<Map<String, Object>> getEntityById(@PathVariable("id") String id) {
+        Map<String, Object> result = new HashMap<>();
         try {
-            user = userService.getEntityById(id);
+            Users user = userService.getEntityById(id);
+            result.put("status", 1);
+            result.put("user", user);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
+            result.put("status", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
-        return user;
     }
 
     /*---get all user---*/
@@ -60,16 +70,20 @@ public class UserController {
         return userList;
     }
 
-    // Not supported
     /*---Update a user by id---*/
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/update", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    Status update(@PathVariable("id") long id, @RequestBody Users user) {
+    ResponseEntity<Map<String, Object>> update(@RequestBody Users user) {
+
+        Map<String, Object> result = new HashMap<>();
         try {
-            userService.updateEntity(id, user);
-            return new Status(1, "User updated Successfully!");
-        } catch (Exception e) {
-            return new Status(0, e.toString());
+            result.put("status", 1);
+            result.put("users", userService.updateEntity(user));
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception ex) {
+            result.put("status", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
     }
 
@@ -119,20 +133,32 @@ public class UserController {
     /*---Check if the same username exists---*/
     @RequestMapping(value = "/validate/login", method = RequestMethod.GET)
     public @ResponseBody
-    Status login(@RequestParam("email") String email, @RequestParam("password") String password) {
+    ResponseEntity<Map<String, Object>> login(@RequestParam("email") String email, @RequestParam("password") String password) {
+        Map<String, Object> response = new HashMap<>();
         if (!email.isEmpty() && !password.isEmpty()) {
             try {
                 Users user = userService.login(email, password);
                 if (user != null) {
-                    return new Status(1, user);
+                    response.put("code", 1);
+                    response.put("message", "");
+                    response.put("user", user);
+                    return new ResponseEntity<>(response, HttpStatus.OK);
                 } else {
-                    return new Status(0, "User doesn't exist!");
+                    response.put("code", 0);
+                    response.put("message", "User doesn't exist!");
+                    response.put("user", null);
+                    return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
                 }
             } catch (Exception e) {
-                return new Status(0, e.toString());
+                e.printStackTrace();
+                response.put("code", 0);
+                response.put("message", "Email/ password doesn't match  \n" + e.toString());
+                return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
             }
         } else {
-            return new Status(0, "Email or password must not be empty");
+            response.put("code", 0);
+            response.put("message", "Email or password must not be empty.");
+            return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 }

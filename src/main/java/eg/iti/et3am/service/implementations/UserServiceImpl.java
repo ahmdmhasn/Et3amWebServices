@@ -2,7 +2,9 @@ package eg.iti.et3am.service.implementations;
 
 import eg.iti.et3am.service.interfaces.UserService;
 import eg.iti.et3am.dao.interfaces.UserDao;
+import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Users;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +18,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public String addEntity(Users user) throws Exception {
-        return userDao.addEntity(user);
+    public Users addEntity(Users user) throws Exception {
+        user.setUserStatus(1);
+        user.setVerified(0);
+        String userId = userDao.addEntity(user);
+                
+        UserDetails ud = new UserDetails();
+        ud.setUsers(userDao.getEntityById(userId));
+        userDao.addDetailsEntity(ud);
+        
+        return userDao.getEntityById(userId);
     }
 
     @Override
@@ -34,8 +44,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean updateEntity(long id, Users user) throws Exception {
-        return userDao.updateEntity(id, user);
+    public Users updateEntity(Users user) throws Exception {
+        return userDao.updateEntity(user);
     }
 
     @Override

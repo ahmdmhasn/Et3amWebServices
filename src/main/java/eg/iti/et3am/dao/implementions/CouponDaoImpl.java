@@ -36,28 +36,30 @@ public class CouponDaoImpl implements CouponDao {
 
     Session session = null;
     Transaction tx = null;
-
-    private Session getSession() {
-        if (sessionFactory.getCurrentSession() == null) {
+    
+    private Session checkCurrentSession() {
+        if (session == null) {
             session = sessionFactory.openSession();
-        }
-        return sessionFactory.getCurrentSession();
+        } else if (!session.isOpen()) {
+            session = sessionFactory.openSession();
+        } 
+        session = sessionFactory.getCurrentSession();
+        return session;
     }
 
     @Override
     public Coupons findByCode(String code) throws Exception {
-        session = sessionFactory.openSession();
+        checkCurrentSession();
         Coupons coupon = (Coupons) session.load(Coupons.class, code);
         tx = session.getTransaction();
         session.beginTransaction();
         tx.commit();
-        session.close();
         return coupon;
     }
 
     @Override
     public String addCoupon(String userId, Double couponValue) throws Exception {
-        session = sessionFactory.openSession();
+        checkCurrentSession();
         tx = session.beginTransaction();
 
         Coupons coupon = new Coupons();
@@ -74,14 +76,13 @@ public class CouponDaoImpl implements CouponDao {
         session.save(coupon);
         tx.commit();
         String id = (String) session.getIdentifier(coupon);
-        session.close();
         return id;
     }
 
 
     @Override
     public UserReserveCoupon checkCoupon(String code) throws Exception {
-        session = sessionFactory.openSession();
+        checkCurrentSession();
         tx = session.beginTransaction();
         Criteria criteria = session.createCriteria(UserReserveCoupon.class).
                 createAlias("coupons", "c").
@@ -93,7 +94,6 @@ public class CouponDaoImpl implements CouponDao {
                 coupon.getReservationDate(), coupon.getStatus());
                 
         tx.commit();
-        session.close();
         return coupon2;
     }
 
@@ -104,7 +104,7 @@ public class CouponDaoImpl implements CouponDao {
 
     @Override
     public int reserveCoupon(String reserverId, String couponId, Date reservationDate) throws Exception {
-        session = sessionFactory.openSession();
+        checkCurrentSession();
         tx = session.beginTransaction();
         Coupons coupon = (Coupons) session.load(Coupons.class, couponId);
         Users user = (Users) session.load(Users.class, reserverId);
@@ -115,9 +115,7 @@ public class CouponDaoImpl implements CouponDao {
         userReserveCoupon.setUsers(user);
         session.save(userReserveCoupon);
         tx.commit();
-        System.out.println(coupon.getCouponBarcode());
         Integer id = (Integer) session.getIdentifier(userReserveCoupon);
-        session.close();
         return id;
     }
 }

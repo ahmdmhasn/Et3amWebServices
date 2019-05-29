@@ -1,9 +1,15 @@
 package eg.iti.et3am.dao.implementions;
 
 import eg.iti.et3am.dao.interfaces.UserDao;
+import eg.iti.et3am.model.UserDetails;
+import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.Users;
+import eg.iti.et3am.utils.EntityCopier;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,77 +26,99 @@ public class UserDaoImpl implements UserDao {
 
     Session session = null;
     Transaction tx = null;
+    
+    private Session checkCurrentSession() {
+        if (session == null) {
+            session = sessionFactory.openSession();
+        } else if (!session.isOpen()) {
+            session = sessionFactory.openSession();
+        } 
+        session = sessionFactory.getCurrentSession();
+        return session;
+    }
 
     @Override
     public String addEntity(Users user) throws Exception {
-        session = sessionFactory.openSession();
+        checkCurrentSession();
         tx = session.beginTransaction();
-        user.setUserStatus(1);
-        user.setVerified(0);
         session.save(user);
         tx.commit();
         String id = (String) session.getIdentifier(user);
-        session.close();
+        return id;
+    }
+    
+    @Override
+    public int addDetailsEntity(UserDetails userDetails) throws Exception {
+        checkCurrentSession();
+        tx = session.beginTransaction();
+        session.save(userDetails);
+        tx.commit();
+        int id = (int) session.getIdentifier(userDetails);
         return id;
     }
 
     @Override
     public Users getEntityById(String id) throws Exception {
-        session = sessionFactory.openSession();
+        checkCurrentSession();
         Users user = (Users) session.load(Users.class, id);
+        Users user2 = EntityCopier.getUser(user);
+//        tx = session.getTransaction();
+//        session.beginTransaction();
+//        tx.commit();
+        return user2;
+    }
+
+    @Override
+    public UserDetails getDetailsEntityById(String id) throws Exception {
+        throw new UnsupportedOperationException("Not tested yet. #AhmedHassan");
+        /*
+        checkCurrentSession();
         
-        Users user2 = new Users();
-        user2.setUserId(user.getUserId());
-        user2.setUserName(user.getUserName());
-        user2.setPassword(user.getPassword());
-        user2.setUserEmail(user.getUserEmail());
-        user2.setVerified(user.getVerified());
+        Criteria criteria = session.createCriteria(UserDetails.class).
+                createAlias("users", "users").
+                createAlias("users.userId", "id").
+                add(Restrictions.eq("id", id));
+        UserDetails user = (UserDetails) criteria.uniqueResult();
+        UserDetails user2 = EntityCopier.getUserDetails(Collections.singleton(user)).
+                iterator().next();
         
         tx = session.getTransaction();
         session.beginTransaction();
         tx.commit();
         return user2;
+*/
     }
-
+    
     @Override
     public List<Users> getEntityList() throws Exception {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
+        checkCurrentSession();
         List<Users> userList = session.createCriteria(Users.class).list();
 
         // Create another array to be sent on response
         List<Users> userList2 = new ArrayList<>();
         for (Users user : userList) {
-            Users user2 = new Users();
-            user2.setUserId(user.getUserId());
-            user2.setUserName(user.getUserName());
-            user2.setPassword(user.getPassword());
-            user2.setUserEmail(user.getUserEmail());
-            user2.setVerified(user.getVerified());
-            userList2.add(user2);
+            userList2.add(EntityCopier.getUser(user));
         }
-
-        tx.commit();
-        session.close();
         return userList2;
     }
 
     @Override
-    public boolean updateEntity(long id, Users user) throws Exception {
-        session = sessionFactory.openSession();
-        Users user2 = (Users) session.load(Users.class, id);
-        user2.setUserEmail(user.getUserEmail());
+    public Users updateEntity(Users user) throws Exception {
+        checkCurrentSession();
+        
+        Users user2 = (Users) session.load(Users.class, user.getUserId());
         user2.setVerified(user.getVerified());
-        user2.setPassword(user.getPassword());
-        user2.setUserName(user.getUserName());
-        System.out.println();
+        user2.setUserStatus(user.getUserStatus());
+        Users userToReturn = EntityCopier.getUser(user2);
+        
         session.flush();
-        return true;
+        return userToReturn;
     }
 
     @Override
     public boolean deleteEntity(long id) throws Exception {
-        session = sessionFactory.openSession();
+        checkCurrentSession();
+        
         Object o = session.load(Users.class, id);
         tx = session.getTransaction();
         session.beginTransaction();
@@ -101,48 +129,42 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean isEmailValid(String email) throws Exception {
-        session = sessionFactory.openSession();
+        checkCurrentSession();
+                
         Criteria criteria = session.createCriteria(Users.class);
         criteria.add(Restrictions.eq("userEmail", email));
 
         Users user = (Users) criteria.uniqueResult();
-
         if (user == null) {
             return true;
         }
-
         return false;
     }
 
     @Override
     public boolean isUsernameValid(String username) throws Exception {
-        session = sessionFactory.openSession();
+        checkCurrentSession();
+        
         Criteria criteria = session.createCriteria(Users.class);
         criteria.add(Restrictions.eq("userName", username));
-
         Users user = (Users) criteria.uniqueResult();
 
         if (user == null) {
             return true;
         }
-
         return false;
     }
 
     @Override
     public Users login(String email, String password) throws Exception {
-        session = sessionFactory.openSession();
+        checkCurrentSession();
+        
         Criteria criteria = session.createCriteria(Users.class);
         criteria.add(Restrictions.eq("userEmail", email));
         criteria.add(Restrictions.eq("password", password));
 
         Users user = (Users) criteria.uniqueResult();
-        Users user2 = new Users(user.getUserId(),
-                user.getUserName(),
-                user.getUserEmail(),
-                null,
-                user.getVerified());
-        return user2;
+        return EntityCopier.getUser(user);
     }
 
 }
