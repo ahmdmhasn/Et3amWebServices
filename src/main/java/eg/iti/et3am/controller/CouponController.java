@@ -96,8 +96,8 @@ public class CouponController {
 
     }
 
-    // reserve meal  
-    @RequestMapping(value = "/reserve_meal", method = RequestMethod.GET)
+    // reserve coupon  
+    @RequestMapping(value = "/reserve_coupon", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> reserveCoupon(@RequestParam("reserver_id") String reserver_id,
             @RequestParam("coupon_id") String coupon_id,
             @RequestParam("reservationDate") Date reservationDate) {    
