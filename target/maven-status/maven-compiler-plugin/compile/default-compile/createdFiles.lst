@@ -7,6 +7,7 @@ eg\iti\et3am\dao\implementions\UserDaoImpl.class
 eg\iti\et3am\model\Meals.class
 eg\iti\et3am\service\networkapi\CalculateRoute.class
 eg\iti\et3am\dao\interfaces\RestaurantDao.class
+eg\iti\et3am\controller\PhotoController.class
 eg\iti\et3am\controller\CouponController.class
 eg\iti\et3am\model\Restaurants.class
 eg\iti\et3am\model\Coupons.class
