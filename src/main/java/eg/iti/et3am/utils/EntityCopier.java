@@ -7,6 +7,8 @@ package eg.iti.et3am.utils;
 
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.UserDetails;
+import eg.iti.et3am.model.Restaurants;
+import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.Users;
 import java.util.HashSet;
 import java.util.Set;
@@ -56,5 +58,34 @@ public class EntityCopier {
             userDetailses.add(ud);
         }
         return userDetailses;
+    }
+
+    public static Restaurants getRestaurant(Restaurants restaurants) {
+        Restaurants restaurants1 = new Restaurants();
+        restaurants1.setCity(restaurants.getCity());
+        restaurants1.setCountry(restaurants.getCountry());
+        restaurants1.setDistance(restaurants.getDistance());
+        restaurants1.setLatitude(restaurants.getLongitude());
+        restaurants1.setLongitude(restaurants.getLongitude());
+        restaurants1.setMealses(restaurants.getMealses());
+        restaurants1.setRestaurantAdmins(restaurants.getRestaurantAdmins());
+        restaurants1.setRestaurantId(restaurants.getRestaurantId());
+        restaurants1.setRestaurantImage(restaurants.getRestaurantImage());
+        restaurants1.setRestaurantName(restaurants.getRestaurantName());
+        restaurants1.setUserUsedCoupons(restaurants.getUserUsedCoupons());
+
+        return restaurants1;
+    }
+
+    public static UserReserveCoupon getReservedCoupon(UserReserveCoupon reserveCoupon) {
+        UserReserveCoupon userReserveCoupon2 = new UserReserveCoupon();
+        userReserveCoupon2.setCoupons(reserveCoupon.getCoupons());
+        userReserveCoupon2.setReservationDate(reserveCoupon.getReservationDate());
+        userReserveCoupon2.setReservedCouponId(reserveCoupon.getReservedCouponId());
+        userReserveCoupon2.setStatus(reserveCoupon.getStatus());
+        userReserveCoupon2.setUserUsedCoupons(reserveCoupon.getUserUsedCoupons());
+        userReserveCoupon2.setUsers(reserveCoupon.getUsers());
+
+        return userReserveCoupon2;
     }
 }

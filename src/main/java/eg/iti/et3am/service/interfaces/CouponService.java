@@ -8,6 +8,7 @@ package eg.iti.et3am.service.interfaces;
 
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.UserReserveCoupon;
+import eg.iti.et3am.model.UserUsedCoupon;
 import java.util.Date;
 import java.util.List;
 
@@ -23,9 +24,11 @@ public interface CouponService {
 
     public UserReserveCoupon checkCouponReservation(String code) throws Exception;
 
-    public Coupons useCoupon(String code, double price) throws Exception;
+    public int useCoupon(String code, double price , Date usedDate , int restaurantId) throws Exception;
     
-    public int reserveCoupon(String reserverId, String couponId ,Date reservationDate ) throws Exception; 
+    public int reserveCoupon(String reserverId, String couponId ,Date reservationDate  ) throws Exception; 
+    
+    public List<UserUsedCoupon> getUsedCoupon(int restaurantId) throws Exception;
     
 }
 

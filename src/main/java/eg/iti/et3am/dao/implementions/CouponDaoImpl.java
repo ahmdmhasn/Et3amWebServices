@@ -3,11 +3,17 @@ package eg.iti.et3am.dao.implementions;
 import eg.iti.et3am.dao.interfaces.CouponDao;
 import eg.iti.et3am.dao.interfaces.UserDao;
 import eg.iti.et3am.model.Coupons;
+import eg.iti.et3am.model.RemainingBalance;
+import eg.iti.et3am.model.RestaurantAdmin;
+import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.model.UserReserveCoupon;
+import eg.iti.et3am.model.UserUsedCoupon;
 import eg.iti.et3am.model.Users;
 import eg.iti.et3am.utils.EntityCopier;
+import java.util.ArrayList;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -79,43 +85,100 @@ public class CouponDaoImpl implements CouponDao {
         return id;
     }
 
-
     @Override
     public UserReserveCoupon checkCoupon(String code) throws Exception {
         checkCurrentSession();
         tx = session.beginTransaction();
+
         Criteria criteria = session.createCriteria(UserReserveCoupon.class).
                 createAlias("coupons", "c").
                 add(Restrictions.eq("c.couponBarcode", code));
+
         UserReserveCoupon coupon = (UserReserveCoupon) criteria.uniqueResult();
-        
-        UserReserveCoupon coupon2 = new UserReserveCoupon(EntityCopier.getCoupon(coupon.getCoupons()), 
-                EntityCopier.getUser(coupon.getUsers()), 
+
+        UserReserveCoupon coupon2 = new UserReserveCoupon(EntityCopier.getCoupon(coupon.getCoupons()),
+                EntityCopier.getUser(coupon.getUsers()),
                 coupon.getReservationDate(), coupon.getStatus());
-                
+        coupon2.setReservedCouponId(coupon.getReservedCouponId());
+        coupon2.setReservationDate(coupon.getReservationDate());
+        coupon2.setStatus(coupon.getStatus());
         tx.commit();
         return coupon2;
     }
 
     @Override
-    public Coupons useCoupon(String code, double price) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int useCoupon(String code, double price, Date usedDate, int restaurantId) throws Exception {
+
+        UserReserveCoupon reserveCoupon = checkCoupon(code);
+        if (reserveCoupon.getCoupons().getCouponId() != null && reserveCoupon.getStatus() == 1) {
+            checkCurrentSession();
+            tx = session.beginTransaction();
+            Restaurants restaurantAdmin = (Restaurants) session.load(Restaurants.class, restaurantId);
+            reserveCoupon.setStatus(0);
+            session.update(reserveCoupon);
+            System.out.println("update done");
+            UserUsedCoupon userUsedCoupon = new UserUsedCoupon(EntityCopier.getRestaurant(restaurantAdmin), EntityCopier.getReservedCoupon(reserveCoupon), usedDate, (float) price, 1);
+            System.out.println("jjj" + userUsedCoupon.getPrice());
+            session.save(userUsedCoupon);
+            float remainingValue = (float) (reserveCoupon.getCoupons().getCouponValue() - price);
+            if (remainingValue > 0) {
+                RemainingBalance balance = new RemainingBalance(userUsedCoupon, remainingValue);
+                session.save(balance);
+            }
+            tx.commit();
+            int id = (int) session.getIdentifier(userUsedCoupon);
+            return id;
+        }
+        return -1;
     }
 
     @Override
     public int reserveCoupon(String reserverId, String couponId, Date reservationDate) throws Exception {
         checkCurrentSession();
+        int id =-1;
         tx = session.beginTransaction();
-        Coupons coupon = (Coupons) session.load(Coupons.class, couponId);
-        Users user = (Users) session.load(Users.class, reserverId);
-        UserReserveCoupon userReserveCoupon = new UserReserveCoupon();
-        userReserveCoupon.setCoupons(coupon);
-        userReserveCoupon.setStatus(1);
-        userReserveCoupon.setReservationDate(reservationDate);
-        userReserveCoupon.setUsers(user);
-        session.save(userReserveCoupon);
-        tx.commit();
-        Integer id = (Integer) session.getIdentifier(userReserveCoupon);
+        UserReserveCoupon reserveCoupon = (UserReserveCoupon) session.createCriteria(UserReserveCoupon.class).
+                createAlias("coupons", "c").
+                add(Restrictions.eq("c.couponId", couponId)).uniqueResult();
+        System.out.println("kkk"+reserveCoupon);
+        if (reserveCoupon == null) {
+            Coupons coupon = (Coupons) session.load(Coupons.class, couponId);
+            Users user = (Users) session.load(Users.class, reserverId);
+            UserReserveCoupon userReserveCoupon = new UserReserveCoupon();
+            userReserveCoupon.setCoupons(coupon);
+            userReserveCoupon.setStatus(1);
+            userReserveCoupon.setReservationDate(reservationDate);
+            userReserveCoupon.setUsers(user);
+            session.save(userReserveCoupon);
+            tx.commit();
+            System.out.println(coupon.getCouponBarcode());
+            id = (int) session.getIdentifier(userReserveCoupon);
+        }
         return id;
     }
+
+    @Override
+    public List<UserUsedCoupon> getUsedCoupon(int restaurantId) throws Exception {
+        System.out.println("enteeer");
+
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        List<UserUsedCoupon> usedCouponsList = session.createCriteria(UserUsedCoupon.class).
+                createAlias("restaurants", "r").
+                add(Restrictions.eq("r.restaurantId", restaurantId)).list();
+        List<UserUsedCoupon> usedCouponsList2 = new ArrayList<>();
+
+        for (UserUsedCoupon coupons : usedCouponsList) {
+            UserUsedCoupon u = new UserUsedCoupon(EntityCopier.getRestaurant(coupons.getRestaurants()), EntityCopier.getReservedCoupon(coupons.getUserReserveCoupon()),
+                    coupons.getUseDate(), coupons.getPrice(), coupons.getStatus());
+            coupons.setUsedCouponId(coupons.getUsedCouponId());
+            coupons.setRemainingBalances(coupons.getRemainingBalances());
+            usedCouponsList2.add(u);
+        }
+        System.out.println("rows num = " + usedCouponsList2.size());
+        tx.commit();
+        //session.close();
+        return usedCouponsList2;
+    }
+
 }
