@@ -136,13 +136,13 @@ public class CouponDaoImpl implements CouponDao {
 
     @Override
     public int reserveCoupon(String reserverId, String couponId, Date reservationDate) throws Exception {
-        int id =-1;
+        int id = -1;
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
         UserReserveCoupon reserveCoupon = (UserReserveCoupon) session.createCriteria(UserReserveCoupon.class).
                 createAlias("coupons", "c").
                 add(Restrictions.eq("c.couponId", couponId)).uniqueResult();
-        System.out.println("kkk"+reserveCoupon);
+        System.out.println("kkk" + reserveCoupon);
         if (reserveCoupon == null) {
             Coupons coupon = (Coupons) session.load(Coupons.class, couponId);
             Users user = (Users) session.load(Users.class, reserverId);
