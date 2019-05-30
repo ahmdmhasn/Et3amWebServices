@@ -1,5 +1,4 @@
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\model\Restaurants.java
-C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\PhotoDao.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\UserDao.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\model\RestaurantAdmin.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\service\networkapi\CalculateRoute.java
@@ -36,7 +35,6 @@ C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\controller\CouponController.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\model\RestaurantAdminId.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\PhotoService.java
-C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\PhotoDaoImpl.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\RestaurantServiceImpl.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserUsedCoupon.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\model\RemainingBalance.java

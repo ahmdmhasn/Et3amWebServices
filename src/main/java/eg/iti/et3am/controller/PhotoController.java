@@ -5,7 +5,6 @@
  */
 package eg.iti.et3am.controller;
 
-import eg.iti.et3am.dao.implementions.PhotoDaoImpl;
 import eg.iti.et3am.model.ImageFile;
 import eg.iti.et3am.model.Status;
 import java.io.File;
@@ -19,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import eg.iti.et3am.dao.interfaces.PhotoDao;
 import eg.iti.et3am.service.interfaces.PhotoService;
+import java.util.HashMap;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 /**
  *
@@ -34,7 +35,8 @@ public class PhotoController {
     PhotoService photoService;
 
     @RequestMapping(value = "/fileupload", headers = ("content-type=multipart/*"), method = RequestMethod.POST)
-    public Status upload(@RequestParam("file") MultipartFile inputFile,@RequestParam("id") int id) {
+    public ResponseEntity<Map<String, Object>> upload(@RequestParam("file") MultipartFile inputFile,@RequestParam("id") int id) {
+                  Map<String, Object> response = new HashMap<>();
 
         if (!inputFile.isEmpty()) {
 
@@ -42,23 +44,30 @@ public class PhotoController {
             myImage.setFile(inputFile);
             myImage.setImageName(inputFile.getOriginalFilename());
             // upload to cloud 
-            Map<String, Object> result = photoService.uploadToCloudinary(myImage);
-            System.out.println(result.get("secure_url"));
+            Map<String, Object> resultFromCloud = photoService.uploadToCloudinary(myImage);
+            System.out.println(resultFromCloud.get("secure_url"));
             // when image uploaded get the url 
-            if (result.size() > 0) {
-                myImage.setSecure_url((String) result.get("secure_url"));
+            if (resultFromCloud.size() > 0) {
+                myImage.setSecure_url((String) resultFromCloud.get("secure_url"));
 
+                response.put("code", 1);
+                response.put("message", "Uploaded Seccessfully");
+                return new ResponseEntity<>(response, HttpStatus.OK);
                 // Store At DB
               //  photoService.updateDB("Meals", id,myImage.getImageName());
                 
-                
-                // Return Result
-                return new Status(1, "Uploaded successfully");
             } else {
-                return new Status(0, "Failed While Uploading");
+               // return new Status(0, "Failed While Uploading");
+               response.put("code",0);
+               response.put("message", "Error While Uploading Phototo cloudinary");
+                               return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+
             }
         }
-        return new Status(0, "Failed While Uploading");
+         response.put("code",0);
+               response.put("message", "There is no file");
+                               return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+        
 
     }
 

@@ -26,8 +26,6 @@ eg\iti\et3am\model\RemainingBalance.class
 eg\iti\et3am\model\UserUsedCoupon.class
 eg\iti\et3am\service\implementations\PhotoServiceImpl.class
 eg\iti\et3am\utils\Utils.class
-eg\iti\et3am\dao\implementions\PhotoDaoImpl.class
-eg\iti\et3am\dao\interfaces\PhotoDao.class
 eg\iti\et3am\model\RestaurantCoupons.class
 eg\iti\et3am\model\Users.class
 eg\iti\et3am\service\implementations\RestaurantServiceImpl.class
