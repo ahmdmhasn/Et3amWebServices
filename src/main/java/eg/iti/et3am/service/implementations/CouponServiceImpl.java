@@ -7,12 +7,15 @@ package eg.iti.et3am.service.implementations;
 
 import eg.iti.et3am.dao.interfaces.CouponDao;
 import eg.iti.et3am.model.Coupons;
+import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.Users;
 import eg.iti.et3am.service.interfaces.CouponService;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -52,6 +55,21 @@ public class CouponServiceImpl implements CouponService {
 //        }
 //        return createdCoupons;
         return createdCouponsIds;
+    }
+
+    @Override
+    public UserReserveCoupon checkCouponReservation(String code) throws Exception {
+       return couponDao.checkCoupon(code);
+    }
+
+    @Override
+    public Coupons useCoupon(String code, double price) throws Exception {
+       return couponDao.useCoupon(code, price);
+    }
+ 
+    @Override
+    public int reserveCoupon(String reserverId, String couponId, Date reservationDate) throws Exception {
+       return couponDao.reserveCoupon(reserverId, couponId ,reservationDate);
     }
 
 }

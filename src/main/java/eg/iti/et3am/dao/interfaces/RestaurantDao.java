@@ -17,7 +17,7 @@ public interface RestaurantDao {
     // get restaurant by id
     Restaurants getRestaurantById(Integer id) throws Exception;
 
-    List<Restaurants> getRestaurantsList() throws Exception;
+    List<Restaurants> getRestaurantsList(double latitude, double longitude) throws Exception;
 
     List<Restaurants> getRestaurantsListWithMeals() throws Exception;
 
@@ -35,8 +35,6 @@ public interface RestaurantDao {
     boolean updateMeal(Integer mealId, Meals meals) throws Exception;
 
     boolean deleteMeal(Integer restaurantId, Integer mealId) throws Exception;
-    
-    RestaurantAdmin login(String email, String password) throws Exception;
 
-    public void currentLocation(float longitude, float latitude);
+    RestaurantAdmin login(String email, String password) throws Exception;
 }

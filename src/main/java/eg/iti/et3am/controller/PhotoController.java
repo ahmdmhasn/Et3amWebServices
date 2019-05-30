@@ -5,9 +5,12 @@
  */
 package eg.iti.et3am.controller;
 
+import eg.iti.et3am.dao.implementions.PhotoDaoImpl;
+import eg.iti.et3am.model.ImageFile;
 import eg.iti.et3am.model.Status;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import eg.iti.et3am.dao.interfaces.PhotoDao;
+import eg.iti.et3am.service.interfaces.PhotoService;
 
 /**
  *
@@ -24,43 +29,37 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/image")
 public class PhotoController {
-    
-    
-//    @Autowired
-//	ServletContext context;
-    
-    @RequestMapping(value = "/fileupload", headers=("content-type=multipart/*"), method = RequestMethod.POST)
- public Status upload(@RequestParam("file") MultipartFile inputFile) {
-//  FileInfo fileInfo = new FileInfo();
-//  HttpHeaders headers = new HttpHeaders();
-  if (!inputFile.isEmpty()) {
-//   try {
-    String originalFilename = inputFile.getOriginalFilename();
-  //  File destinationFile = new File(context.getRealPath("/WEB-INF/uploaded")+  File.separator + originalFilename);
-//      try {
-//          inputFile.transferTo(destinationFile);
-//      } catch (IOException ex) {
-//          Logger.getLogger(PhotoController.class.getName()).log(Level.SEVERE, null, ex);
-//      } catch (IllegalStateException ex) {
-//          Logger.getLogger(PhotoController.class.getName()).log(Level.SEVERE, null, ex);
-      //}
-//    fileInfo.setFileName(destinationFile.getPath());
-//    fileInfo.setFileSize(inputFile.getSize());
-       System.out.println("File Uploaded Successfully - " + originalFilename);
-       
-       return new Status(1,"Uploaded successfully");
-       
-  }
-  return new Status(0,"Failed While Uploading");
-       
-//    return new ResponseEntity<FileInfo>(fileInfo, headers, HttpStatus.OK);
-//   } catch (Exception e) {    
-//    return new ResponseEntity<FileInfo>(HttpStatus.BAD_REQUEST);
-//   }
-//  }else{
-//   return new ResponseEntity<FileInfo>(HttpStatus.BAD_REQUEST);
-//  }
- }
-    
-    
+
+    @Autowired(required = true)
+    PhotoService photoService;
+
+    @RequestMapping(value = "/fileupload", headers = ("content-type=multipart/*"), method = RequestMethod.POST)
+    public Status upload(@RequestParam("file") MultipartFile inputFile,@RequestParam("id") int id) {
+
+        if (!inputFile.isEmpty()) {
+
+            ImageFile myImage = new ImageFile();
+            myImage.setFile(inputFile);
+            myImage.setImageName(inputFile.getOriginalFilename());
+            // upload to cloud 
+            Map<String, Object> result = photoService.uploadToCloudinary(myImage);
+            System.out.println(result.get("secure_url"));
+            // when image uploaded get the url 
+            if (result.size() > 0) {
+                myImage.setSecure_url((String) result.get("secure_url"));
+
+                // Store At DB
+              //  photoService.updateDB("Meals", id,myImage.getImageName());
+                
+                
+                // Return Result
+                return new Status(1, "Uploaded successfully");
+            } else {
+                return new Status(0, "Failed While Uploading");
+            }
+        }
+        return new Status(0, "Failed While Uploading");
+
+    }
+
 }

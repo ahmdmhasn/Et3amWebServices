@@ -3,6 +3,7 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context" 
+        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -24,8 +25,7 @@
     
     <!-- Enables the Spring MVC @Controller programming model -->
     <mvc:annotation-driven />
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-    
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>    
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources 
     in the /WEB-INF/views directory -->
     <bean
