@@ -8,6 +8,7 @@ package eg.iti.et3am.service.implementations;
 import eg.iti.et3am.dao.interfaces.CouponDao;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.UserReserveCoupon;
+import eg.iti.et3am.model.UserUsedCoupon;
 import eg.iti.et3am.model.Users;
 import eg.iti.et3am.service.interfaces.CouponService;
 import java.util.ArrayList;
@@ -59,17 +60,22 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public UserReserveCoupon checkCouponReservation(String code) throws Exception {
-       return couponDao.checkCoupon(code);
+        return couponDao.checkCoupon(code);
     }
 
     @Override
-    public Coupons useCoupon(String code, double price) throws Exception {
-       return couponDao.useCoupon(code, price);
+    public int useCoupon(String code, double price, Date usedDate , int restaurantId) throws Exception {
+        return couponDao.useCoupon(code, price ,usedDate,restaurantId);
     }
- 
+
     @Override
     public int reserveCoupon(String reserverId, String couponId, Date reservationDate) throws Exception {
-       return couponDao.reserveCoupon(reserverId, couponId ,reservationDate);
+        return couponDao.reserveCoupon(reserverId, couponId, reservationDate);
+    }
+
+    @Override
+    public List<UserUsedCoupon> getUsedCoupon(int restaurantId) throws Exception {
+        return couponDao.getUsedCoupon(restaurantId);
     }
 
 }
