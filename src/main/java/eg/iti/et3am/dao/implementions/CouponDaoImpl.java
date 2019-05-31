@@ -42,28 +42,30 @@ public class CouponDaoImpl implements CouponDao {
 
     Session session = null;
     Transaction tx = null;
-
-    private Session getSession() {
-        if (sessionFactory.getCurrentSession() == null) {
+    
+    private Session checkCurrentSession() {
+        if (session == null) {
             session = sessionFactory.openSession();
-        }
-        return sessionFactory.getCurrentSession();
+        } else if (!session.isOpen()) {
+            session = sessionFactory.openSession();
+        } 
+        session = sessionFactory.getCurrentSession();
+        return session;
     }
 
     @Override
     public Coupons findByCode(String code) throws Exception {
-        session = sessionFactory.openSession();
+        checkCurrentSession();
         Coupons coupon = (Coupons) session.load(Coupons.class, code);
         tx = session.getTransaction();
         session.beginTransaction();
         tx.commit();
-        session.close();
         return coupon;
     }
 
     @Override
     public String addCoupon(String userId, Double couponValue) throws Exception {
-        session = sessionFactory.openSession();
+        checkCurrentSession();
         tx = session.beginTransaction();
 
         Coupons coupon = new Coupons();
@@ -80,13 +82,12 @@ public class CouponDaoImpl implements CouponDao {
         session.save(coupon);
         tx.commit();
         String id = (String) session.getIdentifier(coupon);
-        session.close();
         return id;
     }
 
     @Override
     public UserReserveCoupon checkCoupon(String code) throws Exception {
-        session = sessionFactory.openSession();
+        session = checkCurrentSession();
         tx = session.beginTransaction();
 
         Criteria criteria = session.createCriteria(UserReserveCoupon.class).
@@ -102,17 +103,15 @@ public class CouponDaoImpl implements CouponDao {
         coupon2.setReservationDate(coupon.getReservationDate());
         coupon2.setStatus(coupon.getStatus());
         tx.commit();
-        session.close();
-
         return coupon2;
     }
 
     @Override
     public int useCoupon(String code, double price, Date usedDate, int restaurantId) throws Exception {
-
+         
         UserReserveCoupon reserveCoupon = checkCoupon(code);
         if (reserveCoupon.getCoupons().getCouponId() != null && reserveCoupon.getStatus() == 1) {
-            session = sessionFactory.openSession();
+             session = checkCurrentSession();
             tx = session.beginTransaction();
             Restaurants restaurantAdmin = (Restaurants) session.load(Restaurants.class, restaurantId);
             reserveCoupon.setStatus(0);
@@ -128,7 +127,6 @@ public class CouponDaoImpl implements CouponDao {
             }
             tx.commit();
             int id = (int) session.getIdentifier(userUsedCoupon);
-            session.close();
             return id;
         }
         return -1;
@@ -136,8 +134,10 @@ public class CouponDaoImpl implements CouponDao {
 
     @Override
     public int reserveCoupon(String reserverId, String couponId, Date reservationDate) throws Exception {
-        int id = -1;
-        session = sessionFactory.openSession();
+
+         session = checkCurrentSession();
+        int id =-1;
+
         tx = session.beginTransaction();
         UserReserveCoupon reserveCoupon = (UserReserveCoupon) session.createCriteria(UserReserveCoupon.class).
                 createAlias("coupons", "c").
@@ -155,7 +155,6 @@ public class CouponDaoImpl implements CouponDao {
             tx.commit();
             System.out.println(coupon.getCouponBarcode());
             id = (int) session.getIdentifier(userReserveCoupon);
-            session.close();
         }
         return id;
     }
@@ -164,7 +163,8 @@ public class CouponDaoImpl implements CouponDao {
     public List<UserUsedCoupon> getUsedCoupon(int restaurantId) throws Exception {
         System.out.println("enteeer");
 
-        session = sessionFactory.openSession();
+        //session = sessionFactory.openSession();
+        session = checkCurrentSession();
         tx = session.beginTransaction();
         List<UserUsedCoupon> usedCouponsList = session.createCriteria(UserUsedCoupon.class).
                 createAlias("restaurants", "r").

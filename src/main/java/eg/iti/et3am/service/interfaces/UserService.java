@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserService {
     
     /*---Add new user---*/
-    String addEntity(Users user) throws Exception;
+    Users addEntity(Users user) throws Exception;
     
     /*---Get user by id---*/
     Users getEntityById(String id) throws Exception;
@@ -19,7 +19,7 @@ public interface UserService {
     List<Users> getEntityList() throws Exception;
     
     /*---Update a user by id---*/
-    boolean updateEntity(long id, Users user) throws Exception;
+    Users updateEntity(Users user) throws Exception;
     
     /*---Delete a user by id---*/
     boolean deleteEntity(long id) throws Exception;

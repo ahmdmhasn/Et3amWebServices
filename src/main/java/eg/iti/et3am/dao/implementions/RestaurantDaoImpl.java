@@ -35,10 +35,20 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     Session session = null;
     Transaction tx = null;
+    
+    private Session checkCurrentSession() {
+        if (session == null) {
+            session = sessionFactory.openSession();
+        } else if (!session.isOpen()) {
+            session = sessionFactory.openSession();
+        } 
+        session = sessionFactory.getCurrentSession();
+        return session;
+    }
 
     @Override
     public Restaurants getRestaurantById(Integer id) throws Exception {
-        session = sessionFactory.openSession();
+         session = checkCurrentSession();;
         Restaurants restaurants = (Restaurants) session.load(Restaurants.class, id);
         //Copy Data from object To another
         Restaurants restaurants1 = (Restaurants) restaurants.clone();
@@ -48,7 +58,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public List<Restaurants> getRestaurantsList(double latitude, double longitude) throws Exception {
-        session = sessionFactory.openSession();
+        session = checkCurrentSession();
         tx = session.beginTransaction();
         List<Restaurants> restaurantses = session.createCriteria(Restaurants.class).list();
 
@@ -80,7 +90,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public List<Restaurants> getRestaurantsListWithMeals() throws Exception {
-        session = sessionFactory.openSession();
+         session = checkCurrentSession();
         tx = session.beginTransaction();
         List<Restaurants> restaurantses = session.createCriteria(Restaurants.class).list();
 
@@ -92,15 +102,13 @@ public class RestaurantDaoImpl implements RestaurantDao {
             restaurantList.add(restaurantsResponse);
         }
         Collections.sort(restaurantList);
-        System.out.println("List " + restaurantList);
         tx.commit();
-        session.close();
         return restaurantList;
     }
 
     @Override
     public Set<Meals> getMealsSetById(Integer id) throws Exception {
-        session = sessionFactory.openSession();
+         session = checkCurrentSession();
         List<Meals> mealses = session.createCriteria(Meals.class)
                 .add(Restrictions.eq("restaurants.restaurantId", id)).list();
 
@@ -118,7 +126,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public List<Meals> getMealsListById(Integer id) throws Exception {
-        session = sessionFactory.openSession();
+         session = checkCurrentSession();
         tx = session.beginTransaction();
         List<Meals> mealses = session.createCriteria(Meals.class)
                 .add(Restrictions.eq("restaurants.restaurantId", id)).list();
@@ -133,13 +141,12 @@ public class RestaurantDaoImpl implements RestaurantDao {
             mealList.add(mealsResponse);
         }
         tx.commit();
-        session.close();
         return mealList;
     }
 
     @Override
     public Meals findMealById(Integer id) throws Exception {
-        session = sessionFactory.openSession();
+         session = checkCurrentSession();
         tx = session.beginTransaction();
         Meals meals = (Meals) session.load(Meals.class, id);
         tx.commit();
@@ -148,19 +155,18 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public String addRestaurant(Restaurants restaurant) throws Exception {
-        session = sessionFactory.openSession();
+         session = checkCurrentSession();
         tx = session.beginTransaction();
         System.out.println(session.save(restaurant) + "~~~~~~~~~~~~");
         tx.commit();
         String id = (String) session.getIdentifier(restaurant);
         System.out.println(restaurant.getRestaurantId() + "\t" + id + "\t" + "~~~~~~~~~~~~~~~~~~~~");
-        session.close();
         return id;
     }
 
     @Override
     public Integer addMeal(Meals meal, Integer restaurantId) throws Exception {
-        session = sessionFactory.openSession();
+        session = checkCurrentSession();
         tx = session.beginTransaction();
         Restaurants r = (Restaurants) session.load(Restaurants.class, restaurantId);
 //        r.getMealses().iterator().next().;
@@ -169,13 +175,12 @@ public class RestaurantDaoImpl implements RestaurantDao {
         tx.commit();
         Integer id = (Integer) session.getIdentifier(meal);
         //Meals meals = (Meals) session.get(Meals.class, id);
-        session.close();
         return id;
     }
 
     @Override
     public RestaurantAdmin login(String email, String password) throws Exception {
-        session = sessionFactory.openSession();
+         session = checkCurrentSession();
         Criteria criteria = session.createCriteria(RestaurantAdmin.class);
         criteria.add(Restrictions.eq("restaurantAdminEmail", email));
         criteria.add(Restrictions.eq("restaurantAdminPassword", password));
@@ -191,13 +196,12 @@ public class RestaurantDaoImpl implements RestaurantDao {
         admin2.setId(admin.getId());
         admin2.setRestaurantAdminEmail(admin.getRestaurantAdminEmail());
         admin2.setRestaurants(restaurant2);
-        session.close();
         return admin2;
     }
 
     @Override
     public boolean updateMeal(Integer mealId, Meals meals) throws Exception {
-        session = sessionFactory.openSession();
+         session = checkCurrentSession();
         tx = session.beginTransaction();
         Meals meal = (Meals) session.load(Meals.class, mealId);
         meal.setMealName(meals.getMealName());
@@ -205,13 +209,12 @@ public class RestaurantDaoImpl implements RestaurantDao {
         meal.setMealImage(meals.getMealImage());
         session.update(meal);
         tx.commit();
-        session.close();
         return true;
     }
 
     @Override
     public boolean deleteMeal(Integer restaurantId, Integer mealId) throws Exception {
-        session = sessionFactory.openSession();
+         session = checkCurrentSession();
         tx = session.beginTransaction();
         Restaurants r = (Restaurants) session.load(Restaurants.class, restaurantId);
         for (Meals meal : r.getMealses()) {
@@ -223,7 +226,6 @@ public class RestaurantDaoImpl implements RestaurantDao {
             }
         }
         tx.commit();
-        session.close();
         return false;
     }
 }

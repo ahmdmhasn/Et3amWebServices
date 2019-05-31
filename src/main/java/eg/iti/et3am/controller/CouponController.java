@@ -151,7 +151,7 @@ public class CouponController {
         }
     }
 
-    //get restaurant meals
+    //get restaurant coupons
     @RequestMapping(value = "/use_coupon_list", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getUsedCoupon(@RequestParam("restaurantId") int restaurantId) {
         Map<String, Object> result = new HashMap<>();

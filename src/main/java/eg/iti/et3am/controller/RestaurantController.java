@@ -44,7 +44,8 @@ public class RestaurantController {
     }
 
     // Restaurant deatails
-    //@RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
+    /*
+    @RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
     public List<Meals> getMealById(@PathVariable("rest_id") Integer id) {
         List<Meals> meals = null;
         try {
@@ -54,7 +55,7 @@ public class RestaurantController {
         }
         return meals;
     }
-
+*/
     @RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
     public ResponseEntity<List<Meals>> get(@PathVariable("rest_id") Integer id) throws Exception {
         LOG.info("getting user with id: {}");
