@@ -35,13 +35,13 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     Session session = null;
     Transaction tx = null;
-    
+
     private Session checkCurrentSession() {
         if (session == null) {
             session = sessionFactory.openSession();
         } else if (!session.isOpen()) {
             session = sessionFactory.openSession();
-        } 
+        }
         session = sessionFactory.getCurrentSession();
         return session;
     }
@@ -90,7 +90,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public List<Restaurants> getRestaurantsListWithMeals() throws Exception {
-        checkCurrentSession();
+        session = sessionFactory.openSession();
         tx = session.beginTransaction();
         List<Restaurants> restaurantses = session.createCriteria(Restaurants.class).list();
 
@@ -108,7 +108,9 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public Set<Meals> getMealsSetById(Integer id) throws Exception {
-        checkCurrentSession();
+        // checkCurrentSession();
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
         List<Meals> mealses = session.createCriteria(Meals.class)
                 .add(Restrictions.eq("restaurants.restaurantId", id)).list();
 
@@ -121,15 +123,16 @@ public class RestaurantDaoImpl implements RestaurantDao {
             mealsResponse.setMealValue(meals.getMealValue());
             mealList.add(mealsResponse);
         }
+
         return mealList;
     }
 
     @Override
     public List<Meals> getMealsListById(Integer id) throws Exception {
-        checkCurrentSession();
+        session = sessionFactory.openSession();
         tx = session.beginTransaction();
-        List<Meals> mealses = session.createCriteria(Meals.class)
-                .add(Restrictions.eq("restaurants.restaurantId", id)).list();
+        List<Meals> mealses = session.createCriteria(Meals.class).createAlias("restaurants", "r")
+                .add(Restrictions.eq("r.restaurantId", id)).list();
 
         // Create another array to be sent on response
         List<Meals> mealList = new ArrayList<>();

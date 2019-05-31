@@ -2,7 +2,6 @@ eg\iti\et3am\service\interfaces\PhotoService.class
 eg\iti\et3am\dao\interfaces\UserDao.class
 eg\iti\et3am\service\implementations\UserServiceImpl.class
 eg\iti\et3am\utils\EntityCopier.class
-eg\iti\et3am\cloudinary\utils\Constants.class
 eg\iti\et3am\dao\implementions\CouponDaoImpl.class
 eg\iti\et3am\service\interfaces\CouponService.class
 eg\iti\et3am\dao\implementions\RestaurantDaoImpl$1.class

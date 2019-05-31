@@ -44,7 +44,7 @@ public class RestaurantController {
     }
 
     // Restaurant deatails
-    //@RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
+    @RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
     public List<Meals> getMealById(@PathVariable("rest_id") Integer id) {
         List<Meals> meals = null;
         try {
@@ -55,17 +55,17 @@ public class RestaurantController {
         return meals;
     }
 
-    @RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
-    public ResponseEntity<List<Meals>> get(@PathVariable("rest_id") Integer id) throws Exception {
-        LOG.info("getting user with id: {}");
-        List<Meals> mealses = restaurantService.getMealById(id);
-
-        if (mealses.isEmpty()) {
-            LOG.info("user with id {} not found");
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(mealses, HttpStatus.OK);
-    }
+//    @RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
+//    public ResponseEntity<List<Meals>> get(@PathVariable("rest_id") Integer id) throws Exception {
+//        LOG.info("getting user with id: {}");
+//        List<Meals> mealses = restaurantService.getMealById(id);
+//
+//        if (mealses.isEmpty()) {
+//            LOG.info("user with id {} not found");
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//        return new ResponseEntity<>(mealses, HttpStatus.OK);
+//    }
 
     // Get Restaurant by id
     @RequestMapping(value = "/rest/{rest_id}", method = RequestMethod.GET)

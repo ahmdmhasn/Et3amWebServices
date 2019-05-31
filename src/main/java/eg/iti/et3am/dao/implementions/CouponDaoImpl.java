@@ -55,7 +55,7 @@ public class CouponDaoImpl implements CouponDao {
 
     @Override
     public Coupons findByCode(String code) throws Exception {
-        checkCurrentSession();
+         checkCurrentSession();
         Coupons coupon = (Coupons) session.load(Coupons.class, code);
         tx = session.getTransaction();
         session.beginTransaction();
@@ -87,7 +87,8 @@ public class CouponDaoImpl implements CouponDao {
 
     @Override
     public UserReserveCoupon checkCoupon(String code) throws Exception {
-        checkCurrentSession();
+        //checkCurrentSession();
+        session = sessionFactory.openSession();
         tx = session.beginTransaction();
 
         Criteria criteria = session.createCriteria(UserReserveCoupon.class).
@@ -111,7 +112,7 @@ public class CouponDaoImpl implements CouponDao {
 
         UserReserveCoupon reserveCoupon = checkCoupon(code);
         if (reserveCoupon.getCoupons().getCouponId() != null && reserveCoupon.getStatus() == 1) {
-            checkCurrentSession();
+            session = sessionFactory.openSession();
             tx = session.beginTransaction();
             Restaurants restaurantAdmin = (Restaurants) session.load(Restaurants.class, restaurantId);
             reserveCoupon.setStatus(0);
@@ -134,7 +135,7 @@ public class CouponDaoImpl implements CouponDao {
 
     @Override
     public int reserveCoupon(String reserverId, String couponId, Date reservationDate) throws Exception {
-        checkCurrentSession();
+       session = sessionFactory.openSession();
         int id =-1;
         tx = session.beginTransaction();
         UserReserveCoupon reserveCoupon = (UserReserveCoupon) session.createCriteria(UserReserveCoupon.class).
