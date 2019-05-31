@@ -26,15 +26,12 @@ import eg.iti.et3am.utils.Utils;
  *
  * @author Wael M Elmahask
  */
-@Transactional
 @Repository
 public class RestaurantDaoImpl implements RestaurantDao {
 
     @Autowired(required = true)
     private SessionFactory sessionFactory;
 
-//    Session session = null;
-//    Transaction tx = null;
     @Override
     public Restaurants getRestaurantById(Integer id) throws Exception {
         Session session = sessionFactory.openSession();
@@ -81,8 +78,6 @@ public class RestaurantDaoImpl implements RestaurantDao {
             for (Restaurants number : restaurantListSort) {
                 System.out.println("Number = " + number.getDistance());
             }
-//        Collections.sort(restaurantList);
-//        return restaurantList;
             tx.commit();
             return restaurantListSort;
         } catch (RuntimeException ex) {

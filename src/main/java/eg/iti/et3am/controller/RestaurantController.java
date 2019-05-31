@@ -44,16 +44,6 @@ public class RestaurantController {
     }
 
     // Restaurant deatails
-    //@RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
-    public List<Meals> getMealById(@PathVariable("rest_id") Integer id) {
-        List<Meals> meals = null;
-        try {
-            meals = restaurantService.getMealById(id);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return meals;
-    }
 
     @RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
     public ResponseEntity<List<Meals>> get(@PathVariable("rest_id") Integer id) throws Exception {
@@ -66,6 +56,7 @@ public class RestaurantController {
         }
         return new ResponseEntity<>(mealses, HttpStatus.OK);
     }
+
 
     // Get Restaurant by id
     @RequestMapping(value = "/rest/{rest_id}", method = RequestMethod.GET)
