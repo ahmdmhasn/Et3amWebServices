@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CalculateRoute {
-
+    
     public List<Restaurants> calculateRoute(List<Restaurants> restaurantList, double lat, double log) throws Exception {
         List<Restaurants> listOfActualDistance = new ArrayList<>();
         HttpHandler handler = new HttpHandler();
@@ -36,9 +36,17 @@ public class CalculateRoute {
                         JSONObject obj = routeArray.getJSONObject(i);
                         JSONObject summary = obj.getJSONObject("summary");
                         double distance = summary.getDouble("distance");
-                        restaurants.setDistance(distance);
+                        double travelTime = summary.getDouble("travelTime");
+                        
+                        double km = Math.round((distance/1000) * 100.0) / 100.0;
+                        restaurants.setDistance(km);
+                        
+                        double min = Math.round((travelTime/60));
+                        restaurants.setTravelTime(min);
+                        
                         listOfActualDistance.add(restaurants);
-                        System.out.println(distance);
+                        System.out.println(km+" ,KM");
+                        System.out.println(min+" , Min");
                     }
                 } catch (final JSONException e) {
                     Logger.getLogger("Json parsing error: " + e.getMessage());
