@@ -48,7 +48,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public Restaurants getRestaurantById(Integer id) throws Exception {
-        checkCurrentSession();
+         session = checkCurrentSession();;
         Restaurants restaurants = (Restaurants) session.load(Restaurants.class, id);
         //Copy Data from object To another
         Restaurants restaurants1 = (Restaurants) restaurants.clone();
@@ -58,7 +58,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public List<Restaurants> getRestaurantsList(double latitude, double longitude) throws Exception {
-        checkCurrentSession();
+        session = checkCurrentSession();
         tx = session.beginTransaction();
         List<Restaurants> restaurantses = session.createCriteria(Restaurants.class).list();
 
@@ -149,7 +149,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public Meals findMealById(Integer id) throws Exception {
-        checkCurrentSession();
+         session = checkCurrentSession();
         tx = session.beginTransaction();
         Meals meals = (Meals) session.load(Meals.class, id);
         tx.commit();
@@ -158,7 +158,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public String addRestaurant(Restaurants restaurant) throws Exception {
-        checkCurrentSession();
+         session = checkCurrentSession();
         tx = session.beginTransaction();
         System.out.println(session.save(restaurant) + "~~~~~~~~~~~~");
         tx.commit();
@@ -169,7 +169,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public Integer addMeal(Meals meal, Integer restaurantId) throws Exception {
-        checkCurrentSession();
+        session = checkCurrentSession();
         tx = session.beginTransaction();
         Restaurants r = (Restaurants) session.load(Restaurants.class, restaurantId);
 //        r.getMealses().iterator().next().;
@@ -183,7 +183,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public RestaurantAdmin login(String email, String password) throws Exception {
-        checkCurrentSession();
+         session = checkCurrentSession();
         Criteria criteria = session.createCriteria(RestaurantAdmin.class);
         criteria.add(Restrictions.eq("restaurantAdminEmail", email));
         criteria.add(Restrictions.eq("restaurantAdminPassword", password));
@@ -204,7 +204,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public boolean updateMeal(Integer mealId, Meals meals) throws Exception {
-        checkCurrentSession();
+         session = checkCurrentSession();
         tx = session.beginTransaction();
         Meals meal = (Meals) session.load(Meals.class, mealId);
         meal.setMealName(meals.getMealName());
@@ -217,7 +217,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public boolean deleteMeal(Integer restaurantId, Integer mealId) throws Exception {
-        checkCurrentSession();
+         session = checkCurrentSession();
         tx = session.beginTransaction();
         Restaurants r = (Restaurants) session.load(Restaurants.class, restaurantId);
         for (Meals meal : r.getMealses()) {

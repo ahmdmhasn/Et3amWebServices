@@ -87,8 +87,10 @@ public class CouponDaoImpl implements CouponDao {
 
     @Override
     public UserReserveCoupon checkCoupon(String code) throws Exception {
+
         //checkCurrentSession();
         session = sessionFactory.openSession();
+
         tx = session.beginTransaction();
 
         Criteria criteria = session.createCriteria(UserReserveCoupon.class).
@@ -109,7 +111,7 @@ public class CouponDaoImpl implements CouponDao {
 
     @Override
     public int useCoupon(String code, double price, Date usedDate, int restaurantId) throws Exception {
-
+         
         UserReserveCoupon reserveCoupon = checkCoupon(code);
         if (reserveCoupon.getCoupons().getCouponId() != null && reserveCoupon.getStatus() == 1) {
             session = sessionFactory.openSession();
@@ -137,11 +139,12 @@ public class CouponDaoImpl implements CouponDao {
     public int reserveCoupon(String reserverId, String couponId, Date reservationDate) throws Exception {
        session = sessionFactory.openSession();
         int id =-1;
+
         tx = session.beginTransaction();
         UserReserveCoupon reserveCoupon = (UserReserveCoupon) session.createCriteria(UserReserveCoupon.class).
                 createAlias("coupons", "c").
                 add(Restrictions.eq("c.couponId", couponId)).uniqueResult();
-        System.out.println("kkk"+reserveCoupon);
+        System.out.println("kkk" + reserveCoupon);
         if (reserveCoupon == null) {
             Coupons coupon = (Coupons) session.load(Coupons.class, couponId);
             Users user = (Users) session.load(Users.class, reserverId);
@@ -162,7 +165,8 @@ public class CouponDaoImpl implements CouponDao {
     public List<UserUsedCoupon> getUsedCoupon(int restaurantId) throws Exception {
         System.out.println("enteeer");
 
-        session = sessionFactory.openSession();
+        //session = sessionFactory.openSession();
+        session = checkCurrentSession();
         tx = session.beginTransaction();
         List<UserUsedCoupon> usedCouponsList = session.createCriteria(UserUsedCoupon.class).
                 createAlias("restaurants", "r").
