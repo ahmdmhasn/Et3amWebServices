@@ -12,6 +12,7 @@ eg\iti\et3am\service\networkapi\CalculateRoute.class
 eg\iti\et3am\dao\interfaces\RestaurantDao.class
 eg\iti\et3am\controller\PhotoController.class
 eg\iti\et3am\controller\CouponController.class
+.netbeans_automatic_build
 eg\iti\et3am\model\Restaurants.class
 eg\iti\et3am\model\Coupons.class
 eg\iti\et3am\controller\RestaurantController.class
