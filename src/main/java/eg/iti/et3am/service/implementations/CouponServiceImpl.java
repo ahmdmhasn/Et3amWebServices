@@ -7,10 +7,12 @@ package eg.iti.et3am.service.implementations;
 
 import eg.iti.et3am.dao.interfaces.CouponDao;
 import eg.iti.et3am.model.Coupons;
+import eg.iti.et3am.model.RestaurantCoupons;
 import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.UserUsedCoupon;
 import eg.iti.et3am.model.Users;
 import eg.iti.et3am.service.interfaces.CouponService;
+import eg.iti.et3am.utils.EntityCopier;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -60,8 +62,8 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public int useCoupon(String code, double price, Date usedDate , int restaurantId) throws Exception {
-        return couponDao.useCoupon(code, price ,usedDate,restaurantId);
+    public int useCoupon(String code, double price, Date usedDate, int restaurantId) throws Exception {
+        return couponDao.useCoupon(code, price, usedDate, restaurantId);
     }
 
     @Override
@@ -70,7 +72,7 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public List<UserUsedCoupon> getUsedCoupon(int restaurantId) throws Exception {
+    public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception {
         return couponDao.getUsedCoupon(restaurantId);
     }
 
