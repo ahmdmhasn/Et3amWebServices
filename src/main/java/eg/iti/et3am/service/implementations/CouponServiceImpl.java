@@ -52,7 +52,6 @@ public class CouponServiceImpl implements CouponService {
         for (int i = 0; i < coupon200; i++) {
             createdCouponsIds.add(couponDao.addCoupon(userId, 200.00));
         }
-
         return createdCouponsIds;
     }
 

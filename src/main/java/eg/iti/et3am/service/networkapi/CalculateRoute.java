@@ -1,6 +1,11 @@
 package eg.iti.et3am.service.networkapi;
 
 import eg.iti.et3am.model.Restaurants;
+import eg.iti.et3am.utils.HereMapConstants;
+import static eg.iti.et3am.utils.HereMapConstants.APP_CODE;
+import static eg.iti.et3am.utils.HereMapConstants.APP_ID;
+import static eg.iti.et3am.utils.HereMapConstants.MODE;
+import static eg.iti.et3am.utils.HereMapConstants.TRAFIC;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -21,9 +26,7 @@ public class CalculateRoute {
         HttpHandler handler = new HttpHandler();
         // Making a request to url and getting response
         for (Restaurants restaurants : restaurantList) {
-            String url = "https://route.api.here.com/routing/7.2/calculateroute.json?waypoint0="
-                    + lat + "," + log + "&waypoint1=" + restaurants.getLatitude() + ","
-                    + restaurants.getLongitude() + "&mode=fastest%3Bcar%3Btraffic%3Aenabled&app_id=yKkygBHyQ46ZJcEmOwf7&app_code=RoY6RYkL_tNcAMEAnRKkZQ&departure=now";
+            String url = HereMapConstants.url(lat, log, restaurants.getLatitude(), restaurants.getLongitude());
             String jsonStr = handler.getURL(url);
             Logger.getLogger("Response from url: " + jsonStr);
             if (jsonStr != null) {
@@ -36,9 +39,17 @@ public class CalculateRoute {
                         JSONObject obj = routeArray.getJSONObject(i);
                         JSONObject summary = obj.getJSONObject("summary");
                         double distance = summary.getDouble("distance");
-                        restaurants.setDistance(distance);
+                        double travelTime = summary.getDouble("travelTime");
+
+                        double km = Math.round((distance / 1000) * 100.0) / 100.0;
+                        restaurants.setDistance(km);
+
+                        double min = Math.round((travelTime / 60));
+                        restaurants.setTravelTime(min);
+
                         listOfActualDistance.add(restaurants);
-                        System.out.println(distance);
+                        System.out.println(km + " ,KM");
+                        System.out.println(min + " , Min");
                     }
                 } catch (final JSONException e) {
                     Logger.getLogger("Json parsing error: " + e.getMessage());
