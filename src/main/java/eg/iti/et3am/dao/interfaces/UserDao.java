@@ -26,7 +26,7 @@ public interface UserDao {
     List<Users> getEntityList() throws Exception;
     
     /*---Update a user by id---*/
-    Users updateEntity(Users user) throws Exception;
+    Users updateEntity(UserDetails ud, String id) throws Exception;
     
     /*---Delete a user by id---*/
     boolean deleteEntity(long id) throws Exception;
