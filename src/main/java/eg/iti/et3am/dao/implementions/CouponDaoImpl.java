@@ -6,7 +6,7 @@ import eg.iti.et3am.dao.interfaces.UserDao;
 import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.RemainingBalance;
-import eg.iti.et3am.model.RestaurantAdmin;
+import eg.iti.et3am.model.RestaurantCoupons;
 import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.UserUsedCoupon;
@@ -18,8 +18,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -27,7 +25,6 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class CouponDaoImpl implements CouponDao {
@@ -147,7 +144,7 @@ public class CouponDaoImpl implements CouponDao {
     }
 
     @Override
-    public List<UserUsedCoupon> getUsedCoupon(int restaurantId) throws Exception {
+    public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception {
         session = sessionFactory.getCurrentSession();
         tx = session.beginTransaction();
 
@@ -163,8 +160,15 @@ public class CouponDaoImpl implements CouponDao {
             coupons.setRemainingBalances(coupons.getRemainingBalances());
             usedCouponsList2.add(u);
         }
+
+        List<RestaurantCoupons> restaurantCoupons = new ArrayList<>();
+        for (UserUsedCoupon coupon : usedCouponsList2) {
+            RestaurantCoupons restCoupon = new RestaurantCoupons(EntityCopier.getReservedCoupon(coupon.getUserReserveCoupon()).getCoupons().getCouponBarcode(), coupon.getUseDate(), coupon.getPrice());
+            restaurantCoupons.add(restCoupon);
+        }
+
         tx.commit();
-        return usedCouponsList2;
+        return restaurantCoupons;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package eg.iti.et3am.controller;
 
 import eg.iti.et3am.model.Status;
+import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Users;
 import eg.iti.et3am.service.interfaces.UserService;
 import java.util.HashMap;
@@ -57,6 +58,25 @@ public class UserController {
         }
     }
 
+    /*---Update a user by id---*/
+    @RequestMapping(value = "/u/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    ResponseEntity<Map<String, Object>> updateUserDetails(@PathVariable("id") String id, 
+            @RequestBody UserDetails userDetails) {
+        
+        Map<String, Object> result = new HashMap<>();
+        try {
+            result.put("status", 1);
+            result.put("users", userService.updateEntity(userDetails, id));
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            result.put("status", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+    }
+    
     /*---get all user---*/
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public @ResponseBody
@@ -68,23 +88,6 @@ public class UserController {
             ex.printStackTrace();
         }
         return userList;
-    }
-
-    /*---Update a user by id---*/
-    @RequestMapping(value = "/update", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    ResponseEntity<Map<String, Object>> update(@RequestBody Users user) {
-
-        Map<String, Object> result = new HashMap<>();
-        try {
-            result.put("status", 1);
-            result.put("users", userService.updateEntity(user));
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        } catch (Exception ex) {
-            result.put("status", 0);
-            result.put("message", ex.getMessage());
-            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
-        }
     }
 
     // Not supported

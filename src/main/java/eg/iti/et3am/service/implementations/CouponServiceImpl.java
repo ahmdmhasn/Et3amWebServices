@@ -9,6 +9,7 @@ import eg.iti.et3am.dao.interfaces.CouponDao;
 import eg.iti.et3am.dao.interfaces.UserDao;
 import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
+import eg.iti.et3am.model.RestaurantCoupons;
 import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.UserUsedCoupon;
 import eg.iti.et3am.model.Users;
@@ -55,7 +56,6 @@ public class CouponServiceImpl implements CouponService {
         for (int i = 0; i < coupon200; i++) {
             createdCouponsIds.add(couponDao.addCoupon(userId, 200.00));
         }
-
         return createdCouponsIds;
     }
 
@@ -75,7 +75,7 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public List<UserUsedCoupon> getUsedCoupon(int restaurantId) throws Exception {
+    public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception {
         return couponDao.getUsedCoupon(restaurantId);
     }
 
@@ -95,9 +95,6 @@ public class CouponServiceImpl implements CouponService {
                         + "===================================="
                         + "=============================================");
             }
-            //}}
-
-            // }
         }
         System.out.println("new~~~~~~~~~~");
         return null;
