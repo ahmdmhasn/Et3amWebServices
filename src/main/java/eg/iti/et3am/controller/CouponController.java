@@ -90,7 +90,7 @@ public class CouponController {
         } catch (Exception ex) {
             Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
             result.put("code", 0);
-            result.put("message", ex.getMessage());
+            result.put("message", ex.getMessage()+"ex");
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
 

@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author A7med
  */
 @Service
+@Transactional
 public class CouponServiceImpl implements CouponService {
 
     @Autowired
@@ -50,11 +51,6 @@ public class CouponServiceImpl implements CouponService {
             createdCouponsIds.add(couponDao.addCoupon(userId, 200.00));
         }
 
-//        List<Coupons> createdCoupons = new ArrayList<>();
-//        for (String id : createdCouponsIds) {
-//            createdCoupons.add(couponDao.findByCode(id));
-//        }
-//        return createdCoupons;
         return createdCouponsIds;
     }
 

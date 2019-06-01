@@ -9,16 +9,19 @@ import eg.iti.et3am.service.networkapi.CalculateRoute;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Wael M Elmahask
  */
 @Service
+@Transactional
 public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
     private RestaurantDao restaurantDao;
+    
     @Autowired
     private CalculateRoute calculateRoute;
 
