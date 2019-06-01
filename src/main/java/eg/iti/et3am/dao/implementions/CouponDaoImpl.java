@@ -67,7 +67,6 @@ public class CouponDaoImpl implements CouponDao {
     public String addCoupon(String userId, Double couponValue) throws Exception {
         checkCurrentSession();
         tx = session.beginTransaction();
-
         Coupons coupon = new Coupons();
         try {
             Users user = userDao.getEntityById(userId);
@@ -90,7 +89,6 @@ public class CouponDaoImpl implements CouponDao {
 
         //checkCurrentSession();
         session = sessionFactory.openSession();
-
         tx = session.beginTransaction();
 
         Criteria criteria = session.createCriteria(UserReserveCoupon.class).
@@ -172,7 +170,6 @@ public class CouponDaoImpl implements CouponDao {
                 createAlias("restaurants", "r").
                 add(Restrictions.eq("r.restaurantId", restaurantId)).list();
         List<UserUsedCoupon> usedCouponsList2 = new ArrayList<>();
-
         for (UserUsedCoupon coupons : usedCouponsList) {
             UserUsedCoupon u = new UserUsedCoupon(EntityCopier.getRestaurant(coupons.getRestaurants()), EntityCopier.getReservedCoupon(coupons.getUserReserveCoupon()),
                     coupons.getUseDate(), coupons.getPrice(), coupons.getStatus());

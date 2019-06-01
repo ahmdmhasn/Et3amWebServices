@@ -162,7 +162,6 @@ public class UserDaoImpl implements UserDao {
         Criteria criteria = session.createCriteria(Users.class);
         criteria.add(Restrictions.eq("userEmail", email));
         criteria.add(Restrictions.eq("password", password));
-
         Users user = (Users) criteria.uniqueResult();
         return EntityCopier.getUser(user);
     }
