@@ -5,6 +5,7 @@
  */
 package eg.iti.et3am.utils;
 
+import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Restaurants;
@@ -89,7 +90,7 @@ public class EntityCopier {
 
         return userReserveCoupon2;
     }
-    
+
     public static UserUsedCoupon getUsedCoupon(UserUsedCoupon userUsedCoupon) {
         UserUsedCoupon userUsedCoupon2 = new UserUsedCoupon();
         userUsedCoupon2.setUserReserveCoupon(EntityCopier.getReservedCoupon(userUsedCoupon.getUserReserveCoupon()));
@@ -98,5 +99,14 @@ public class EntityCopier {
         userUsedCoupon2.setUseDate(userUsedCoupon.getUseDate());
         userUsedCoupon2.setRestaurants(EntityCopier.getRestaurant(userUsedCoupon.getRestaurants()));
         return userUsedCoupon2;
+    }
+      public static AvailableCoupons getAvailableCoupons(AvailableCoupons ac1) {
+        AvailableCoupons ac2 = new AvailableCoupons();
+        ac2.setAvailableCouponId(ac1.getAvailableCouponId());
+        ac2.setCoupons(EntityCopier.getCoupon(ac1.getCoupons()));
+        ac2.setDate(ac1.getDate());
+        ac2.setStatus(ac1.getStatus());
+        return ac2;
+
     }
 }

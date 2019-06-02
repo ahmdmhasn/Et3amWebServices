@@ -5,6 +5,7 @@
  */
 package eg.iti.et3am.controller;
 
+import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.RestaurantCoupons;
 import eg.iti.et3am.model.UserReserveCoupon;
@@ -153,16 +154,9 @@ public class CouponController {
     @RequestMapping(value = "/use_coupon_list", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getUsedCoupon(@RequestParam("restaurantId") int restaurantId) {
         Map<String, Object> result = new HashMap<>();
-        List<UserUsedCoupon> usedCoupon = null;
         try {
-            usedCoupon = couponService.getUsedCoupon(restaurantId);
-            System.out.println("hh" + usedCoupon.size());
-            List<RestaurantCoupons> restaurantCoupons = new ArrayList<>();
-            if (usedCoupon != null && !usedCoupon.isEmpty()) {
-                for (UserUsedCoupon coupon : usedCoupon) {
-                    RestaurantCoupons restCoupon = new RestaurantCoupons(EntityCopier.getReservedCoupon(coupon.getUserReserveCoupon()).getCoupons().getCouponBarcode(), coupon.getUseDate(), coupon.getPrice());
-                    restaurantCoupons.add(restCoupon);
-                }
+            List<RestaurantCoupons> restaurantCoupons = couponService.getUsedCoupon(restaurantId);
+            if (restaurantCoupons != null && !restaurantCoupons.isEmpty()) {
                 result.put("code", 1);
                 result.put("message", "");
                 result.put("restaurantCoupons", restaurantCoupons);
@@ -180,6 +174,7 @@ public class CouponController {
 
         }
     }
+
 
     @RequestMapping(value = "/user_used_coupon", method = RequestMethod.GET)
     public ResponseEntity<Map<String,Object>> getUserUsedCoupon(@RequestParam("userId") String userId)  {
@@ -202,7 +197,32 @@ public class CouponController {
             result.put("message", ex.getMessage());
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
-
+    }
  
+
+    // get coupon  
+    @RequestMapping(value = "/get_free_coupon", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> getFreeCoupon(@RequestParam("user_id") String id) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            AvailableCoupons coupon = couponService.getFreeCoupon(id);
+            if (coupon != null) {
+                System.out.println(id);
+                result.put("coupon", coupon);
+                result.put("status", 1);
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                result.put("status", 0);
+                result.put("message", "User is not verified or no coupon exists at the moment.");
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            }
+        } catch (Exception ex) {
+            result.put("status", 0);
+            result.put("message", ex.getMessage());
+            ex.printStackTrace();
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+
     }
 }
