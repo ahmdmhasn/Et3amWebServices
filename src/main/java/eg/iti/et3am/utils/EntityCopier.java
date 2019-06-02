@@ -9,6 +9,7 @@ import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.model.UserReserveCoupon;
+import eg.iti.et3am.model.UserUsedCoupon;
 import eg.iti.et3am.model.Users;
 import java.util.HashSet;
 import java.util.Set;
@@ -79,13 +80,23 @@ public class EntityCopier {
 
     public static UserReserveCoupon getReservedCoupon(UserReserveCoupon reserveCoupon) {
         UserReserveCoupon userReserveCoupon2 = new UserReserveCoupon();
-        userReserveCoupon2.setCoupons(reserveCoupon.getCoupons());
+        userReserveCoupon2.setCoupons(EntityCopier.getCoupon(reserveCoupon.getCoupons()));
         userReserveCoupon2.setReservationDate(reserveCoupon.getReservationDate());
         userReserveCoupon2.setReservedCouponId(reserveCoupon.getReservedCouponId());
         userReserveCoupon2.setStatus(reserveCoupon.getStatus());
         userReserveCoupon2.setUserUsedCoupons(reserveCoupon.getUserUsedCoupons());
-        userReserveCoupon2.setUsers(reserveCoupon.getUsers());
+        userReserveCoupon2.setUsers(EntityCopier.getUser(reserveCoupon.getUsers()));
 
         return userReserveCoupon2;
+    }
+    
+    public static UserUsedCoupon getUsedCoupon(UserUsedCoupon userUsedCoupon) {
+        UserUsedCoupon userUsedCoupon2 = new UserUsedCoupon();
+        userUsedCoupon2.setUserReserveCoupon(EntityCopier.getReservedCoupon(userUsedCoupon.getUserReserveCoupon()));
+        userUsedCoupon2.setPrice(userUsedCoupon.getPrice());
+        userUsedCoupon2.setUsedCouponId(userUsedCoupon.getUsedCouponId());
+        userUsedCoupon2.setUseDate(userUsedCoupon.getUseDate());
+        userUsedCoupon2.setRestaurants(EntityCopier.getRestaurant(userUsedCoupon.getRestaurants()));
+        return userUsedCoupon2;
     }
 }

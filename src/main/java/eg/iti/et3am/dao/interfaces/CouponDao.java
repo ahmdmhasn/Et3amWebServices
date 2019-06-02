@@ -29,4 +29,6 @@ public interface CouponDao {
     public int reserveCoupon(String reserverId, String couponId, Date reservationDate) throws Exception;
     
     public List<UserUsedCoupon> getUsedCoupon(int restaurantId) throws Exception;
+    
+    public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception;
 }

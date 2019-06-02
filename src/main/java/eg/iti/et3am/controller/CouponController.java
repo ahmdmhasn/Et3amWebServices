@@ -100,24 +100,22 @@ public class CouponController {
     @RequestMapping(value = "/reserve_coupon", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> reserveCoupon(@RequestParam("reserver_id") String reserver_id,
             @RequestParam("coupon_id") String coupon_id,
-            @RequestParam("reservationDate") Date reservationDate) {    
+            @RequestParam("reservationDate") Date reservationDate) {
         Map<String, Object> result = new HashMap<>();
         try {
             int id = couponService.reserveCoupon(reserver_id, coupon_id, reservationDate);
-            if(id==-1)
-            {
-            result.put("code", 0);
-            result.put("message", "coupon is already reserved ");
-             return new ResponseEntity<>(result, HttpStatus.OK);
-            }
-            else{
-            result.put("code", 1);
-            result.put("id", id);
-            result.put("message", "coupon is reserved sucessfuly");
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            if (id == -1) {
+                result.put("code", 0);
+                result.put("message", "coupon is already reserved ");
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                result.put("code", 1);
+                result.put("id", id);
+                result.put("message", "coupon is reserved sucessfuly");
+                return new ResponseEntity<>(result, HttpStatus.OK);
             }
         } catch (Exception ex) {
-           ex.printStackTrace();
+            ex.printStackTrace();
             result.put("code", 0);
             result.put("message", ex.getMessage());
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
@@ -181,5 +179,30 @@ public class CouponController {
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
 
         }
+    }
+
+    @RequestMapping(value = "/user_used_coupon", method = RequestMethod.GET)
+    public ResponseEntity<Map<String,Object>> getUserUsedCoupon(@RequestParam("userId") String userId)  {
+        Map<String, Object> result = new HashMap<>();
+       try {
+           List<UserUsedCoupon> listOfUsedCouponse = couponService.getUserUsedCoupon(userId);
+           if (listOfUsedCouponse != null&&!listOfUsedCouponse.isEmpty()) {
+             
+                result.put("code", 1);
+                result.put("Coupons", listOfUsedCouponse);
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                result.put("code", 0);
+                result.put("message", "there are not Coupons");
+                return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
+            result.put("code", 0);    
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+
+ 
     }
 }

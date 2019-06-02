@@ -164,4 +164,24 @@ public class CouponDaoImpl implements CouponDao {
         return usedCouponsList2;
     }
 
+    @Override
+    public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        tx = session.beginTransaction();
+        List<UserUsedCoupon> userUsedCoupons = session.createCriteria(UserUsedCoupon.class)
+                .createAlias("userReserveCoupon", "r")
+                .createAlias("r.users", "u")
+                .add(Restrictions.eq("u.userId", userId)).list();
+        System.out.println(userUsedCoupons);
+        List<UserUsedCoupon> listOfUsedCouponse = new ArrayList<>();
+
+        for (UserUsedCoupon userUsedCoupon : userUsedCoupons) {
+            listOfUsedCouponse.add(EntityCopier.getUsedCoupon(userUsedCoupon));
+            System.out.println(EntityCopier.getCoupon(EntityCopier.getUsedCoupon(userUsedCoupon).getUserReserveCoupon().getCoupons()));
+        //    System.out.println(listOfUsedCouponse);
+        }
+
+        tx.commit();
+        return listOfUsedCouponse;
+    }
 }

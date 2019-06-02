@@ -29,6 +29,7 @@ eg\iti\et3am\utils\Utils.class
 eg\iti\et3am\model\RestaurantCoupons.class
 eg\iti\et3am\model\Users.class
 eg\iti\et3am\service\implementations\RestaurantServiceImpl.class
+eg\iti\et3am\utils\HereMapConstants.class
 eg\iti\et3am\dao\interfaces\CouponDao.class
 eg\iti\et3am\model\RestaurantAdmin.class
 eg\iti\et3am\cloudinary\validator\ImageFileValidator.class
