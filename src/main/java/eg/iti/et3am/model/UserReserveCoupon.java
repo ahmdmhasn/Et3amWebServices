@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
@@ -32,7 +31,7 @@ public class UserReserveCoupon implements java.io.Serializable {
     private Users users;
     private Date reservationDate;
     private int status;
-    private Set<UserUsedCoupon> userUsedCoupons = new HashSet<UserUsedCoupon>(0);
+    private Set<UserUsedCoupon> userUsedCoupons = new HashSet<>(0);
 
     public UserReserveCoupon() {
     }
@@ -64,7 +63,7 @@ public class UserReserveCoupon implements java.io.Serializable {
         this.reservedCouponId = reservedCouponId;
     }
 
-    @JsonIgnore
+    //    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "coupons_coupon_id", nullable = false)
     public Coupons getCoupons() {
@@ -75,7 +74,7 @@ public class UserReserveCoupon implements java.io.Serializable {
         this.coupons = coupons;
     }
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reserver_id", nullable = false)
     public Users getUsers() {
