@@ -163,12 +163,15 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Users login(String email, String password) throws Exception {
         session = sessionFactory.getCurrentSession();
+        tx = session.beginTransaction();
         
         Criteria criteria = session.createCriteria(Users.class);
         criteria.add(Restrictions.eq("userEmail", email));
         criteria.add(Restrictions.eq("password", password));
         
         Users user = (Users) criteria.uniqueResult();
+        tx.commit();
+        
         return EntityCopier.getUser(user);
     }
     
