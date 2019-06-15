@@ -32,6 +32,7 @@ public class UserDaoImpl implements UserDao {
 
         session.save(user);
         String id = (String) session.getIdentifier(user);
+        
         tx.commit();
         return id;
     }
@@ -135,28 +136,35 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean isEmailValid(String email) throws Exception {
         session = sessionFactory.getCurrentSession();
-
+        tx = session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Users.class);
         criteria.add(Restrictions.eq("userEmail", email));
 
         Users user = (Users) criteria.uniqueResult();
+        tx.commit();
+        
         if (user == null) {
             return true;
         }
+        
         return false;
     }
 
     @Override
     public boolean isUsernameValid(String username) throws Exception {
         session = sessionFactory.getCurrentSession();
-
+        tx = session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Users.class);
         criteria.add(Restrictions.eq("userName", username));
         Users user = (Users) criteria.uniqueResult();
-
+        tx.commit();
+        
         if (user == null) {
             return true;
         }
+        
         return false;
     }
 
