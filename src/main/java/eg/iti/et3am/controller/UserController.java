@@ -70,6 +70,19 @@ public class UserController {
         return userList;
     }
 
+    @RequestMapping(value = "/list_verifed", method = RequestMethod.GET)
+    public @ResponseBody
+    List<Users> listOfUserToBeVerified() {
+        List<Users> userList = null;
+        try {
+            System.out.println("ffsfsdtgdgdg");
+            userList = userService.getEntityListToBeVerified();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return userList;
+    }
+
     /*---Update a user by id---*/
     @RequestMapping(value = "/update", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
@@ -161,4 +174,39 @@ public class UserController {
             return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
+
+    @RequestMapping(value = "/verify", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<Map<String, Object>> verifyUser(@RequestParam("id") String id) {
+        Map<String, Object> response = new HashMap<>();
+
+        if (!id.isEmpty()) {
+
+            try {
+                if (userService.verifyUser(id)) {
+                    response.put("code", 1);
+                    response.put("message", "User Verified Successfully");
+                    return new ResponseEntity<>(response, HttpStatus.OK);
+
+                } else {
+                    response.put("code", 0);
+                    response.put("message", "Verifing isn't completed");
+                    return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+
+                }
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                response.put("code", 0);
+                response.put("message", "Error While Verifing");
+
+                return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+
+            }
+
+        }
+
+        return null;
+    }
+
 }

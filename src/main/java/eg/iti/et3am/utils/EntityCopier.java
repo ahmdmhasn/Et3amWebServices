@@ -5,6 +5,7 @@
  */
 package eg.iti.et3am.utils;
 
+import eg.iti.et3am.model.Admins;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Restaurants;
@@ -29,6 +30,7 @@ public class EntityCopier {
         user2.setUserDetailses(EntityCopier.getUserDetails(user.getUserDetailses()));
         return user2;
     }
+    
 
     public static Coupons getCoupon(Coupons coupon) {
         Coupons coupon2 = new Coupons();
@@ -87,5 +89,16 @@ public class EntityCopier {
         userReserveCoupon2.setUsers(reserveCoupon.getUsers());
 
         return userReserveCoupon2;
+    }
+    
+    
+    public static Admins getAdmin(Admins admin){
+    Admins admin2 = new Admins();
+    admin2.setAdminId(admin.getAdminId());
+    admin2.setAdminName(admin.getAdminName());
+    admin2.setAdminEmail(admin.getAdminEmail());
+    admin2.setAdminPassword(admin.getAdminPassword());
+    
+    return admin2;
     }
 }

@@ -1,7 +1,9 @@
 eg\iti\et3am\service\interfaces\PhotoService.class
+eg\iti\et3am\dao\implementions\AdminDaoImpl.class
 eg\iti\et3am\dao\interfaces\UserDao.class
 eg\iti\et3am\service\implementations\UserServiceImpl.class
 eg\iti\et3am\utils\EntityCopier.class
+eg\iti\et3am\dao\interfaces\AdminDao.class
 eg\iti\et3am\dao\implementions\CouponDaoImpl.class
 eg\iti\et3am\service\interfaces\CouponService.class
 eg\iti\et3am\dao\implementions\RestaurantDaoImpl$1.class
@@ -29,6 +31,7 @@ eg\iti\et3am\utils\Utils.class
 eg\iti\et3am\model\RestaurantCoupons.class
 eg\iti\et3am\model\Users.class
 eg\iti\et3am\service\implementations\RestaurantServiceImpl.class
+eg\iti\et3am\utils\HereMapConstants.class
 eg\iti\et3am\dao\interfaces\CouponDao.class
 eg\iti\et3am\model\RestaurantAdmin.class
 eg\iti\et3am\cloudinary\validator\ImageFileValidator.class

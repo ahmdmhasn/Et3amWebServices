@@ -18,6 +18,8 @@ public interface UserService {
     /*---Get all user---*/
     List<Users> getEntityList() throws Exception;
     
+     public List<Users> getEntityListToBeVerified() throws Exception;
+     
     /*---Update a user by id---*/
     Users updateEntity(Users user) throws Exception;
     
@@ -32,4 +34,7 @@ public interface UserService {
     
     /*---Login method using email & password---*/
     Users login(String email, String password) throws Exception;
+    /* --- Verify User ---*/
+   boolean verifyUser(String id) throws Exception;
+
 }

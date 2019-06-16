@@ -27,7 +27,7 @@ public class UserDaoImpl implements UserDao {
     public String addEntity(Users user) throws Exception {
         session = sessionFactory.getCurrentSession();
         tx = session.beginTransaction();
-        
+
         session.save(user);
         String id = (String) session.getIdentifier(user);
         tx.commit();
@@ -38,7 +38,7 @@ public class UserDaoImpl implements UserDao {
     public int addDetailsEntity(UserDetails userDetails) throws Exception {
         session = sessionFactory.getCurrentSession();
         tx = session.beginTransaction();
-        
+
         session.save(userDetails);
         tx.commit();
         int id = (int) session.getIdentifier(userDetails);
@@ -50,7 +50,7 @@ public class UserDaoImpl implements UserDao {
     public Users getEntityById(String id) throws Exception {
         session = sessionFactory.getCurrentSession();
         tx = session.beginTransaction();
-        
+
         Users user = (Users) session.load(Users.class, id);
         Users user2 = EntityCopier.getUser(user);
         tx.commit();
@@ -82,7 +82,7 @@ public class UserDaoImpl implements UserDao {
     public List<Users> getEntityList() throws Exception {
         session = sessionFactory.getCurrentSession();
         tx = session.beginTransaction();
-        
+
         // Create another array to be sent on response
         List<Users> userList2 = new ArrayList<>();
 
@@ -159,5 +159,41 @@ public class UserDaoImpl implements UserDao {
         Users user = (Users) criteria.uniqueResult();
         return EntityCopier.getUser(user);
     }
+
+    @Override
+    public List<Users> getEntityListToBeVerified() throws Exception {
+        int verified = 0;
+        session = sessionFactory.getCurrentSession();
+
+        tx = session.beginTransaction();
+        List<Users> userList = new ArrayList<>();
+        Criteria criteria = session.createCriteria(Users.class);
+        criteria.createAlias("userDetailses", "uDetails")
+                .add(Restrictions.eq("verified", verified)).add(Restrictions.isNotNull("uDetails.nationalIdFront"))
+                .add(Restrictions.isNotNull("uDetails.nationalIdBack"));
+
+        List<Users> users = criteria.list();
+        System.out.println(users.size());
+        for (Users user : users) {
+            userList.add(EntityCopier.getUser(user));
+        }
+        tx.commit();
+        System.out.println(users.size());
+
+        return userList;
+    }
+
+    @Override
+    public boolean verifyUser(String id) throws Exception {
+     session = sessionFactory.getCurrentSession();
+        tx = session.beginTransaction();
+
+        Users user = (Users) session.load(Users.class, id);
+        user.setVerified(1);
+        session.update(user);
+        tx.commit();
+        return true;
+    }
+    
 
 }
