@@ -51,11 +51,10 @@ public class AdminController {
                 } else {
                     response.put("code", 0);
                     response.put("message", "Admin doesn't exist");
-                    response.put("user", null);
+                    response.put("admin", null);
                     return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
                 response.put("code", 0);
                 response.put("message", "Email/ password doesn't match  \n" + e.toString());
                 return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
