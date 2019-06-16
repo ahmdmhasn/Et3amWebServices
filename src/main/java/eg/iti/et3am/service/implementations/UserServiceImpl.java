@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
         user.setVerified(0);
         
         String userId = userDao.addEntity(user);
-                
+        
         UserDetails ud = new UserDetails();
         ud.setUsers(userDao.getEntityById(userId));
         userDao.addDetailsEntity(ud);
