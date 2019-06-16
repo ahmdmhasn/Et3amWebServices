@@ -1,6 +1,7 @@
 package eg.iti.et3am.controller;
 
 import eg.iti.et3am.model.Status;
+import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Users;
 import eg.iti.et3am.service.interfaces.UserService;
 import java.util.HashMap;
@@ -30,12 +31,17 @@ public class UserController {
     /*---Add new user---*/
     @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    Status addEntity(@RequestBody Users user) {
+    ResponseEntity<Map<String, Object>> addEntity(@RequestBody Users user) {
+        Map<String, Object> result = new HashMap<>();
         try {
-            return new Status(1, userService.addEntity(user));
+            result.put("status", 1);
+            result.put("user", userService.addEntity(user));
+            return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return new Status(0, ex.getMessage());
+            result.put("status", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }
 
@@ -56,6 +62,7 @@ public class UserController {
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
     }
+
 
     /*---get all user---*/
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -83,23 +90,27 @@ public class UserController {
         return userList;
     }
 
+
     /*---Update a user by id---*/
-    @RequestMapping(value = "/update", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/u/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    ResponseEntity<Map<String, Object>> update(@RequestBody Users user) {
+    ResponseEntity<Map<String, Object>> updateUserDetails(@PathVariable("id") String id,
+            @RequestBody UserDetails userDetails) {
 
         Map<String, Object> result = new HashMap<>();
         try {
             result.put("status", 1);
-            result.put("users", userService.updateEntity(user));
+            result.put("users", userService.updateEntity(userDetails, id));
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception ex) {
+            ex.printStackTrace();
             result.put("status", 0);
             result.put("message", ex.getMessage());
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
     }
 
+  
     // Not supported
     /*---Delete a user by id---*/
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
@@ -114,32 +125,48 @@ public class UserController {
     }
 
     /*---Check if the same email exists---*/
-    @RequestMapping(value = "/validate/email/{email}", method = RequestMethod.GET)
+    @RequestMapping(value = "/validate/userEmail", method = RequestMethod.GET)
     public @ResponseBody
-    Status isEmailValid(@PathVariable("email") String email) {
+    ResponseEntity<Map<String, Object>> isEmailValid(@RequestParam("string") String email) {
+        Map<String, Object> response = new HashMap<>();
         try {
             if (userService.isEmailValid(email)) {
-                return new Status(1, "Email is valid!");
+                response.put("code", 1);
+                response.put("message", "Email is valid");
+                return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
-                return new Status(0, "Email is not valid!");
+                response.put("code", 0);
+                response.put("message", "Email is not valid");
+                return new ResponseEntity<>(response, HttpStatus.OK);
             }
         } catch (Exception e) {
-            return new Status(0, e.toString());
+            e.printStackTrace();
+            response.put("code", 0);
+            response.put("message", e.getLocalizedMessage());
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
 
     /*---Check if the same username exists---*/
-    @RequestMapping(value = "/validate/username/{username}", method = RequestMethod.GET)
+    @RequestMapping(value = "/validate/userName", method = RequestMethod.GET)
     public @ResponseBody
-    Status isUsernameValid(@PathVariable("username") String username) {
+    ResponseEntity<Map<String, Object>> isUsernameValid(@RequestParam("string") String username) {
+        Map<String, Object> response = new HashMap<>();
         try {
             if (userService.isUsernameValid(username)) {
-                return new Status(1, "Username is valid!");
+                response.put("code", 1);
+                response.put("message", "Username is valid");
+                return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
-                return new Status(0, "Username is not valid!");
+                response.put("code", 0);
+                response.put("message", "Username is not valid");
+                return new ResponseEntity<>(response, HttpStatus.OK);
             }
         } catch (Exception e) {
-            return new Status(0, e.toString());
+            e.printStackTrace();
+            response.put("code", 0);
+            response.put("message", e.getLocalizedMessage());
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
 

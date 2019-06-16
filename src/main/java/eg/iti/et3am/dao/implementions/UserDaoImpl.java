@@ -4,7 +4,9 @@ import eg.iti.et3am.dao.interfaces.UserDao;
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Users;
 import eg.iti.et3am.utils.EntityCopier;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -30,6 +32,7 @@ public class UserDaoImpl implements UserDao {
 
         session.save(user);
         String id = (String) session.getIdentifier(user);
+        
         tx.commit();
         return id;
     }
@@ -40,9 +43,9 @@ public class UserDaoImpl implements UserDao {
         tx = session.beginTransaction();
 
         session.save(userDetails);
-        tx.commit();
         int id = (int) session.getIdentifier(userDetails);
 
+        tx.commit();
         return id;
     }
 
@@ -53,6 +56,7 @@ public class UserDaoImpl implements UserDao {
 
         Users user = (Users) session.load(Users.class, id);
         Users user2 = EntityCopier.getUser(user);
+        
         tx.commit();
         return user2;
     }
@@ -95,17 +99,27 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Users updateEntity(Users user) throws Exception {
+    public Users updateEntity(UserDetails ud, String id) throws Exception {
         session = sessionFactory.getCurrentSession();
+        tx = session.beginTransaction();
 
-        Users user2 = (Users) session.load(Users.class, user.getUserId());
-        user2.setVerified(user.getVerified());
-        user2.setUserStatus(user.getUserStatus());
-        Users userToReturn = EntityCopier.getUser(user2);
+        Users user = (Users) session.load(Users.class, id);
+        Criteria criteria = session.createCriteria(UserDetails.class).
+                add(Restrictions.eq("users", user));
+        UserDetails userDetails = (UserDetails) criteria.uniqueResult();
 
-        session.flush();
-        session.close();
-        return userToReturn;
+        userDetails.setBirthdate(ud.getBirthdate());
+        userDetails.setJob(ud.getJob());
+        userDetails.setMobileNumber(ud.getMobileNumber());
+        userDetails.setNationalId(ud.getNationalId());
+        userDetails.setNationalIdBack(ud.getNationalIdBack());
+        userDetails.setNationalIdFront(ud.getNationalIdFront());
+        userDetails.setProfileImage(ud.getProfileImage());
+
+        session.update(userDetails);
+        Users tempUser = EntityCopier.getUser(user);
+        tx.commit();
+        return tempUser;
     }
 
     @Override
@@ -123,41 +137,56 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean isEmailValid(String email) throws Exception {
         session = sessionFactory.getCurrentSession();
-
+        tx = session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Users.class);
         criteria.add(Restrictions.eq("userEmail", email));
 
         Users user = (Users) criteria.uniqueResult();
+        tx.commit();
+        
         if (user == null) {
             return true;
         }
+        
         return false;
     }
 
     @Override
     public boolean isUsernameValid(String username) throws Exception {
         session = sessionFactory.getCurrentSession();
-
+        tx = session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Users.class);
         criteria.add(Restrictions.eq("userName", username));
         Users user = (Users) criteria.uniqueResult();
-
+        tx.commit();
+        
         if (user == null) {
             return true;
         }
+        
         return false;
     }
 
     @Override
     public Users login(String email, String password) throws Exception {
         session = sessionFactory.getCurrentSession();
+        tx = session.beginTransaction();
+        Users user = null;
+        try {
+            Criteria criteria = session.createCriteria(Users.class);
+            criteria.add(Restrictions.eq("userEmail", email));
+            criteria.add(Restrictions.eq("password", password));
 
-        Criteria criteria = session.createCriteria(Users.class);
-        criteria.add(Restrictions.eq("userEmail", email));
-        criteria.add(Restrictions.eq("password", password));
+            user = EntityCopier.getUser((Users) criteria.uniqueResult());
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+        }
 
-        Users user = (Users) criteria.uniqueResult();
-        return EntityCopier.getUser(user);
+        return user;
+
     }
 
     @Override

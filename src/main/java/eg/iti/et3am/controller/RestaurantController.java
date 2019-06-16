@@ -44,7 +44,6 @@ public class RestaurantController {
     }
 
     // Restaurant deatails
-
     @RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
     public ResponseEntity<List<Meals>> get(@PathVariable("rest_id") Integer id) throws Exception {
         LOG.info("getting user with id: {}");
@@ -56,7 +55,6 @@ public class RestaurantController {
         }
         return new ResponseEntity<>(mealses, HttpStatus.OK);
     }
-
 
     // Get Restaurant by id
     @RequestMapping(value = "/rest/{rest_id}", method = RequestMethod.GET)
@@ -89,18 +87,19 @@ public class RestaurantController {
     // Update meal to restaurant
     @RequestMapping(value = "/rest/{rest_id}/updateMeal/{meal_id}", method = RequestMethod.PUT)
     public ResponseEntity<Meals> updateMeal(@PathVariable("meal_id") Integer id, @RequestBody Meals meals) throws Exception {
-        Meals meal = restaurantService.findMealById(id);
-        if (meal == null) {
-            LOG.info("Meal with id {} not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        //Meals meal = restaurantService.findMealById(id);
+//        if (meal == null) {
+//            LOG.info("Meal with id {} not found");
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
         try {
             restaurantService.updateMeal(id, meals);
         } catch (Exception ex) {
             Logger.getLogger(RestaurantController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        restaurantService.updateMeal(id, meals);
-        return new ResponseEntity<>(meal, HttpStatus.OK);
+        // restaurantService.updateMeal(id, meals);
+        return new ResponseEntity<>(meals, HttpStatus.OK);
     }
 
     // Remove meal to restaurant

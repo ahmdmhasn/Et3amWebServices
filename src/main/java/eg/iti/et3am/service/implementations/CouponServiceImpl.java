@@ -6,11 +6,15 @@
 package eg.iti.et3am.service.implementations;
 
 import eg.iti.et3am.dao.interfaces.CouponDao;
+import eg.iti.et3am.dao.interfaces.UserDao;
+import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
+import eg.iti.et3am.model.RestaurantCoupons;
 import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.UserUsedCoupon;
 import eg.iti.et3am.model.Users;
 import eg.iti.et3am.service.interfaces.CouponService;
+import eg.iti.et3am.utils.EntityCopier;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +32,8 @@ public class CouponServiceImpl implements CouponService {
 
     @Autowired
     private CouponDao couponDao;
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public Coupons findByCode(String code) throws Exception {
@@ -50,7 +56,6 @@ public class CouponServiceImpl implements CouponService {
         for (int i = 0; i < coupon200; i++) {
             createdCouponsIds.add(couponDao.addCoupon(userId, 200.00));
         }
-
         return createdCouponsIds;
     }
 
@@ -60,8 +65,8 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public int useCoupon(String code, double price, Date usedDate , int restaurantId) throws Exception {
-        return couponDao.useCoupon(code, price ,usedDate,restaurantId);
+    public int useCoupon(String code, double price, int restaurantId) throws Exception {
+        return couponDao.useCoupon(code, price, restaurantId);
     }
 
     @Override
@@ -70,8 +75,34 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public List<UserUsedCoupon> getUsedCoupon(int restaurantId) throws Exception {
+    public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception {
         return couponDao.getUsedCoupon(restaurantId);
+    }
+    @Override
+     public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception {
+      return couponDao.getUserUsedCoupon(userId);
+     }
+
+
+    @Override
+    public AvailableCoupons getFreeCoupon(String userID) throws Exception {
+
+        if (userDao.getEntityById(userID).getVerified() == 1) {
+            System.out.println("verified~~~~~~~~~~");
+            
+            if (couponDao.noMoreOneReservedCouponAtTheSameTime(userID)) {
+                AvailableCoupons availableCoupon = couponDao.getFreeCoupon(userID);
+                couponDao.addReservedCoupon(availableCoupon, userID);
+                return availableCoupon;
+            } else {
+                System.err.println("method is running --==============="
+                        + "====================================="
+                        + "===================================="
+                        + "=============================================");
+            }
+        }
+        System.out.println("new~~~~~~~~~~");
+        return null;
     }
 
 }
