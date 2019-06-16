@@ -32,10 +32,14 @@ public interface CouponDao {
        
     public AvailableCoupons getFreeCoupon(String userID) throws Exception;
     
+
+    public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception;
+
     public boolean addReservedCoupon(AvailableCoupons c , String userID)throws Exception;
     
     public boolean noMoreOneReservedCouponAtTheSameTime(String userId ) throws Exception;
 
     public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception;
+
 
 }

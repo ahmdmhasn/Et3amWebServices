@@ -36,5 +36,7 @@ public interface CouponService {
     public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception;
 
     
+    public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception;
+
 }
 

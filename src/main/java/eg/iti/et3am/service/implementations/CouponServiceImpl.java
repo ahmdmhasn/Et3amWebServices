@@ -78,6 +78,11 @@ public class CouponServiceImpl implements CouponService {
     public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception {
         return couponDao.getUsedCoupon(restaurantId);
     }
+    @Override
+     public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception {
+      return couponDao.getUserUsedCoupon(userId);
+     }
+
 
     @Override
     public AvailableCoupons getFreeCoupon(String userID) throws Exception {

@@ -175,6 +175,31 @@ public class CouponController {
         }
     }
 
+
+    @RequestMapping(value = "/user_used_coupon", method = RequestMethod.GET)
+    public ResponseEntity<Map<String,Object>> getUserUsedCoupon(@RequestParam("userId") String userId)  {
+        Map<String, Object> result = new HashMap<>();
+       try {
+           List<UserUsedCoupon> listOfUsedCouponse = couponService.getUserUsedCoupon(userId);
+           if (listOfUsedCouponse != null&&!listOfUsedCouponse.isEmpty()) {
+             
+                result.put("code", 1);
+                result.put("Coupons", listOfUsedCouponse);
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                result.put("code", 0);
+                result.put("message", "there are not Coupons");
+                return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
+            result.put("code", 0);    
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+    }
+ 
+
     // get coupon  
     @RequestMapping(value = "/get_free_coupon", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getFreeCoupon(@RequestParam("user_id") String id) throws Exception {
@@ -198,5 +223,6 @@ public class CouponController {
             ex.printStackTrace();
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
+
     }
 }
