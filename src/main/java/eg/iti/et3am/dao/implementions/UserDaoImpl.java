@@ -29,7 +29,7 @@ public class UserDaoImpl implements UserDao {
     public String addEntity(Users user) throws Exception {
         session = sessionFactory.getCurrentSession();
         tx = session.beginTransaction();
-
+        
         session.save(user);
         String id = (String) session.getIdentifier(user);
         
@@ -43,9 +43,9 @@ public class UserDaoImpl implements UserDao {
         tx = session.beginTransaction();
 
         session.save(userDetails);
-        tx.commit();
         int id = (int) session.getIdentifier(userDetails);
 
+        tx.commit();
         return id;
     }
 
@@ -53,9 +53,10 @@ public class UserDaoImpl implements UserDao {
     public Users getEntityById(String id) throws Exception {
         session = sessionFactory.getCurrentSession();
         tx = session.beginTransaction();
-
+        
         Users user = (Users) session.load(Users.class, id);
         Users user2 = EntityCopier.getUser(user);
+        
         tx.commit();
         return user2;
     }

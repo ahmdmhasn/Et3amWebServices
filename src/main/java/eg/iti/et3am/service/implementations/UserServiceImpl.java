@@ -21,6 +21,7 @@ public class UserServiceImpl implements UserService {
     public Users addEntity(Users user) throws Exception {
         user.setUserStatus(1);
         user.setVerified(0);
+        
         String userId = userDao.addEntity(user);
                 
         UserDetails ud = new UserDetails();

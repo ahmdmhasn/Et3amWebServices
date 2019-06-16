@@ -28,6 +28,8 @@ public class EntityCopier {
         user2.setPassword(user.getPassword());
         user2.setUserEmail(user.getUserEmail());
         user2.setVerified(user.getVerified());
+        user2.setUserStatus(user.getUserStatus());
+        user2.setCreationDate(user.getCreationDate());
         user2.setUserDetailses(EntityCopier.getUserDetails(user.getUserDetailses()));
         return user2;
     }

@@ -48,14 +48,13 @@ public class Users implements java.io.Serializable {
     @Column(name = "verified", nullable = false)
     private int verified;
 
-//@Temporal(TemporalType.DATE)
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date", length = 10)
     private Date creationDate;
 
     @ColumnDefault("1")
-    @Column(name = "user_status")
+    @Column(name = "user_status", nullable = false)
     private Integer userStatus;
 
     @JsonIgnore
