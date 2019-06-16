@@ -284,16 +284,18 @@ public class RestaurantDaoImpl implements RestaurantDao {
             meal.setMealName(meals.getMealName());
             meal.setMealValue(meals.getMealValue());
             meal.setMealImage(meals.getMealImage());
-            session.update(meal);
+            session.update(meal);      
             tx.commit();
             return true;
-        } catch (RuntimeException ex) {
+        } 
+        catch (RuntimeException ex) 
+        {
             if (tx != null) {
                 tx.rollback();
                 throw ex;
             }
         } finally {
-            session.close();
+           // session.close();
         }
         return false;
     }

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 C:\Users\HP\Pictures\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\UserDaoImpl.java
 C:\Users\HP\Pictures\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\PhotoService.java
 C:\Users\HP\Pictures\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\RestaurantServiceImpl.java
@@ -13,6 +12,7 @@ C:\Users\HP\Pictures\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfa
 C:\Users\HP\Pictures\Et3amWebServices\src\main\java\eg\iti\et3am\model\RestaurantAdminId.java
 C:\Users\HP\Pictures\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserUsedCoupon.java
 C:\Users\HP\Pictures\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\RestaurantService.java
+C:\Users\HP\Pictures\Et3amWebServices\src\main\java\eg\iti\et3am\utils\HereMapConstants.java
 C:\Users\HP\Pictures\Et3amWebServices\src\main\java\eg\iti\et3am\controller\PhotoController.java
 C:\Users\HP\Pictures\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\RestaurantDaoImpl.java
 C:\Users\HP\Pictures\Et3amWebServices\src\main\java\eg\iti\et3am\model\Restaurants.java
@@ -39,45 +39,3 @@ C:\Users\HP\Pictures\Et3amWebServices\src\main\java\eg\iti\et3am\model\Coupons.j
 C:\Users\HP\Pictures\Et3amWebServices\src\main\java\eg\iti\et3am\model\Users.java
 C:\Users\HP\Pictures\Et3amWebServices\src\main\java\eg\iti\et3am\controller\CouponController.java
 C:\Users\HP\Pictures\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\UserDao.java
-=======
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\RestaurantCoupons.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\controller\PhotoController.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserReserveCoupon.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\networkapi\CalculateRoute.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\CouponDaoImpl.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\controller\UserController.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\Meals.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\RestaurantServiceImpl.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\RestaurantAdmin.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\controller\CouponController.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\CouponServiceImpl.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\UserDao.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\UserServiceImpl.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\PhotoServiceImpl.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\cloudinary\validator\ImageFileValidator.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserUsedCoupon.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\Admins.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\PhotoService.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\Status.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\networkapi\HttpHandler.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\RestaurantAdminId.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\CouponDao.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\RestaurantService.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\RestaurantDaoImpl.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\RemainingBalance.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\controller\AdminController.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\ImageFile.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\CouponService.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\UserService.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\Users.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\AvailableCoupons.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\utils\EntityCopier.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\Coupons.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserDetails.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\RestaurantDao.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\utils\CloudinaryConstants.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\UserDaoImpl.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\Restaurants.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\controller\RestaurantController.java
-E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\utils\Utils.java
->>>>>>> 18ce679f5462c8da5aa7eace88618635a6f133ee

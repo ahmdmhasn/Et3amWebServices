@@ -5,6 +5,7 @@
  */
 package eg.iti.et3am.dao.interfaces;
 
+import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.RestaurantCoupons;
 import eg.iti.et3am.model.UserReserveCoupon;
@@ -23,11 +24,18 @@ public interface CouponDao {
 
     public UserReserveCoupon checkCoupon(String code) throws Exception;
 
-    public int useCoupon(String code, double price, Date usedDate , int restaurantId) throws Exception;
+    public int useCoupon(String code, double price, int restaurantId) throws Exception;
 
     public String addCoupon(String userId, Double couponValue) throws Exception;
 
     public int reserveCoupon(String reserverId, String couponId, Date reservationDate) throws Exception;
+       
+    public AvailableCoupons getFreeCoupon(String userID) throws Exception;
     
+    public boolean addReservedCoupon(AvailableCoupons c , String userID)throws Exception;
+    
+    public boolean noMoreOneReservedCouponAtTheSameTime(String userId ) throws Exception;
+
     public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception;
+
 }

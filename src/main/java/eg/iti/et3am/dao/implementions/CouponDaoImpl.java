@@ -1,7 +1,9 @@
 package eg.iti.et3am.dao.implementions;
 
+import static com.sun.corba.se.impl.util.Utility.printStackTrace;
 import eg.iti.et3am.dao.interfaces.CouponDao;
 import eg.iti.et3am.dao.interfaces.UserDao;
+import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.RemainingBalance;
 import eg.iti.et3am.model.RestaurantCoupons;
@@ -11,6 +13,7 @@ import eg.iti.et3am.model.UserUsedCoupon;
 import eg.iti.et3am.model.Users;
 import eg.iti.et3am.utils.EntityCopier;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import java.util.Date;
 import java.util.List;
@@ -87,7 +90,7 @@ public class CouponDaoImpl implements CouponDao {
     }
 
     @Override
-    public int useCoupon(String code, double price, Date usedDate, int restaurantId) throws Exception {
+    public int useCoupon(String code, double price, int restaurantId) throws Exception {
 
         UserReserveCoupon reserveCoupon = checkCoupon(code);
         if (reserveCoupon.getCoupons().getCouponId() != null && reserveCoupon.getStatus() == 1) {
@@ -98,7 +101,7 @@ public class CouponDaoImpl implements CouponDao {
             reserveCoupon.setStatus(0);
             session.update(reserveCoupon);
             System.out.println("update done");
-            UserUsedCoupon userUsedCoupon = new UserUsedCoupon(EntityCopier.getRestaurant(restaurantAdmin), EntityCopier.getReservedCoupon(reserveCoupon), usedDate, (float) price, 1);
+            UserUsedCoupon userUsedCoupon = new UserUsedCoupon(EntityCopier.getRestaurant(restaurantAdmin), EntityCopier.getReservedCoupon(reserveCoupon), Calendar.getInstance().getTime(), (float) price, 1);
             System.out.println("jjj" + userUsedCoupon.getPrice());
             session.save(userUsedCoupon);
             float remainingValue = (float) (reserveCoupon.getCoupons().getCouponValue() - price);
@@ -163,6 +166,87 @@ public class CouponDaoImpl implements CouponDao {
 
         tx.commit();
         return restaurantCoupons;
+    }
+
+    @Override
+    public AvailableCoupons getFreeCoupon(String userID) throws Exception {
+//        checkCurrentSession();
+        session = sessionFactory.getCurrentSession();
+        tx = session.beginTransaction();
+        List<AvailableCoupons> couponList =  session.createCriteria(AvailableCoupons.class).
+                add(Restrictions.eq("status", 1)).list();
+
+       
+        AvailableCoupons coupon2 = null;
+        if (couponList.get(0) != null) {
+
+            coupon2 = EntityCopier.getAvailableCoupons(couponList.get(0));
+            couponList.get(0).setStatus(0);
+        }
+        tx.commit();
+        return coupon2;
+    }
+
+    @Override
+    public boolean addReservedCoupon(AvailableCoupons c, String userId) throws Exception {
+        try {
+            session = sessionFactory.getCurrentSession();
+            tx = session.beginTransaction();
+
+            Users user = (Users) session.load(Users.class, userId);
+            // Users user = userDao.getEntityById(userId);
+            UserReserveCoupon urc = new UserReserveCoupon();
+//            UserReserveCoupon r = (UserReserveCoupon) session.load(UserReserveCoupon.class,c);
+            urc.setCoupons(c.getCoupons());
+            urc.setStatus(1);
+            urc.setUsers(user);
+            urc.setReservationDate(new Date());
+            session.save(urc);
+            tx.commit();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.err.println("*************************" + ex.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean noMoreOneReservedCouponAtTheSameTime(String userId) throws Exception {
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        try {
+//            UserReserveCoupon urc;
+            // Users user = userDao.getEntityById(userId);
+            List<UserReserveCoupon> urc = session.createCriteria(UserReserveCoupon.class)
+                    .add(Restrictions.eq("users.userId", userId))
+                    .add(Restrictions.eq("status", 1)).list();
+            if (urc.size()>0) {
+                System.out.println("fffffffffffffffffffffffffff");
+                return false;
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            System.err.println("ERROR--------9999---------------------99999" + exception.getMessage());
+        }
+
+        return true;
+    }
+
+    public boolean isLastCouponUsedMore48Houres(String userId) {
+
+        UserUsedCoupon c = (UserUsedCoupon) session.createCriteria(AvailableCoupons.class);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.HOUR_OF_DAY, -48);
+        Date before48Houre = calendar.getTime();
+
+        if (c.getUseDate().compareTo(before48Houre) > 48) {
+
+            return false;
+        }
+
+        return true;
     }
 
 }
