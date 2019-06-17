@@ -33,4 +33,6 @@ public interface UserService {
     
     /*---Login method using email & password---*/
     Users login(String email, String password) throws Exception;
+
+    public void updateEntity(Users user);
 }

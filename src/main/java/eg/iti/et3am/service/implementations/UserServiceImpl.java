@@ -42,6 +42,12 @@ public class UserServiceImpl implements UserService {
     public List<Users> getEntityList() throws Exception {
         return userDao.getEntityList();
     }
+    
+    @Override
+    @Transactional
+    public void updateEntity(Users user) {
+        userDao.updateEntity(user);
+    }
 
     @Override
     @Transactional

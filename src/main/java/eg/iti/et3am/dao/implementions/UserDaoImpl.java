@@ -4,9 +4,7 @@ import eg.iti.et3am.dao.interfaces.UserDao;
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Users;
 import eg.iti.et3am.utils.EntityCopier;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -43,7 +41,7 @@ public class UserDaoImpl implements UserDao {
     public Users getEntityById(String id) throws Exception {
         session = sessionFactory.getCurrentSession();
         Users user = (Users) session.load(Users.class, id);
-        return EntityCopier.getUser(user);
+        return (user != null) ? EntityCopier.getUser(user) : null;
     }
 
     @Override
@@ -77,6 +75,12 @@ public class UserDaoImpl implements UserDao {
             userList2.add(EntityCopier.getUser(user));
         }
         return userList2;
+    }
+    
+    @Override
+    public void updateEntity(Users user) {
+        session = sessionFactory.getCurrentSession();
+        session.update(user);
     }
 
     @Override
@@ -148,5 +152,4 @@ public class UserDaoImpl implements UserDao {
         user = EntityCopier.getUser((Users) criteria.uniqueResult());
         return user;
     }
-
 }

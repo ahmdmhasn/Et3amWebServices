@@ -64,7 +64,7 @@ public class UserController {
     }
 
     /*---Update a user by id---*/
-    @RequestMapping(value = "/u/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/update/u/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     ResponseEntity<Map<String, Object>> updateUserDetails(@PathVariable("id") String id,
             @RequestBody UserDetails userDetails) {
@@ -76,6 +76,35 @@ public class UserController {
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception ex) {
             ex.printStackTrace();
+            result.put("status", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+    }
+
+    /* Change user password */
+    @RequestMapping(value = "/update/password/{id}", method = RequestMethod.PUT)
+    public @ResponseBody
+    ResponseEntity<Map<String, Object>> updateUserPassword(@PathVariable("id") String id,
+            @RequestParam String oldPass, @RequestParam String newPass) {
+
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            Users user = userService.getEntityById(id);
+            if (user.getPassword().compareTo(oldPass) == 0) {
+                user.setPassword(newPass);
+                userService.updateEntity(user);
+                result.put("status", 1);
+                result.put("message", "Password changed successfully!");
+            } else {
+                result.put("status", 2);
+                result.put("message", "Old password is not correct");
+            }
+            return new ResponseEntity<>(result, HttpStatus.OK);
+
+        } catch (Exception ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             result.put("status", 0);
             result.put("message", ex.getMessage());
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
