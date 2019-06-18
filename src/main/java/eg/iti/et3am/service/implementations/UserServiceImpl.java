@@ -23,7 +23,6 @@ public class UserServiceImpl implements UserService {
         user.setVerified(0);
         
         String userId = userDao.addEntity(user);
-
         UserDetails ud = new UserDetails();
         ud.setUsers(userDao.getEntityById(userId));
         userDao.addDetailsEntity(ud);
@@ -41,6 +40,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public List<Users> getEntityList() throws Exception {
         return userDao.getEntityList();
+    }
+    
+    @Override
+    @Transactional
+    public void updateEntity(Users user) {
+        userDao.updateEntity(user);
     }
 
     @Override
