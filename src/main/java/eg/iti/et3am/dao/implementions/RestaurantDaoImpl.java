@@ -214,6 +214,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
             }
             return false;
         } catch (RuntimeException ex) {
+            ex.printStackTrace();
             return false;
         }
     }

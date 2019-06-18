@@ -24,7 +24,7 @@ public interface CouponDao {
 
     public UserReserveCoupon checkCoupon(String code) throws Exception;
 
-    public int useCoupon(String code, double price, Date usedDate , int restaurantId) throws Exception;
+    public int useCoupon(String code, double price, int restaurantId) throws Exception;
 
     public String addCoupon(String userId, Double couponValue) throws Exception;
 

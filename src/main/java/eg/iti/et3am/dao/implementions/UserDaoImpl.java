@@ -151,5 +151,41 @@ public class UserDaoImpl implements UserDao {
 
         user = EntityCopier.getUser((Users) criteria.uniqueResult());
         return user;
+
+    }
+
+    @Override
+    public List<Users> getEntityListToBeVerified() throws Exception {
+        int verified = 0;
+        session = sessionFactory.getCurrentSession();
+
+        tx = session.beginTransaction();
+        List<Users> userList = new ArrayList<>();
+        Criteria criteria = session.createCriteria(Users.class);
+        criteria.createAlias("userDetailses", "uDetails")
+                .add(Restrictions.eq("verified", verified)).add(Restrictions.isNotNull("uDetails.nationalIdFront"))
+                .add(Restrictions.isNotNull("uDetails.nationalIdBack"));
+
+        List<Users> users = criteria.list();
+        System.out.println(users.size());
+        for (Users user : users) {
+            userList.add(EntityCopier.getUser(user));
+        }
+        tx.commit();
+        System.out.println(users.size());
+
+        return userList;
+    }
+
+    @Override
+    public boolean verifyUser(String id) throws Exception {
+     session = sessionFactory.getCurrentSession();
+        tx = session.beginTransaction();
+
+        Users user = (Users) session.load(Users.class, id);
+        user.setVerified(1);
+        session.update(user);
+        tx.commit();
+        return true;
     }
 }

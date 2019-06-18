@@ -96,7 +96,7 @@ public class CouponController {
         } catch (Exception ex) {
             Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
             result.put("code", 0);
-            result.put("message", ex.getMessage());
+            result.put("message", ex.getMessage()+"ex");
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
 
@@ -132,11 +132,11 @@ public class CouponController {
     @RequestMapping(value = "/use_coupon", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> useCoupon(@RequestParam("restaurantId") int restaurantId,
             @RequestParam("barCode") String barCode,
-            @RequestParam("price") float price,
-            @RequestParam("usedDate") Date usedDate) {
+            @RequestParam("price") float price)
+             {
         Map<String, Object> result = new HashMap<>();
         try {
-            int id = couponService.useCoupon(barCode, price, usedDate, restaurantId);
+            int id = couponService.useCoupon(barCode, price, restaurantId);
             if (id != -1) {
                 result.put("code", 1);
                 result.put("id", id);

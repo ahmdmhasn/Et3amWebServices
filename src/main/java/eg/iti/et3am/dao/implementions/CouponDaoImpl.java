@@ -48,7 +48,6 @@ public class CouponDaoImpl implements CouponDao {
     @Override
     public String addCoupon(String userId, Double couponValue) throws Exception {
         session = sessionFactory.getCurrentSession();
-
         Coupons coupon = new Coupons();
         Users user = userDao.getEntityById(userId);
 
@@ -63,8 +62,8 @@ public class CouponDaoImpl implements CouponDao {
 
     @Override
     public UserReserveCoupon checkCoupon(String code) throws Exception {
-        session = sessionFactory.getCurrentSession();
 
+        session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(UserReserveCoupon.class).
                 createAlias("coupons", "c").
                 add(Restrictions.eq("c.couponBarcode", code));
@@ -85,7 +84,7 @@ public class CouponDaoImpl implements CouponDao {
     }
 
     @Override
-    public int useCoupon(String code, double price, Date usedDate, int restaurantId) throws Exception {
+    public int useCoupon(String code, double price, int restaurantId) throws Exception {
 
         UserReserveCoupon reserveCoupon = checkCoupon(code);
         if (reserveCoupon.getCoupons().getCouponId() != null && reserveCoupon.getStatus() == 1) {
@@ -95,7 +94,7 @@ public class CouponDaoImpl implements CouponDao {
             reserveCoupon.setStatus(0);
             session.update(reserveCoupon);
             System.out.println("update done");
-            UserUsedCoupon userUsedCoupon = new UserUsedCoupon(EntityCopier.getRestaurant(restaurantAdmin), EntityCopier.getReservedCoupon(reserveCoupon), usedDate, (float) price, 1);
+            UserUsedCoupon userUsedCoupon = new UserUsedCoupon(EntityCopier.getRestaurant(restaurantAdmin), EntityCopier.getReservedCoupon(reserveCoupon), Calendar.getInstance().getTime(), (float) price, 1);
             System.out.println("jjj" + userUsedCoupon.getPrice());
             session.save(userUsedCoupon);
             float remainingValue = (float) (reserveCoupon.getCoupons().getCouponValue() - price);
@@ -135,12 +134,10 @@ public class CouponDaoImpl implements CouponDao {
     @Override
     public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception {
         session = sessionFactory.getCurrentSession();
-
         List<UserUsedCoupon> usedCouponsList = session.createCriteria(UserUsedCoupon.class).
                 createAlias("restaurants", "r").
                 add(Restrictions.eq("r.restaurantId", restaurantId)).list();
         List<UserUsedCoupon> usedCouponsList2 = new ArrayList<>();
-
         for (UserUsedCoupon coupons : usedCouponsList) {
             UserUsedCoupon u = new UserUsedCoupon(EntityCopier.getRestaurant(coupons.getRestaurants()), EntityCopier.getReservedCoupon(coupons.getUserReserveCoupon()),
                     coupons.getUseDate(), coupons.getPrice(), coupons.getStatus());
