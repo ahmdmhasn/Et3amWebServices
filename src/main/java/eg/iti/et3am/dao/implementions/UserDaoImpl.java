@@ -193,8 +193,8 @@ public class UserDaoImpl implements UserDao {
     public List<Users> getEntityListToBeVerified() throws Exception {
         int verified = 0;
         session = sessionFactory.getCurrentSession();
-
-        tx = session.beginTransaction();
+//
+//        tx = session.beginTransaction();
         List<Users> userList = new ArrayList<>();
         Criteria criteria = session.createCriteria(Users.class);
         criteria.createAlias("userDetailses", "uDetails")
@@ -206,7 +206,7 @@ public class UserDaoImpl implements UserDao {
         for (Users user : users) {
             userList.add(EntityCopier.getUser(user));
         }
-        tx.commit();
+//        tx.commit();
         System.out.println(users.size());
 
         return userList;
@@ -215,12 +215,12 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean verifyUser(String id) throws Exception {
      session = sessionFactory.getCurrentSession();
-        tx = session.beginTransaction();
+//        tx = session.beginTransaction();
 
         Users user = (Users) session.load(Users.class, id);
         user.setVerified(1);
         session.update(user);
-        tx.commit();
+//        tx.commit();
         return true;
     }
     

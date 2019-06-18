@@ -74,12 +74,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<Users> getEntityListToBeVerified() throws Exception {
         return userDao.getEntityListToBeVerified();
 
     }
 
     @Override
+    @Transactional
     public boolean verifyUser(String id) throws Exception {
         return userDao.verifyUser(id);
     }
