@@ -16,12 +16,15 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  *
  * @author Nesma
  */
 @Service
+@Transactional
 public class AdminDaoImpl implements AdminDao {
 
     @Autowired(required = true)
@@ -31,9 +34,10 @@ public class AdminDaoImpl implements AdminDao {
     Transaction tx = null;
 
     @Override
+    @Transactional
     public Admins login(String email, String password) throws Exception {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
+        session = sessionFactory.getCurrentSession();
+//        tx = session.beginTransaction();
         Criteria criteria = session.createCriteria(Admins.class);
         criteria.add(Restrictions.eq("adminEmail", email));
         criteria.add(Restrictions.eq("adminPassword", password));

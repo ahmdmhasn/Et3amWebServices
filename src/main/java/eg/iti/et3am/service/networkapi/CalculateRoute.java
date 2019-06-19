@@ -2,10 +2,6 @@ package eg.iti.et3am.service.networkapi;
 
 import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.utils.HereMapConstants;
-import static eg.iti.et3am.utils.HereMapConstants.APP_CODE;
-import static eg.iti.et3am.utils.HereMapConstants.APP_ID;
-import static eg.iti.et3am.utils.HereMapConstants.MODE;
-import static eg.iti.et3am.utils.HereMapConstants.TRAFIC;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
