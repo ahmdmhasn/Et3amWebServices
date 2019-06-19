@@ -15,11 +15,9 @@ import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import eg.iti.et3am.utils.Utils;
 
 /**
@@ -47,11 +45,10 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public List<Restaurants> getRestaurantsList(double latitude, double longitude) throws Exception {
+
         session = sessionFactory.getCurrentSession();
         List<Restaurants> restaurantses = session.createCriteria(Restaurants.class).list();
-
         // Create another array to be sent on response
-        List<Restaurants> restaurantList = new ArrayList<>();
         List<Restaurants> restaurantListSort = new ArrayList<>();
         for (Restaurants restaurants : restaurantses) {
             Restaurants restaurantsResponse = (Restaurants) restaurants.clone();

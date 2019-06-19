@@ -101,7 +101,7 @@ public class CouponController {
         }
 
     }
-
+    
     // reserve coupon  
     @RequestMapping(value = "/reserve_coupon", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> reserveCoupon(@RequestParam("reserver_id") String reserver_id,
