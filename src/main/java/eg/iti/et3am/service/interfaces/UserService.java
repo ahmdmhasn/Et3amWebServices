@@ -24,6 +24,9 @@ public interface UserService {
     /*---Update a user by id---*/
     Users updateEntity(UserDetails userDetails, String id) throws Exception;
     
+    /* Update user national id with images */
+    public void updateUserVerification(UserDetails userDetails, String id) throws Exception;
+    
     /*---Delete a user by id---*/
     boolean deleteEntity(long id) throws Exception;
     
