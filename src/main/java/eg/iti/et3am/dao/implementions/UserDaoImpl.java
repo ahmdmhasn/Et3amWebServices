@@ -156,15 +156,15 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<Users> getEntityListToBeVerified() throws Exception {
-        int verified = 0;
+        int verified = 2;
         session = sessionFactory.getCurrentSession();
 //
 //        tx = session.beginTransaction();
         List<Users> userList = new ArrayList<>();
         Criteria criteria = session.createCriteria(Users.class);
         criteria.createAlias("userDetailses", "uDetails")
-                .add(Restrictions.eq("verified", verified)).add(Restrictions.isNotNull("uDetails.nationalIdFront"))
-                .add(Restrictions.isNotNull("uDetails.nationalIdBack"));
+                .add(Restrictions.eq("verified", verified)).add(Restrictions.neOrIsNotNull("uDetails.nationalIdFront",""))
+                .add(Restrictions.neOrIsNotNull("uDetails.nationalIdBack",""));
 
         List<Users> users = criteria.list();
         System.out.println(users.size());

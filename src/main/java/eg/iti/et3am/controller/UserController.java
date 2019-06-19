@@ -77,12 +77,12 @@ public class UserController {
         return userList;
     }
 
-    @RequestMapping(value = "/list_verifed", method = RequestMethod.GET)
+    @RequestMapping(value = "/list_verified", method = RequestMethod.GET)
     public @ResponseBody
     List<Users> listOfUserToBeVerified() {
         List<Users> userList = null;
         try {
-            System.out.println("ffsfsdtgdgdg");
+           
             userList = userService.getEntityListToBeVerified();
         } catch (Exception ex) {
             ex.printStackTrace();
