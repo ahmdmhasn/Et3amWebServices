@@ -26,35 +26,22 @@ public class UserDaoImpl implements UserDao {
     @Override
     public String addEntity(Users user) throws Exception {
         session = sessionFactory.getCurrentSession();
-        tx = session.beginTransaction();
-        
         session.save(user);
-        String id = (String) session.getIdentifier(user);
-        tx.commit();
-        return id;
+        return (String) session.getIdentifier(user);
     }
 
     @Override
     public int addDetailsEntity(UserDetails userDetails) throws Exception {
         session = sessionFactory.getCurrentSession();
-        tx = session.beginTransaction();
-        
         session.save(userDetails);
-        tx.commit();
-        int id = (int) session.getIdentifier(userDetails);
-
-        return id;
+        return (int) session.getIdentifier(userDetails);
     }
 
     @Override
     public Users getEntityById(String id) throws Exception {
         session = sessionFactory.getCurrentSession();
-        tx = session.beginTransaction();
-        
         Users user = (Users) session.load(Users.class, id);
-        Users user2 = EntityCopier.getUser(user);
-        tx.commit();
-        return user2;
+        return (user != null) ? EntityCopier.getUser(user) : null;
     }
 
     @Override
@@ -81,53 +68,61 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<Users> getEntityList() throws Exception {
         session = sessionFactory.getCurrentSession();
-        tx = session.beginTransaction();
-        
-        // Create another array to be sent on response
-        List<Users> userList2 = new ArrayList<>();
 
+        List<Users> userList2 = new ArrayList<>();
         List<Users> userList = session.createCriteria(Users.class).list();
         for (Users user : userList) {
             userList2.add(EntityCopier.getUser(user));
         }
-        tx.commit();
         return userList2;
+    }
+    
+    @Override
+    public void updateEntity(Users user) {
+        session = sessionFactory.getCurrentSession();
+        session.update(user);
     }
 
     @Override
-    public Users updateEntity(Users user) throws Exception {
+    public Users updateEntity(UserDetails ud, String id) throws Exception {
         session = sessionFactory.getCurrentSession();
 
-        Users user2 = (Users) session.load(Users.class, user.getUserId());
-        user2.setVerified(user.getVerified());
-        user2.setUserStatus(user.getUserStatus());
-        Users userToReturn = EntityCopier.getUser(user2);
+        Users user = (Users) session.load(Users.class, id);
+        Criteria criteria = session.createCriteria(UserDetails.class).
+                add(Restrictions.eq("users", user));
+        UserDetails userDetails = (UserDetails) criteria.uniqueResult();
 
-        session.flush();
-        session.close();
-        return userToReturn;
+        userDetails.setBirthdate(ud.getBirthdate());
+        userDetails.setJob(ud.getJob());
+        userDetails.setMobileNumber(ud.getMobileNumber());
+        userDetails.setNationalId(ud.getNationalId());
+        userDetails.setNationalIdBack(ud.getNationalIdBack());
+        userDetails.setNationalIdFront(ud.getNationalIdFront());
+        userDetails.setProfileImage(ud.getProfileImage());
+
+        session.update(userDetails);
+        Users tempUser = EntityCopier.getUser(user);
+        return tempUser;
     }
 
     @Override
     public boolean deleteEntity(long id) throws Exception {
         session = sessionFactory.getCurrentSession();
-        tx = session.beginTransaction();
 
         Object o = session.load(Users.class, id);
         session.beginTransaction();
         session.delete(o);
-        tx.commit();
         return true;
     }
 
     @Override
     public boolean isEmailValid(String email) throws Exception {
         session = sessionFactory.getCurrentSession();
-
         Criteria criteria = session.createCriteria(Users.class);
         criteria.add(Restrictions.eq("userEmail", email));
 
         Users user = (Users) criteria.uniqueResult();
+
         if (user == null) {
             return true;
         }
@@ -137,11 +132,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean isUsernameValid(String username) throws Exception {
         session = sessionFactory.getCurrentSession();
-
         Criteria criteria = session.createCriteria(Users.class);
         criteria.add(Restrictions.eq("userName", username));
         Users user = (Users) criteria.uniqueResult();
-
         if (user == null) {
             return true;
         }
@@ -151,13 +144,48 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Users login(String email, String password) throws Exception {
         session = sessionFactory.getCurrentSession();
-
+        Users user = null;
         Criteria criteria = session.createCriteria(Users.class);
         criteria.add(Restrictions.eq("userEmail", email));
         criteria.add(Restrictions.eq("password", password));
 
-        Users user = (Users) criteria.uniqueResult();
-        return EntityCopier.getUser(user);
+        user = EntityCopier.getUser((Users) criteria.uniqueResult());
+        return user;
+
     }
 
+    @Override
+    public List<Users> getEntityListToBeVerified() throws Exception {
+        int verified = 0;
+        session = sessionFactory.getCurrentSession();
+//
+//        tx = session.beginTransaction();
+        List<Users> userList = new ArrayList<>();
+        Criteria criteria = session.createCriteria(Users.class);
+        criteria.createAlias("userDetailses", "uDetails")
+                .add(Restrictions.eq("verified", verified)).add(Restrictions.isNotNull("uDetails.nationalIdFront"))
+                .add(Restrictions.isNotNull("uDetails.nationalIdBack"));
+
+        List<Users> users = criteria.list();
+        System.out.println(users.size());
+        for (Users user : users) {
+            userList.add(EntityCopier.getUser(user));
+        }
+//        tx.commit();
+        System.out.println(users.size());
+
+        return userList;
+    }
+
+    @Override
+    public boolean verifyUser(String id) throws Exception {
+     session = sessionFactory.getCurrentSession();
+//        tx = session.beginTransaction();
+
+        Users user = (Users) session.load(Users.class, id);
+        user.setVerified(1);
+        session.update(user);
+//        tx.commit();
+        return true;
+    }
 }

@@ -4,7 +4,6 @@ import eg.iti.et3am.service.interfaces.UserService;
 import eg.iti.et3am.dao.interfaces.UserDao;
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Users;
-import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,12 +21,12 @@ public class UserServiceImpl implements UserService {
     public Users addEntity(Users user) throws Exception {
         user.setUserStatus(1);
         user.setVerified(0);
+        
         String userId = userDao.addEntity(user);
-                
         UserDetails ud = new UserDetails();
         ud.setUsers(userDao.getEntityById(userId));
         userDao.addDetailsEntity(ud);
-        
+
         return userDao.getEntityById(userId);
     }
 
@@ -42,11 +41,17 @@ public class UserServiceImpl implements UserService {
     public List<Users> getEntityList() throws Exception {
         return userDao.getEntityList();
     }
+    
+    @Override
+    @Transactional
+    public void updateEntity(Users user) {
+        userDao.updateEntity(user);
+    }
 
     @Override
     @Transactional
-    public Users updateEntity(Users user) throws Exception {
-        return userDao.updateEntity(user);
+    public Users updateEntity(UserDetails userDetails, String id) throws Exception {
+        return userDao.updateEntity(userDetails, id);
     }
 
     @Override
@@ -71,5 +76,18 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public Users login(String email, String password) throws Exception {
         return userDao.login(email, password);
+    }
+
+    @Override
+    @Transactional
+    public List<Users> getEntityListToBeVerified() throws Exception {
+        return userDao.getEntityListToBeVerified();
+
+    }
+
+    @Override
+    @Transactional
+    public boolean verifyUser(String id) throws Exception {
+        return userDao.verifyUser(id);
     }
 }

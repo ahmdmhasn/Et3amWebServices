@@ -1,5 +1,6 @@
 package eg.iti.et3am.service.interfaces;
 
+import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Users;
 import java.util.List;
 
@@ -18,8 +19,10 @@ public interface UserService {
     /*---Get all user---*/
     List<Users> getEntityList() throws Exception;
     
+     public List<Users> getEntityListToBeVerified() throws Exception;
+     
     /*---Update a user by id---*/
-    Users updateEntity(Users user) throws Exception;
+    Users updateEntity(UserDetails userDetails, String id) throws Exception;
     
     /*---Delete a user by id---*/
     boolean deleteEntity(long id) throws Exception;
@@ -32,4 +35,9 @@ public interface UserService {
     
     /*---Login method using email & password---*/
     Users login(String email, String password) throws Exception;
+
+    public void updateEntity(Users user);
+
+    /* --- Verify User ---*/
+   boolean verifyUser(String id) throws Exception;
 }
