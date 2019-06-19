@@ -62,6 +62,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
             List<Restaurants> restaurantListSort = new ArrayList<>();
             for (Restaurants restaurants : restaurantses) {
                 Restaurants restaurantsResponse = (Restaurants) restaurants.clone();
+                //calculate distance manually
                 double distance = Utils.distance(restaurantsResponse.getLatitude(), latitude, restaurantsResponse.getLongitude(), longitude, 0.0, 0.0);
                 restaurantsResponse.setDistance(distance);
                 restaurantListSort.add(restaurantsResponse);
