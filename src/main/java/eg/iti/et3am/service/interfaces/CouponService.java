@@ -27,16 +27,21 @@ public interface CouponService {
     public UserReserveCoupon checkCouponReservation(String code) throws Exception;
 
     public int useCoupon(String code, double price, int restaurantId) throws Exception;
-    
-    public int reserveCoupon(String reserverId, String couponId ,Date reservationDate ) throws Exception; 
-    
 
-    public AvailableCoupons getFreeCoupon(String userID) throws Exception ;
+    public int reserveCoupon(String reserverId, String couponId, Date reservationDate) throws Exception;
+
+    public AvailableCoupons getFreeCoupon(String userID) throws Exception;
 
     public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception;
 
-    
+    public void validateReserveCoupon() throws Exception;
+
     public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception;
 
-}
+    public void addCouponFromRemainingBalance() throws Exception;
+    
+    public boolean publishCoupon(String coupon_id) throws Exception;
+    
+    public void couponTrigger() throws Exception;
 
+}

@@ -1,6 +1,5 @@
 package eg.iti.et3am.dao.implementions;
 
-import static com.sun.corba.se.impl.util.Utility.printStackTrace;
 import eg.iti.et3am.dao.interfaces.CouponDao;
 import eg.iti.et3am.dao.interfaces.UserDao;
 import eg.iti.et3am.model.AvailableCoupons;
@@ -11,13 +10,16 @@ import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.UserUsedCoupon;
 import eg.iti.et3am.model.Users;
+import eg.iti.et3am.utils.Constants;
 import eg.iti.et3am.utils.EntityCopier;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -52,19 +54,18 @@ public class CouponDaoImpl implements CouponDao {
 
     @Override
     public String addCoupon(String userId, Double couponValue) throws Exception {
+        Users user = userDao.getEntityById(userId);
         session = sessionFactory.getCurrentSession();
         tx = session.beginTransaction();
         Coupons coupon = new Coupons();
-        Users user = userDao.getEntityById(userId);
-
         coupon.setUsers(user);
+        coupon.setIsBalance(1);
         coupon.setCouponValue(couponValue);
         coupon.setCouponBarcode(UUID.randomUUID().toString().substring(24).toUpperCase());
-
         session.save(coupon);
+        String id = (String) session.getIdentifier(coupon);
         tx.commit();
 
-        String id = (String) session.getIdentifier(coupon);
         return id;
     }
 
@@ -173,12 +174,11 @@ public class CouponDaoImpl implements CouponDao {
 //        checkCurrentSession();
         session = sessionFactory.getCurrentSession();
         tx = session.beginTransaction();
-        List<AvailableCoupons> couponList =  session.createCriteria(AvailableCoupons.class).
+        List<AvailableCoupons> couponList = session.createCriteria(AvailableCoupons.class).
                 add(Restrictions.eq("status", 1)).list();
 
-       
         AvailableCoupons coupon2 = null;
-        if (couponList.get(0) != null) {
+        if (couponList != null) {
 
             coupon2 = EntityCopier.getAvailableCoupons(couponList.get(0));
             couponList.get(0).setStatus(0);
@@ -196,7 +196,7 @@ public class CouponDaoImpl implements CouponDao {
             Users user = (Users) session.load(Users.class, userId);
             // Users user = userDao.getEntityById(userId);
             UserReserveCoupon urc = new UserReserveCoupon();
-//            UserReserveCoupon r = (UserReserveCoupon) session.load(UserReserveCoupon.class,c);
+//            UserReserveCoupon r = (UserReserveCoupon) session.load(UserReserveCoupon.class,reserveCoupon);
             urc.setCoupons(c.getCoupons());
             urc.setStatus(1);
             urc.setUsers(user);
@@ -221,7 +221,7 @@ public class CouponDaoImpl implements CouponDao {
             List<UserReserveCoupon> urc = session.createCriteria(UserReserveCoupon.class)
                     .add(Restrictions.eq("users.userId", userId))
                     .add(Restrictions.eq("status", 1)).list();
-            if (urc.size()>0) {
+            if (urc.size() > 0) {
                 System.out.println("fffffffffffffffffffffffffff");
                 return false;
             }
@@ -263,10 +263,115 @@ public class CouponDaoImpl implements CouponDao {
         for (UserUsedCoupon userUsedCoupon : userUsedCoupons) {
             listOfUsedCouponse.add(EntityCopier.getUsedCoupon(userUsedCoupon));
             System.out.println(EntityCopier.getCoupon(EntityCopier.getUsedCoupon(userUsedCoupon).getUserReserveCoupon().getCoupons()));
-        //    System.out.println(listOfUsedCouponse);
+            //    System.out.println(listOfUsedCouponse);
         }
 
         tx.commit();
         return listOfUsedCouponse;
     }
+
+    public void validateReserveCoupon() throws Exception {
+        String newBarCode;
+        session = sessionFactory.getCurrentSession();
+        tx = session.beginTransaction();
+        List<UserReserveCoupon> userReservCoupons = session.createCriteria(UserReserveCoupon.class)
+                .add(Restrictions.eq("status", 1)).list();
+        System.out.println(userReservCoupons);
+        for (UserReserveCoupon userReserveCoupon : userReservCoupons) {
+            List<Coupons> coupon;
+
+            if (checkExperation(EntityCopier.getReservedCoupon(userReserveCoupon))) {
+                userReserveCoupon.setStatus(0);
+                //do {
+                    newBarCode = randomCode(12);
+                  //  coupon =  session.createCriteria(Coupons.class)
+//                            .add(Restrictions.eq("couponBarcode", newBarCode)).list();
+//                } while (coupon == null);
+                userReserveCoupon.getCoupons().setCouponBarcode(newBarCode);
+                session.update(userReserveCoupon);
+            }
+        }
+        tx.commit();
+    }
+
+    boolean checkExperation(UserReserveCoupon coupon) {
+
+        List<AvailableCoupons> availableCoupon = session.createCriteria(AvailableCoupons.class).createAlias("coupons", "c").
+                add(Restrictions.eq("c.couponId", coupon.getCoupons().getCouponId())).list();
+        if (!availableCoupon.isEmpty()) {
+            availableCoupon.get(0).setStatus(1);
+            session.update(availableCoupon.get(0));
+            System.out.println("time" + (coupon.getReservationDate().getTime() - 48));
+            long resrveTime = coupon.getReservationDate().getTime();
+            long nowTime = new Date().getTime();
+            System.out.println("time uu"+coupon.getReservationDate());
+            System.err.println("time"+TimeUnit.MILLISECONDS.toHours(nowTime-resrveTime));
+        
+            if (( TimeUnit.MILLISECONDS.toHours(nowTime-resrveTime))- 48 > 0) {
+                return true;
+            }
+
+            return false;
+        }
+        return false;
+    }
+
+    public String randomCode(int count) {
+
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = count;
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(targetStringLength);
+        for (int i = 0; i < targetStringLength; i++) {
+            int randomLimitedInt = leftLimit + (int) (random.nextFloat() * (rightLimit - leftLimit + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        String generatedString = buffer.toString();
+
+        return generatedString;
+
+    }
+
+    @Override
+    public void addCouponFromRemainingBalance() throws Exception {
+        session = sessionFactory.getCurrentSession();
+        tx = session.beginTransaction();
+        List<RemainingBalance> balances = session.createCriteria(RemainingBalance.class).list();
+        float amount = 0.0f;
+        for (RemainingBalance balance : balances) {
+            amount += balance.getChangeValue();
+        }
+        float remainingBalance = amount % 50;
+        float coupounNum = (amount - remainingBalance) / 50;
+        for (int i = 0; i < balances.size(); i++) {
+            if (i == balances.size() - 1) {
+                balances.get(i).setChangeValue(remainingBalance);
+            } else {
+                balances.get(i).setChangeValue(0);
+            }
+            session.update(balances.get(i));
+        }
+        tx.commit();
+        for (int i = 0; i < coupounNum; i++) {
+            String id = addCoupon("018e0e46-d35e-4334-9fc2-f2704595c485", 50.0);
+            publishCoupon(id);
+        }
+
+    }
+
+    public boolean publishCoupon(String coupon_id) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        tx = session.beginTransaction();
+        Coupons coupon = (Coupons) session.load(Coupons.class, coupon_id);
+        if (coupon != null) {
+            AvailableCoupons availableCoupon = new AvailableCoupons(coupon, new Date(), 1);
+            availableCoupon.getCoupons().setIsBalance(0);
+            session.save(availableCoupon);
+            tx.commit();
+            return true;
+        }
+        return false;
+    }
+
 }

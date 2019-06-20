@@ -29,10 +29,10 @@ public class UserDaoImpl implements UserDao {
     public String addEntity(Users user) throws Exception {
         session = sessionFactory.getCurrentSession();
         tx = session.beginTransaction();
-        
+
         session.save(user);
         String id = (String) session.getIdentifier(user);
-        
+
         tx.commit();
         return id;
     }
@@ -53,10 +53,10 @@ public class UserDaoImpl implements UserDao {
     public Users getEntityById(String id) throws Exception {
         session = sessionFactory.getCurrentSession();
         tx = session.beginTransaction();
-        
+
         Users user = (Users) session.load(Users.class, id);
         Users user2 = EntityCopier.getUser(user);
-        
+
         tx.commit();
         return user2;
     }
@@ -65,20 +65,20 @@ public class UserDaoImpl implements UserDao {
     public UserDetails getDetailsEntityById(String id) throws Exception {
         throw new UnsupportedOperationException("Not tested yet. #AhmedHassan");
         /*
-        checkCurrentSession();
+         checkCurrentSession();
         
-        Criteria criteria = session.createCriteria(UserDetails.class).
-                createAlias("users", "users").
-                createAlias("users.userId", "id").
-                add(Restrictions.eq("id", id));
-        UserDetails user = (UserDetails) criteria.uniqueResult();
-        UserDetails user2 = EntityCopier.getUserDetails(Collections.singleton(user)).
-                iterator().next();
+         Criteria criteria = session.createCriteria(UserDetails.class).
+         createAlias("users", "users").
+         createAlias("users.userId", "id").
+         add(Restrictions.eq("id", id));
+         UserDetails user = (UserDetails) criteria.uniqueResult();
+         UserDetails user2 = EntityCopier.getUserDetails(Collections.singleton(user)).
+         iterator().next();
         
-        tx = session.getTransaction();
-        session.beginTransaction();
-        tx.commit();
-        return user2;
+         tx = session.getTransaction();
+         session.beginTransaction();
+         tx.commit();
+         return user2;
          */
     }
 
@@ -107,7 +107,6 @@ public class UserDaoImpl implements UserDao {
         Criteria criteria = session.createCriteria(UserDetails.class).
                 add(Restrictions.eq("users", user));
         UserDetails userDetails = (UserDetails) criteria.uniqueResult();
-
         userDetails.setBirthdate(ud.getBirthdate());
         userDetails.setJob(ud.getJob());
         userDetails.setMobileNumber(ud.getMobileNumber());
@@ -138,17 +137,17 @@ public class UserDaoImpl implements UserDao {
     public boolean isEmailValid(String email) throws Exception {
         session = sessionFactory.getCurrentSession();
         tx = session.beginTransaction();
-        
+
         Criteria criteria = session.createCriteria(Users.class);
         criteria.add(Restrictions.eq("userEmail", email));
 
         Users user = (Users) criteria.uniqueResult();
         tx.commit();
-        
+
         if (user == null) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -156,16 +155,16 @@ public class UserDaoImpl implements UserDao {
     public boolean isUsernameValid(String username) throws Exception {
         session = sessionFactory.getCurrentSession();
         tx = session.beginTransaction();
-        
+
         Criteria criteria = session.createCriteria(Users.class);
         criteria.add(Restrictions.eq("userName", username));
         Users user = (Users) criteria.uniqueResult();
         tx.commit();
-        
+
         if (user == null) {
             return true;
         }
-        
+
         return false;
     }
 

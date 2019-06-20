@@ -18,7 +18,9 @@ import eg.iti.et3am.utils.EntityCopier;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,18 +80,18 @@ public class CouponServiceImpl implements CouponService {
     public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception {
         return couponDao.getUsedCoupon(restaurantId);
     }
-    @Override
-     public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception {
-      return couponDao.getUserUsedCoupon(userId);
-     }
 
+    @Override
+    public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception {
+        return couponDao.getUserUsedCoupon(userId);
+    }
 
     @Override
     public AvailableCoupons getFreeCoupon(String userID) throws Exception {
 
         if (userDao.getEntityById(userID).getVerified() == 1) {
             System.out.println("verified~~~~~~~~~~");
-            
+
             if (couponDao.noMoreOneReservedCouponAtTheSameTime(userID)) {
                 AvailableCoupons availableCoupon = couponDao.getFreeCoupon(userID);
                 couponDao.addReservedCoupon(availableCoupon, userID);
@@ -103,6 +105,30 @@ public class CouponServiceImpl implements CouponService {
         }
         System.out.println("new~~~~~~~~~~");
         return null;
+    }
+
+
+    @Override
+    public void validateReserveCoupon() throws Exception {
+        couponDao.validateReserveCoupon();
+        System.out.println("hdhdhd");
+    }
+
+    @Override
+    public void addCouponFromRemainingBalance() throws Exception {
+       couponDao.addCouponFromRemainingBalance();
+    }
+
+    @Override
+    public boolean publishCoupon(String coupon_id) throws Exception {
+       return couponDao.publishCoupon(coupon_id);
+    }
+    
+    @Scheduled(fixedDelay = 3600000)
+    @Override
+    public void couponTrigger() throws Exception {
+          validateReserveCoupon();
+          addCouponFromRemainingBalance();
     }
 
 }
