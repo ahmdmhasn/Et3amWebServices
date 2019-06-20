@@ -30,7 +30,6 @@ public interface UserDao {
     /*---Update a user by id---*/
     Users updateEntity(UserDetails ud, String id) throws Exception;
     
-    
     /*---Delete a user by id---*/
     boolean deleteEntity(long id) throws Exception;
     
@@ -44,6 +43,9 @@ public interface UserDao {
     Users login(String email, String password) throws Exception;
 
     public void updateEntity(Users user);
-    
+
     boolean verifyUser(String userID,int verifiedID) throws Exception;
+
+    /* Set user verification to 2 */
+    public int updateUserVerification(String id, int newValue) throws Exception;
 }

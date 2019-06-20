@@ -139,6 +139,26 @@ public class UserController {
         }
     }
 
+    /* Update user verification state */
+    @RequestMapping(value = "/update/verification/{id}", method = RequestMethod.PUT)
+    public @ResponseBody
+    ResponseEntity<Map<String, Object>> updateUserVerification(@PathVariable("id") String id, 
+            @RequestBody UserDetails userDetails) {
+        
+        Map<String, Object> result = new HashMap<>();
+        try {
+            userService.updateUserVerification(userDetails, id);
+            result.put("status", 1);
+            result.put("message", "Successfully updated");
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            result.put("status", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+    }
+    
     // Not supported
     /*---Delete a user by id---*/
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
