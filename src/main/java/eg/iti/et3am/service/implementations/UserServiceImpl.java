@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean verifyUser(String id) throws Exception {
-        return userDao.verifyUser(id);
+    public boolean verifyUser(String userID,int verifiedID) throws Exception {
+        return userDao.verifyUser(userID,verifiedID);
     }
 }

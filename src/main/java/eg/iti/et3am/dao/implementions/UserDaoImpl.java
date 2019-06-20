@@ -197,12 +197,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean verifyUser(String id) throws Exception {
+    public boolean verifyUser(String userID,int verifiedID) throws Exception {
      session = sessionFactory.getCurrentSession();
 //        tx = session.beginTransaction();
 
-        Users user = (Users) session.load(Users.class, id);
-        user.setVerified(1);
+        Users user = (Users) session.load(Users.class, userID);
+        user.setVerified(verifiedID);
         session.update(user);
 //        tx.commit();
         return true;
