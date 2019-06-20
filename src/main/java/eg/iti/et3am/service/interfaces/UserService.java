@@ -19,8 +19,13 @@ public interface UserService {
     /*---Get all user---*/
     List<Users> getEntityList() throws Exception;
     
+     public List<Users> getEntityListToBeVerified() throws Exception;
+     
     /*---Update a user by id---*/
     Users updateEntity(UserDetails userDetails, String id) throws Exception;
+    
+    /* Update user national id with images */
+    public void updateUserVerification(UserDetails userDetails, String id) throws Exception;
     
     /*---Delete a user by id---*/
     boolean deleteEntity(long id) throws Exception;
@@ -33,4 +38,9 @@ public interface UserService {
     
     /*---Login method using email & password---*/
     Users login(String email, String password) throws Exception;
+
+    public void updateEntity(Users user);
+
+    /* --- Verify User ---*/
+   boolean verifyUser(String id) throws Exception;
 }

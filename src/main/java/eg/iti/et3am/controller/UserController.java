@@ -63,8 +63,36 @@ public class UserController {
         }
     }
 
+
+    /*---get all user---*/
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public @ResponseBody
+    List<Users> list() {
+        List<Users> userList = null;
+        try {
+            userList = userService.getEntityList();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return userList;
+    }
+
+    @RequestMapping(value = "/list_verified", method = RequestMethod.GET)
+    public @ResponseBody
+    List<Users> listOfUserToBeVerified() {
+        List<Users> userList = null;
+        try {
+           
+            userList = userService.getEntityListToBeVerified();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return userList;
+    }
+
+
     /*---Update a user by id---*/
-    @RequestMapping(value = "/u/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/update/u/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     ResponseEntity<Map<String, Object>> updateUserDetails(@PathVariable("id") String id,
             @RequestBody UserDetails userDetails) {
@@ -82,19 +110,55 @@ public class UserController {
         }
     }
 
-    /*---get all user---*/
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    /* Change user password */
+    @RequestMapping(value = "/update/password/{id}", method = RequestMethod.PUT)
     public @ResponseBody
-    List<Users> list() {
-        List<Users> userList = null;
+    ResponseEntity<Map<String, Object>> updateUserPassword(@PathVariable("id") String id,
+            @RequestParam String oldPass, @RequestParam String newPass) {
+
+        Map<String, Object> result = new HashMap<>();
+
         try {
-            userList = userService.getEntityList();
+            Users user = userService.getEntityById(id);
+            if (user.getPassword().compareTo(oldPass) == 0) {
+                user.setPassword(newPass);
+                userService.updateEntity(user);
+                result.put("status", 1);
+                result.put("message", "Password changed successfully!");
+            } else {
+                result.put("status", 2);
+                result.put("message", "Old password is not correct");
+            }
+            return new ResponseEntity<>(result, HttpStatus.OK);
+
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            result.put("status", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
-        return userList;
     }
 
+    /* Update user verification state */
+    @RequestMapping(value = "/update/verification/{id}", method = RequestMethod.PUT)
+    public @ResponseBody
+    ResponseEntity<Map<String, Object>> updateUserVerification(@PathVariable("id") String id, 
+            @RequestBody UserDetails userDetails) {
+        
+        Map<String, Object> result = new HashMap<>();
+        try {
+            userService.updateUserVerification(userDetails, id);
+            result.put("status", 1);
+            result.put("message", "Successfully updated");
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            result.put("status", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+    }
+    
     // Not supported
     /*---Delete a user by id---*/
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
@@ -185,4 +249,39 @@ public class UserController {
             return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
+
+    @RequestMapping(value = "/verify", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<Map<String, Object>> verifyUser(@RequestParam("id") String id) {
+        Map<String, Object> response = new HashMap<>();
+
+        if (!id.isEmpty()) {
+
+            try {
+                if (userService.verifyUser(id)) {
+                    response.put("code", 1);
+                    response.put("message", "User Verified Successfully");
+                    return new ResponseEntity<>(response, HttpStatus.OK);
+
+                } else {
+                    response.put("code", 0);
+                    response.put("message", "Verifing isn't completed");
+                    return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+
+                }
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                response.put("code", 0);
+                response.put("message", "Error While Verifing");
+
+                return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+
+            }
+
+        }
+
+        return null;
+    }
+
 }

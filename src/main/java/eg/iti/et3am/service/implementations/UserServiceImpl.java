@@ -23,11 +23,10 @@ public class UserServiceImpl implements UserService {
         user.setVerified(0);
         
         String userId = userDao.addEntity(user);
-                
         UserDetails ud = new UserDetails();
         ud.setUsers(userDao.getEntityById(userId));
         userDao.addDetailsEntity(ud);
-        
+
         return userDao.getEntityById(userId);
     }
 
@@ -42,11 +41,24 @@ public class UserServiceImpl implements UserService {
     public List<Users> getEntityList() throws Exception {
         return userDao.getEntityList();
     }
+    
+    @Override
+    @Transactional
+    public void updateEntity(Users user) {
+        userDao.updateEntity(user);
+    }
 
     @Override
     @Transactional
     public Users updateEntity(UserDetails userDetails, String id) throws Exception {
         return userDao.updateEntity(userDetails, id);
+    }
+    
+    @Override
+    @Transactional
+    public void updateUserVerification(UserDetails userDetails, String id) throws Exception {
+        userDao.updateEntity(userDetails, id);
+        userDao.updateUserVerification(id, 2);
     }
 
     @Override
@@ -71,5 +83,18 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public Users login(String email, String password) throws Exception {
         return userDao.login(email, password);
+    }
+
+    @Override
+    @Transactional
+    public List<Users> getEntityListToBeVerified() throws Exception {
+        return userDao.getEntityListToBeVerified();
+
+    }
+
+    @Override
+    @Transactional
+    public boolean verifyUser(String id) throws Exception {
+        return userDao.verifyUser(id);
     }
 }

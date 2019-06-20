@@ -25,6 +25,8 @@ public interface UserDao {
     /*---Get all user---*/
     List<Users> getEntityList() throws Exception;
     
+    List<Users> getEntityListToBeVerified () throws Exception;
+    
     /*---Update a user by id---*/
     Users updateEntity(UserDetails ud, String id) throws Exception;
     
@@ -39,4 +41,11 @@ public interface UserDao {
     
     /*---Login method using email & password---*/
     Users login(String email, String password) throws Exception;
+
+    public void updateEntity(Users user);
+    
+    /* Set user verification to 2 */
+    public int updateUserVerification(String id, int newValue) throws Exception;
+    
+    boolean verifyUser(String id) throws Exception;
 }

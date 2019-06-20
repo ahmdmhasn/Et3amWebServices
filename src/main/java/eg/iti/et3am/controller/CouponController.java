@@ -45,7 +45,7 @@ public class CouponController {
             return new ResponseEntity<>(coupon, HttpStatus.OK);
         } catch (Exception ex) {
             Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
         }
     }
 
@@ -55,19 +55,25 @@ public class CouponController {
             @RequestParam("value_50") int value50,
             @RequestParam("value_100") int value100,
             @RequestParam("value_200") int value200) {
-
+        
         Map<String, Object> result = new HashMap<>();
+        
+        if (value50 == 0 && value100 == 0 && value200 == 0) {
+            result.put("status", 0);
+            result.put("message", "At least one coupon is required!");
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+
         try {
             List coupons = couponService.addCoupon(userId, value50, value100, value200);
-
-            result.put("status", 1);
+            result.put("status", (coupons.size() > 0) ? 1 : 0);
             result.put("result", coupons);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception ex) {
             Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
             result.put("status", 0);
             result.put("message", ex.getMessage());
-            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }
 
@@ -76,7 +82,6 @@ public class CouponController {
     public ResponseEntity<Map<String, Object>> getReservedCoupon(@RequestParam("code") String code) {
         Map<String, Object> result = new HashMap<>();
         try {
-            System.out.println("getting user with code: " + code);
             UserReserveCoupon coupon = couponService.checkCouponReservation(code);
             if (coupon != null && coupon.getStatus() == 1) {
                 result.put("code", 1);
@@ -85,7 +90,7 @@ public class CouponController {
                 return new ResponseEntity<>(result, HttpStatus.OK);
             } else {
                 result.put("code", 0);
-                result.put("message", "not found");
+                result.put("message", "Coupon was not found");
                 return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
             }
         } catch (Exception ex) {
@@ -96,7 +101,7 @@ public class CouponController {
         }
 
     }
-
+    
     // reserve coupon  
     @RequestMapping(value = "/reserve_coupon", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> reserveCoupon(@RequestParam("reserver_id") String reserver_id,
