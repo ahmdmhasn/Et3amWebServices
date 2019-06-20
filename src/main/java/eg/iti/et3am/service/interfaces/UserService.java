@@ -39,5 +39,5 @@ public interface UserService {
     public void updateEntity(Users user);
 
     /* --- Verify User ---*/
-   boolean verifyUser(String id) throws Exception;
+   boolean verifyUser(String userID,int verifiedID) throws Exception;
 }

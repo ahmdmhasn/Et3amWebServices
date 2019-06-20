@@ -230,15 +230,15 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/verify", method = RequestMethod.GET)
+    @RequestMapping(value = "/verify_or_block", method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<Map<String, Object>> verifyUser(@RequestParam("id") String id) {
+    ResponseEntity<Map<String, Object>> verifyOrBlockUser(@RequestParam("user_id") String userID,@RequestParam("verified_id") int verifiedID) {
         Map<String, Object> response = new HashMap<>();
 
-        if (!id.isEmpty()) {
+        if (!userID.isEmpty() && (verifiedID !=0 && verifiedID !=2)) {
 
             try {
-                if (userService.verifyUser(id)) {
+                if (userService.verifyUser(userID,verifiedID)) {
                     response.put("code", 1);
                     response.put("message", "User Verified Successfully");
                     return new ResponseEntity<>(response, HttpStatus.OK);

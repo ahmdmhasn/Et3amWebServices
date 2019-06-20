@@ -45,5 +45,5 @@ public interface UserDao {
 
     public void updateEntity(Users user);
     
-    boolean verifyUser(String id) throws Exception;
+    boolean verifyUser(String userID,int verifiedID) throws Exception;
 }
