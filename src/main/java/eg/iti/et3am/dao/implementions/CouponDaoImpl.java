@@ -1,6 +1,5 @@
 package eg.iti.et3am.dao.implementions;
 
-import static com.sun.corba.se.impl.util.Utility.printStackTrace;
 import eg.iti.et3am.dao.interfaces.CouponDao;
 import eg.iti.et3am.dao.interfaces.UserDao;
 import eg.iti.et3am.model.AvailableCoupons;
@@ -18,7 +17,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -158,7 +160,6 @@ public class CouponDaoImpl implements CouponDao {
     @Override
     public AvailableCoupons getFreeCoupon(String userID) throws Exception {
         session = sessionFactory.getCurrentSession();
-
         List<AvailableCoupons> couponList = session.createCriteria(AvailableCoupons.class).
                 add(Restrictions.eq("status", 1)).list();
 
@@ -175,7 +176,6 @@ public class CouponDaoImpl implements CouponDao {
     public boolean addReservedCoupon(AvailableCoupons c, String userId) throws Exception {
         try {
             session = sessionFactory.getCurrentSession();
-
             Users user = (Users) session.load(Users.class, userId);
             UserReserveCoupon urc = new UserReserveCoupon();
 
@@ -195,7 +195,6 @@ public class CouponDaoImpl implements CouponDao {
     @Override
     public boolean noMoreOneReservedCouponAtTheSameTime(String userId) throws Exception {
         session = sessionFactory.openSession();
-
         try {
             List<UserReserveCoupon> urc = session.createCriteria(UserReserveCoupon.class)
                     .add(Restrictions.eq("users.userId", userId))
@@ -228,7 +227,6 @@ public class CouponDaoImpl implements CouponDao {
     @Override
     public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception {
         session = sessionFactory.getCurrentSession();
-
         List<UserUsedCoupon> userUsedCoupons = session.createCriteria(UserUsedCoupon.class)
                 .createAlias("userReserveCoupon", "r")
                 .createAlias("r.users", "u")
@@ -244,4 +242,37 @@ public class CouponDaoImpl implements CouponDao {
 
         return listOfUsedCouponse;
     }
+
+    @Override
+    public List<Coupons> getAllCoupons(String userId) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        List<Coupons> coupons = session.createCriteria(Coupons.class)
+                .add(Restrictions.eq("users.userId", userId)).list();
+        List<Coupons> couponses = new ArrayList<>();
+        for (Coupons coupons1 : coupons) {
+            Coupons c = (Coupons) coupons1.clone();
+            System.out.println("couponsssssssssss " + coupons1.getCouponId());
+        }
+        return coupons;
+    }
+
+    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) {
+        try {
+            session = sessionFactory.getCurrentSession();
+            int pageSize = 10;
+            Criteria criteria = session.createCriteria(Coupons.class);
+            criteria.add(Restrictions.eq("users.userId",userId));
+            criteria.setFirstResult((pageNumber - 1) * pageSize);
+            criteria.setMaxResults(pageSize);
+
+            List<Coupons> coupons = (List<Coupons>) criteria.list();
+
+            return coupons;
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+        return null;
+    }
+
 }

@@ -10,7 +10,6 @@ import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.RestaurantCoupons;
 import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.UserUsedCoupon;
-import eg.iti.et3am.model.Users;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +39,8 @@ public interface CouponDao {
     public boolean noMoreOneReservedCouponAtTheSameTime(String userId ) throws Exception;
 
     public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception;
+
+    public List<Coupons> getAllCoupons(String userId) throws Exception;
 
 
 }

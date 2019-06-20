@@ -230,4 +230,29 @@ public class CouponController {
         }
 
     }
+    
+    //get coupons for user
+    @RequestMapping(value = "/get_all_coupon",method=RequestMethod.GET)
+     public ResponseEntity<Map<String, Object>> getAllCoupon(@RequestParam("user_id") String userId) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+           List<Coupons> coupons = couponService.getAllCoupon(userId);
+           if (coupons != null&&!coupons.isEmpty()) {
+                result.put("code", 1);
+                result.put("Coupons", coupons);
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                result.put("code", 0);
+                result.put("message", "there are not Coupons");
+                return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
+            result.put("code", 0);    
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+    }
 }

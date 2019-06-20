@@ -12,9 +12,7 @@ import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.RestaurantCoupons;
 import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.UserUsedCoupon;
-import eg.iti.et3am.model.Users;
 import eg.iti.et3am.service.interfaces.CouponService;
-import eg.iti.et3am.utils.EntityCopier;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -78,18 +76,18 @@ public class CouponServiceImpl implements CouponService {
     public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception {
         return couponDao.getUsedCoupon(restaurantId);
     }
-    @Override
-     public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception {
-      return couponDao.getUserUsedCoupon(userId);
-     }
 
+    @Override
+    public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception {
+        return couponDao.getUserUsedCoupon(userId);
+    }
 
     @Override
     public AvailableCoupons getFreeCoupon(String userID) throws Exception {
 
         if (userDao.getEntityById(userID).getVerified() == 1) {
             System.out.println("verified~~~~~~~~~~");
-            
+
             if (couponDao.noMoreOneReservedCouponAtTheSameTime(userID)) {
                 AvailableCoupons availableCoupon = couponDao.getFreeCoupon(userID);
                 couponDao.addReservedCoupon(availableCoupon, userID);
@@ -103,6 +101,11 @@ public class CouponServiceImpl implements CouponService {
         }
         System.out.println("new~~~~~~~~~~");
         return null;
+    }
+
+    @Override
+    public List<Coupons> getAllCoupon(String userId) throws Exception {
+        return couponDao.getAllCoupons(userId);
     }
 
 }
