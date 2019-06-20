@@ -121,6 +121,8 @@ public class RestaurantDaoImpl implements RestaurantDao {
             mealsResponse.setMealId(meals.getMealId());
             mealsResponse.setMealName(meals.getMealName());
             mealsResponse.setMealValue(meals.getMealValue());
+            mealsResponse.setMealImage(meals.getMealImage());
+            mealsResponse.setRestaurants(meals.getRestaurants());
             mealList.add(mealsResponse);
         }
 
