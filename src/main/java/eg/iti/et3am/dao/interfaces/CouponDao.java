@@ -28,19 +28,25 @@ public interface CouponDao {
     public String addCoupon(String userId, Double couponValue) throws Exception;
 
     public int reserveCoupon(String reserverId, String couponId, Date reservationDate) throws Exception;
-       
+
     public AvailableCoupons getFreeCoupon(String userID) throws Exception;
-    
 
     public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception;
 
-    public boolean addReservedCoupon(AvailableCoupons c , String userID)throws Exception;
-    
-    public boolean noMoreOneReservedCouponAtTheSameTime(String userId ) throws Exception;
+    public boolean addReservedCoupon(AvailableCoupons c, String userID) throws Exception;
+
+    public boolean noMoreOneReservedCouponAtTheSameTime(String userId) throws Exception;
 
     public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception;
 
     public List<Coupons> getAllCoupons(String userId) throws Exception;
 
+    public void validateReserveCoupon() throws Exception;
 
+    public void addCouponFromRemainingBalance() throws Exception;
+    
+    public boolean publishCoupon(String coupon_id) throws Exception;
+    
+    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception;
+            
 }

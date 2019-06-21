@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -29,14 +30,33 @@ import org.hibernate.annotations.GenericGenerator;
         uniqueConstraints = @UniqueConstraint(columnNames = "coupon_barcode"))
 public class Coupons implements Serializable, Cloneable {
 
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @Column(name = "coupon_id", unique = true, nullable = false, length = 128)
     private String couponId;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "donator_id", nullable = false)
     private Users users;
+    @Column(name = "coupon_value")
     private double couponValue;
+    @Column(name = "coupon_barcode", unique = true, nullable = false, length = 45)
     private String couponBarcode;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "creation_date", length = 26)
+    @CreationTimestamp
     private Date creationDate;
+    @Column(name = "coupon_qrcode", length = 45)
+    @JsonIgnore
     private String couponQrcode;
+    @Column(name = "in_balance", nullable = false)
     private int isBalance;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "coupons")
+    @JsonIgnore
     private Set<AvailableCoupons> availableCouponses = new HashSet<>(0);
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "coupons")
+    @JsonIgnore
     private Set<UserReserveCoupon> userReserveCoupons = new HashSet<>(0);
 
     public Coupons() {
@@ -60,10 +80,7 @@ public class Coupons implements Serializable, Cloneable {
         this.userReserveCoupons = userReserveCoupons;
     }
 
-    @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(name = "coupon_id", unique = true, nullable = false, length = 128)
+    
     public String getCouponId() {
         return this.couponId;
     }
@@ -72,8 +89,6 @@ public class Coupons implements Serializable, Cloneable {
         this.couponId = couponId;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "donator_id", nullable = false)
     public Users getUsers() {
         return this.users;
     }
@@ -82,7 +97,6 @@ public class Coupons implements Serializable, Cloneable {
         this.users = users;
     }
 
-    @Column(name = "coupon_value")
     public double getCouponValue() {
         return this.couponValue;
     }
@@ -91,7 +105,6 @@ public class Coupons implements Serializable, Cloneable {
         this.couponValue = couponValue;
     }
 
-    @Column(name = "coupon_barcode", unique = true, nullable = false, length = 45)
     public String getCouponBarcode() {
         return this.couponBarcode;
     }
@@ -100,9 +113,6 @@ public class Coupons implements Serializable, Cloneable {
         this.couponBarcode = couponBarcode;
     }
 
-    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "creation_date", length = 26)
     public Date getCreationDate() {
         return this.creationDate;
     }
@@ -111,7 +121,6 @@ public class Coupons implements Serializable, Cloneable {
         this.creationDate = creationDate;
     }
 
-    @Column(name = "coupon_qrcode", length = 45)
     public String getCouponQrcode() {
         return this.couponQrcode;
     }
@@ -120,8 +129,6 @@ public class Coupons implements Serializable, Cloneable {
         this.couponQrcode = couponQrcode;
     }
 
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "coupons")
     public Set<AvailableCoupons> getAvailableCouponses() {
         return this.availableCouponses;
     }
@@ -130,8 +137,7 @@ public class Coupons implements Serializable, Cloneable {
         this.availableCouponses = availableCouponses;
     }
 
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "coupons")
+    
     public Set<UserReserveCoupon> getUserReserveCoupons() {
         return this.userReserveCoupons;
     }
@@ -140,7 +146,6 @@ public class Coupons implements Serializable, Cloneable {
         this.userReserveCoupons = userReserveCoupons;
     }
 
-    @Column(name = "in_balance", nullable = false)
     public int getIsBalance() {
         return isBalance;
     }

@@ -55,9 +55,9 @@ public class CouponController {
             @RequestParam("value_50") int value50,
             @RequestParam("value_100") int value100,
             @RequestParam("value_200") int value200) {
-        
+
         Map<String, Object> result = new HashMap<>();
-        
+
         if (value50 == 0 && value100 == 0 && value200 == 0) {
             result.put("status", 0);
             result.put("message", "At least one coupon is required!");
@@ -96,12 +96,12 @@ public class CouponController {
         } catch (Exception ex) {
             Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
             result.put("code", 0);
-            result.put("message", ex.getMessage()+"ex");
+            result.put("message", ex.getMessage() + "ex");
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
 
     }
-    
+
     // reserve coupon  
     @RequestMapping(value = "/reserve_coupon", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> reserveCoupon(@RequestParam("reserver_id") String reserver_id,
@@ -132,8 +132,7 @@ public class CouponController {
     @RequestMapping(value = "/use_coupon", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> useCoupon(@RequestParam("restaurantId") int restaurantId,
             @RequestParam("barCode") String barCode,
-            @RequestParam("price") float price)
-             {
+            @RequestParam("price") float price) {
         Map<String, Object> result = new HashMap<>();
         try {
             int id = couponService.useCoupon(barCode, price, restaurantId);
@@ -180,14 +179,13 @@ public class CouponController {
         }
     }
 
-
     @RequestMapping(value = "/user_used_coupon", method = RequestMethod.GET)
-    public ResponseEntity<Map<String,Object>> getUserUsedCoupon(@RequestParam("userId") String userId)  {
+    public ResponseEntity<Map<String, Object>> getUserUsedCoupon(@RequestParam("userId") String userId) {
         Map<String, Object> result = new HashMap<>();
-       try {
-           List<UserUsedCoupon> listOfUsedCouponse = couponService.getUserUsedCoupon(userId);
-           if (listOfUsedCouponse != null&&!listOfUsedCouponse.isEmpty()) {
-             
+        try {
+            List<UserUsedCoupon> listOfUsedCouponse = couponService.getUserUsedCoupon(userId);
+            if (listOfUsedCouponse != null && !listOfUsedCouponse.isEmpty()) {
+
                 result.put("code", 1);
                 result.put("Coupons", listOfUsedCouponse);
                 return new ResponseEntity<>(result, HttpStatus.OK);
@@ -198,12 +196,11 @@ public class CouponController {
             }
         } catch (Exception ex) {
             Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
-            result.put("code", 0);    
+            result.put("code", 0);
             result.put("message", ex.getMessage());
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
     }
- 
 
     // get coupon  
     @RequestMapping(value = "/get_free_coupon", method = RequestMethod.GET)
@@ -230,29 +227,86 @@ public class CouponController {
         }
 
     }
-    
-    //get coupons for user
-    @RequestMapping(value = "/get_all_coupon",method=RequestMethod.GET)
-     public ResponseEntity<Map<String, Object>> getAllCoupon(@RequestParam("user_id") String userId) throws Exception {
-        Map<String, Object> result = new HashMap<>();
 
+    //get coupons for user
+    @RequestMapping(value = "/get_all_coupon", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> getAllCoupon(@RequestParam("user_id") String userId) throws Exception {
+        Map<String, Object> result = new HashMap<>();
         try {
-           List<Coupons> coupons = couponService.getAllCoupon(userId);
-           if (coupons != null&&!coupons.isEmpty()) {
+            List<Coupons> coupons = couponService.getAllCoupon(userId);
+            if (coupons != null && !coupons.isEmpty()) {
                 result.put("code", 1);
                 result.put("Coupons", coupons);
                 return new ResponseEntity<>(result, HttpStatus.OK);
             } else {
                 result.put("code", 0);
                 result.put("message", "there are not Coupons");
-                return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+                return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception ex) {
+            result.put("status", 0);
+            result.put("message", ex.getMessage());
+            ex.printStackTrace();
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+
+    }
+
+//get coupons for user
+    @RequestMapping(value = "/get_inBalance_coupon", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> getInBalanceCoupon(@RequestParam("user_id") String userId) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            List<Coupons> coupons = couponService.getInBalanceCoupon(1, userId);
+            if (coupons != null && !coupons.isEmpty()) {
+                result.put("code", 1);
+                result.put("Coupons", coupons);
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                result.put("code", 0);
+                result.put("message", "there are not Coupons");
+                return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
             Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
-            result.put("code", 0);    
+            result.put("code", 0);
             result.put("message", ex.getMessage());
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+    }
+
+    @RequestMapping(value = "/publish_coupon", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> publishCoupon(@RequestParam("coupon_id") String couponId) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            boolean isPublish = couponService.publishCoupon(couponId);
+            if (isPublish) {
+                result.put("status", 1);
+                result.put("message", "publish.");
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                result.put("status", 0);
+                result.put("message", "not publish.");
+                return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception ex) {
+            result.put("status", 0);
+            result.put("message", ex.getMessage());
+            ex.printStackTrace();
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+
+    }
+
+    @RequestMapping(value = "/launch", method = RequestMethod.GET)
+    void triggers() {
+        try {
+            couponService.couponTrigger();
+        } catch (Exception ex) {
+            Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

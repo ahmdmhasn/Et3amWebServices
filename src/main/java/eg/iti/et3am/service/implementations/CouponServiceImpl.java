@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -106,6 +107,34 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public List<Coupons> getAllCoupon(String userId) throws Exception {
         return couponDao.getAllCoupons(userId);
+    }
+
+    @Override
+    public void validateReserveCoupon() throws Exception {
+        couponDao.validateReserveCoupon();
+        System.out.println("hdhdhd");
+    }
+
+    @Override
+    public void addCouponFromRemainingBalance() throws Exception {
+        couponDao.addCouponFromRemainingBalance();
+    }
+
+    @Override
+    public boolean publishCoupon(String coupon_id) throws Exception {
+        return couponDao.publishCoupon(coupon_id);
+    }
+
+    @Scheduled(fixedDelay = 3600000)
+    @Override
+    public void couponTrigger() throws Exception {
+        validateReserveCoupon();
+        addCouponFromRemainingBalance();
+    }
+
+    @Override
+    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception {
+        return couponDao.getInBalanceCoupon(pageNumber, userId);
     }
 
 }
