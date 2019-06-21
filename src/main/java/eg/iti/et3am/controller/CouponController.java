@@ -11,8 +11,6 @@ import eg.iti.et3am.model.RestaurantCoupons;
 import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.UserUsedCoupon;
 import eg.iti.et3am.service.interfaces.CouponService;
-import eg.iti.et3am.utils.EntityCopier;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -221,7 +219,7 @@ public class CouponController {
             }
         } catch (Exception ex) {
             result.put("status", 0);
-            result.put("message", ex.getMessage());
+            result.put("message", ex.getMessage()+"  ax");
             ex.printStackTrace();
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }

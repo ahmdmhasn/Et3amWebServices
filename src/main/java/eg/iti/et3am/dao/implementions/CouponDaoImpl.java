@@ -10,7 +10,6 @@ import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.UserUsedCoupon;
 import eg.iti.et3am.model.Users;
-import eg.iti.et3am.utils.Constants;
 import eg.iti.et3am.utils.EntityCopier;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,6 +20,7 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -110,6 +110,7 @@ public class CouponDaoImpl implements CouponDao {
         return -1;
     }
 
+    //not used
     @Override
     public int reserveCoupon(String reserverId, String couponId, Date reservationDate) throws Exception {
         session = sessionFactory.getCurrentSession();
@@ -160,16 +161,14 @@ public class CouponDaoImpl implements CouponDao {
     @Override
     public AvailableCoupons getFreeCoupon(String userID) throws Exception {
         session = sessionFactory.getCurrentSession();
-
         List<AvailableCoupons> couponList = session.createCriteria(AvailableCoupons.class).
                 add(Restrictions.eq("status", 1)).list();
-
         AvailableCoupons coupon2 = null;
-        if (couponList != null) {
-
+        if (!couponList.isEmpty()) {
             coupon2 = EntityCopier.getAvailableCoupons(couponList.get(0));
             couponList.get(0).setStatus(0);
         }
+        session.flush();
         return coupon2;
     }
 
@@ -177,19 +176,19 @@ public class CouponDaoImpl implements CouponDao {
     public boolean addReservedCoupon(AvailableCoupons c, String userId) throws Exception {
         try {
             session = sessionFactory.getCurrentSession();
-
+            
+            AvailableCoupons av = EntityCopier.getAvailableCoupons(c);
             Users user = (Users) session.load(Users.class, userId);
             UserReserveCoupon urc = new UserReserveCoupon();
-
-            urc.setCoupons(c.getCoupons());
+            urc.setCoupons(av.getCoupons());
             urc.setStatus(1);
             urc.setUsers(user);
             urc.setReservationDate(new Date());
             session.save(urc);
             return true;
-        } catch (Exception ex) {
+        } catch (HibernateException ex) {
             ex.printStackTrace();
-            System.err.println("*************************" + ex.getMessage());
+            System.out.println("*************************" + ex.getMessage());
             return false;
         }
     }
@@ -202,19 +201,19 @@ public class CouponDaoImpl implements CouponDao {
             List<UserReserveCoupon> urc = session.createCriteria(UserReserveCoupon.class)
                     .add(Restrictions.eq("users.userId", userId))
                     .add(Restrictions.eq("status", 1)).list();
-            if (urc.size() > 0) {
+            if (urc.isEmpty()) {
 
-                return false;
+                return true;
             }
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        return true;
+        return false;
     }
 
     public boolean isLastCouponUsedMore48Houres(String userId) {
 
-        UserUsedCoupon c = (UserUsedCoupon) session.createCriteria(AvailableCoupons.class);
+        UserUsedCoupon c = (UserUsedCoupon) session.createCriteria(UserUsedCoupon.class);
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.HOUR_OF_DAY, -48);
@@ -261,8 +260,8 @@ public class CouponDaoImpl implements CouponDao {
             if (checkExperation(EntityCopier.getReservedCoupon(userReserveCoupon))) {
                 userReserveCoupon.setStatus(0);
                 //do {
-                    newBarCode = randomCode(12);
-                  //  coupon =  session.createCriteria(Coupons.class)
+                newBarCode = randomCode(12);
+                //  coupon =  session.createCriteria(Coupons.class)
 //                            .add(Restrictions.eq("couponBarcode", newBarCode)).list();
 //                } while (coupon == null);
                 userReserveCoupon.getCoupons().setCouponBarcode(newBarCode);
@@ -282,10 +281,10 @@ public class CouponDaoImpl implements CouponDao {
             System.out.println("time" + (coupon.getReservationDate().getTime() - 48));
             long resrveTime = coupon.getReservationDate().getTime();
             long nowTime = new Date().getTime();
-            System.out.println("time uu"+coupon.getReservationDate());
-            System.err.println("time"+TimeUnit.MILLISECONDS.toHours(nowTime-resrveTime));
-        
-            if (( TimeUnit.MILLISECONDS.toHours(nowTime-resrveTime))- 48 > 0) {
+            System.out.println("time uu" + coupon.getReservationDate());
+            System.err.println("time" + TimeUnit.MILLISECONDS.toHours(nowTime - resrveTime));
+
+            if ((TimeUnit.MILLISECONDS.toHours(nowTime - resrveTime)) - 48 > 0) {
                 return true;
             }
 
@@ -346,7 +345,7 @@ public class CouponDaoImpl implements CouponDao {
             AvailableCoupons availableCoupon = new AvailableCoupons(coupon, new Date(), 1);
             availableCoupon.getCoupons().setIsBalance(0);
             session.save(availableCoupon);
-          //  tx.commit();
+            //  tx.commit();
             return true;
         }
         return false;
