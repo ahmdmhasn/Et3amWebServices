@@ -4,15 +4,22 @@ import eg.iti.et3am.dao.interfaces.UserDao;
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Users;
 import eg.iti.et3am.utils.EntityCopier;
+import eg.iti.et3am.utils.Mail;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -20,6 +27,9 @@ public class UserDaoImpl implements UserDao {
 
     @Autowired(required = true)
     private SessionFactory sessionFactory;
+
+    @Autowired(required = true)
+    private Mail mail;
 
     Session session = null;
     Transaction tx = null;
@@ -81,7 +91,7 @@ public class UserDaoImpl implements UserDao {
         }
         return userList2;
     }
-    
+
     @Override
     public void updateEntity(Users user) {
         session = sessionFactory.getCurrentSession();
@@ -108,7 +118,7 @@ public class UserDaoImpl implements UserDao {
         Users tempUser = EntityCopier.getUser(user);
         return tempUser;
     }
-    
+
     @Override
     public int updateUserVerification(String id, int newValue) throws Exception {
         String hql = "UPDATE Users set verified = :verified "
@@ -137,7 +147,6 @@ public class UserDaoImpl implements UserDao {
         criteria.add(Restrictions.eq("userEmail", email));
 
         Users user = (Users) criteria.uniqueResult();
-
 
         if (user == null) {
             return true;
@@ -182,8 +191,8 @@ public class UserDaoImpl implements UserDao {
         List<Users> userList = new ArrayList<>();
         Criteria criteria = session.createCriteria(Users.class);
         criteria.createAlias("userDetailses", "uDetails")
-                .add(Restrictions.eq("verified", verified)).add(Restrictions.neOrIsNotNull("uDetails.nationalIdFront",""))
-                .add(Restrictions.neOrIsNotNull("uDetails.nationalIdBack",""));
+                .add(Restrictions.eq("verified", verified)).add(Restrictions.neOrIsNotNull("uDetails.nationalIdFront", ""))
+                .add(Restrictions.neOrIsNotNull("uDetails.nationalIdBack", ""));
 
         List<Users> users = criteria.list();
         System.out.println(users.size());
@@ -197,8 +206,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean verifyUser(String userID,int verifiedID) throws Exception {
-     session = sessionFactory.getCurrentSession();
+    public boolean verifyUser(String userID, int verifiedID) throws Exception {
+        session = sessionFactory.getCurrentSession();
 //        tx = session.beginTransaction();
 
         Users user = (Users) session.load(Users.class, userID);
@@ -206,5 +215,34 @@ public class UserDaoImpl implements UserDao {
         session.update(user);
 //        tx.commit();
         return true;
+    }
+
+    @Override
+    public boolean requestPasswordReset(String email) {
+        session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Users.class);
+        criteria.add(Restrictions.eq("userEmail", email));
+        Users user = (Users) criteria.uniqueResult();
+        if (user == null) {
+            return false;
+        }
+        String newPassword = randomPassword();
+        user.setPassword(newPassword);
+        session.update(user);
+        String receiver = "asmaa.fathy0gmail.com";
+        String sender = email;
+        String subject = user.getUserName() + ", your password was successfully reset";
+        String msg = "\n Hi " + user.getUserName() + ",\n your new password is " + user.getPassword() + "\n Thanks for using Et3am App!\nThe Et3am Team";
+        mail.sendMail(sender, receiver, subject, msg);
+        System.out.println("success");
+        return true;
+    }
+
+    public String randomPassword() {
+
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        String newPassword = RandomStringUtils.random(8, characters);
+        return newPassword;
+
     }
 }
