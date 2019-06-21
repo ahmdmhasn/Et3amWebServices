@@ -120,6 +120,8 @@ public class RestaurantDaoImpl implements RestaurantDao {
             mealsResponse.setMealId(meals.getMealId());
             mealsResponse.setMealName(meals.getMealName());
             mealsResponse.setMealValue(meals.getMealValue());
+            mealsResponse.setMealImage(meals.getMealImage());
+            mealsResponse.setRestaurants(meals.getRestaurants());
             mealList.add(mealsResponse);
         }
 
@@ -131,7 +133,8 @@ public class RestaurantDaoImpl implements RestaurantDao {
         session = sessionFactory.getCurrentSession();
 
         Meals meals = (Meals) session.load(Meals.class, id);
-        return meals;
+        Meals meal2 = new Meals(meals.getRestaurants(),meals.getMealName() , meals.getMealValue(),meals.getMealImage());
+        return meal2;  
     }
 
     @Override
@@ -181,7 +184,6 @@ public class RestaurantDaoImpl implements RestaurantDao {
     @Override
     public boolean updateMeal(Integer mealId, Meals meals) throws Exception {
         session = sessionFactory.getCurrentSession();
-
         try {
             Meals meal = (Meals) session.load(Meals.class, mealId);
             meal.setMealName(meals.getMealName());
