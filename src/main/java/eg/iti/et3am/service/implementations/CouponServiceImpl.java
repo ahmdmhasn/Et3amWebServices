@@ -109,6 +109,13 @@ public class CouponServiceImpl implements CouponService {
         return null;
     }
 
+
+    @Override
+    public List<Coupons> getAllCoupon(String userId) throws Exception {
+        return couponDao.getAllCoupons(userId);
+    }
+
+
     @Override
     public void validateReserveCoupon() throws Exception {
         couponDao.validateReserveCoupon();
@@ -128,8 +135,18 @@ public class CouponServiceImpl implements CouponService {
     @Scheduled(fixedDelay = 3600000)
     @Override
     public void couponTrigger() throws Exception {
+
 //          validateReserveCoupon();
 //          addCouponFromRemainingBalance();
+
+        validateReserveCoupon();
+        addCouponFromRemainingBalance();
+    }
+
+    @Override
+    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception {
+        return couponDao.getInBalanceCoupon(pageNumber, userId);
+
     }
 
 }

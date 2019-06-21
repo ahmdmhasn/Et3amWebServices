@@ -35,7 +35,6 @@ public class RestaurantDaoImpl implements RestaurantDao {
     @Override
     public Restaurants getRestaurantById(Integer id) throws Exception {
         session = sessionFactory.getCurrentSession();
-
         Restaurants restaurants = (Restaurants) session.load(Restaurants.class, id);
         //Copy Data from object To another
         Restaurants restaurants1 = (Restaurants) restaurants.clone();

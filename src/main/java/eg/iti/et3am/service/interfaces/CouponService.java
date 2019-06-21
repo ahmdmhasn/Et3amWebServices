@@ -34,14 +34,18 @@ public interface CouponService {
 
     public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception;
 
-    public void validateReserveCoupon() throws Exception;
-
     public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception;
 
+    public List<Coupons> getAllCoupon(String userId) throws Exception;
+
+    public void validateReserveCoupon() throws Exception;
+
     public void addCouponFromRemainingBalance() throws Exception;
-    
+
     public boolean publishCoupon(String coupon_id) throws Exception;
-    
+
     public void couponTrigger() throws Exception;
+
+    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception;
 
 }

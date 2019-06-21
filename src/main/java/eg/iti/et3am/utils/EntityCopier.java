@@ -125,7 +125,5 @@ public class EntityCopier {
         ac2.setDate(ac1.getDate());
         ac2.setStatus(ac1.getStatus());
         return ac2;
-
-
     }
 }
