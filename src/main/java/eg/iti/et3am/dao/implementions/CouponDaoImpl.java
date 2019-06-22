@@ -64,7 +64,7 @@ public class CouponDaoImpl implements CouponDao {
     }
 
     @Override
-    public UserReserveCoupon checkCoupon(String code) throws Exception {
+    public UserReserveCoupon checkCoupon(String code , boolean  changeStatus) throws Exception {
         session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(UserReserveCoupon.class).
                 createAlias("coupons", "c").
@@ -74,6 +74,11 @@ public class CouponDaoImpl implements CouponDao {
         if (coupon != null) {
             coupon.setStatus(0);
             session.update(coupon);
+            if(changeStatus)
+            {
+                coupon.setStatus(0);
+                session.update(coupon);
+            }
             System.out.println("update done");
 
             UserReserveCoupon coupon2 = EntityCopier.getReservedCoupon(coupon);;
@@ -86,7 +91,7 @@ public class CouponDaoImpl implements CouponDao {
     @Override
     public int useCoupon(String code, double price, int restaurantId) throws Exception {
 
-        UserReserveCoupon reserveCoupon = checkCoupon(code);
+        UserReserveCoupon reserveCoupon = checkCoupon(code, true);
         if (reserveCoupon != null) {
             session = sessionFactory.getCurrentSession();
             Restaurants restaurantAdmin = (Restaurants) session.load(Restaurants.class, restaurantId);
@@ -273,7 +278,7 @@ public class CouponDaoImpl implements CouponDao {
         if (!availableCoupon.isEmpty()) {
             availableCoupon.get(0).setStatus(1);
             session.update(availableCoupon.get(0));
-            System.out.println("test   "+coupon.getReservationDate());
+            System.out.println("test   " + coupon.getReservationDate());
             System.out.println("time" + (coupon.getReservationDate().getTime() - 48));
             long resrveTime = coupon.getReservationDate().getTime();
             long nowTime = new Date().getTime();
@@ -338,11 +343,13 @@ public class CouponDaoImpl implements CouponDao {
         //tx = session.beginTransaction();
         Coupons coupon = (Coupons) session.load(Coupons.class, coupon_id);
         if (coupon != null) {
-            AvailableCoupons availableCoupon = new AvailableCoupons(coupon, new Date(), 1);
-            availableCoupon.getCoupons().setIsBalance(0);
-            session.save(availableCoupon);
-            //  tx.commit();
-            return true;
+            if (coupon.getIsBalance() == 1) {
+                AvailableCoupons availableCoupon = new AvailableCoupons(coupon, new Date(), 1);
+                availableCoupon.getCoupons().setIsBalance(0);
+                session.save(availableCoupon);
+                //  tx.commit();
+                return true;
+            }
         }
         return false;
     }
