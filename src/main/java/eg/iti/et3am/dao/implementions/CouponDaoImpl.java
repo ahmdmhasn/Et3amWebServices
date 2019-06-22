@@ -54,6 +54,7 @@ public class CouponDaoImpl implements CouponDao {
         Coupons coupon = new Coupons();
         coupon.setUsers(user);
         coupon.setIsBalance(1);
+        coupon.setCreationDate(new Date());
         coupon.setCouponValue(couponValue);
         coupon.setCouponBarcode(UUID.randomUUID().toString().substring(24).toUpperCase());
         session.save(coupon);
@@ -162,10 +163,8 @@ public class CouponDaoImpl implements CouponDao {
         session = sessionFactory.getCurrentSession();
         List<AvailableCoupons> couponList = session.createCriteria(AvailableCoupons.class).
                 add(Restrictions.eq("status", 1)).list();
-
         AvailableCoupons coupon2 = null;
         if (couponList != null) {
-
             coupon2 = EntityCopier.getAvailableCoupons(couponList.get(0));
             couponList.get(0).setStatus(0);
         }
@@ -351,7 +350,7 @@ public class CouponDaoImpl implements CouponDao {
     public List<Coupons> getAllCoupons(String userId) throws Exception {
         session = sessionFactory.getCurrentSession();
         List<Coupons> coupons = sessionFactory.getCurrentSession().createCriteria(Coupons.class)
-                .add(Restrictions.eq("users.userId", userId)).list();
+                .add(Restrictions.eq("users.userId", userId)).add(Restrictions.eq("isBalance",0)).list();
         List<Coupons> couponses = new ArrayList<>();
         for (Coupons coupons1 : coupons) {
             Coupons c = (Coupons) coupons1.clone();

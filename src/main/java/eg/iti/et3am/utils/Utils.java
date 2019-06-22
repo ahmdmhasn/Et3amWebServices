@@ -1,5 +1,8 @@
 package eg.iti.et3am.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author Wael M Elmahask
@@ -86,5 +89,17 @@ public class Utils {
             }
             return (dist);
         }
+    }
+
+     
+    
+    public static String getDate(long milliSeconds) {
+        
+//        Date date = new Date(milliSeconds);
+//    System.out.println(date.getDate());
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm dd/MM/yyyy");
+        String dateString = formatter.format(new Date(milliSeconds));
+        return dateString;
     }
 }
