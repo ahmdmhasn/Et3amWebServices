@@ -64,18 +64,14 @@ public class CouponDaoImpl implements CouponDao {
     }
 
     @Override
-    public UserReserveCoupon checkCoupon(String code) throws Exception {
+    public UserReserveCoupon checkCoupon(String code ) throws Exception {
         session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(UserReserveCoupon.class).
                 createAlias("coupons", "c").
                 add(Restrictions.eq("c.couponBarcode", code)).add(Restrictions.eq("status", 1));
         UserReserveCoupon coupon = (UserReserveCoupon) criteria.uniqueResult();
-
         if (coupon != null) {
-            coupon.setStatus(0);
-            session.update(coupon);
             System.out.println("update done");
-
             UserReserveCoupon coupon2 = EntityCopier.getReservedCoupon(coupon);;
             return coupon2;
         } else {
@@ -83,16 +79,25 @@ public class CouponDaoImpl implements CouponDao {
         }
     }
 
+    public boolean updateReserveCouponStatus(UserReserveCoupon reserveCoupon) {
+        session = sessionFactory.getCurrentSession();
+        reserveCoupon.setStatus(0);
+        session.update(reserveCoupon);
+        return true;
+    }
+
     @Override
     public int useCoupon(String code, double price, int restaurantId) throws Exception {
 
         UserReserveCoupon reserveCoupon = checkCoupon(code);
         if (reserveCoupon != null) {
+            updateReserveCouponStatus(reserveCoupon);
             session = sessionFactory.getCurrentSession();
-            Restaurants restaurantAdmin = (Restaurants) session.load(Restaurants.class, restaurantId);
-            UserUsedCoupon userUsedCoupon = new UserUsedCoupon(EntityCopier.getRestaurant(restaurantAdmin), EntityCopier.getReservedCoupon(reserveCoupon), Calendar.getInstance().getTime(), (float) price, 1);
+            Restaurants restaurantAdmin = (Restaurants) session.createCriteria(Restaurants.class).add(Restrictions.eq("restaurantId", restaurantId)).uniqueResult();
+            UserUsedCoupon userUsedCoupon = new UserUsedCoupon(restaurantAdmin, reserveCoupon, new Date(), (float) price, 1);
+            userUsedCoupon.getUserReserveCoupon().setStatus(0);
             System.out.println("jjj" + userUsedCoupon.getPrice());
-            session.save(userUsedCoupon);
+            session.saveOrUpdate(userUsedCoupon);
             float remainingValue = (float) (reserveCoupon.getCoupons().getCouponValue() - price);
             if (remainingValue > 0) {
                 RemainingBalance balance = new RemainingBalance(userUsedCoupon, remainingValue);
@@ -273,7 +278,7 @@ public class CouponDaoImpl implements CouponDao {
         if (!availableCoupon.isEmpty()) {
             availableCoupon.get(0).setStatus(1);
             session.update(availableCoupon.get(0));
-            System.out.println("test   "+coupon.getReservationDate());
+            System.out.println("test   " + coupon.getReservationDate());
             System.out.println("time" + (coupon.getReservationDate().getTime() - 48));
             long resrveTime = coupon.getReservationDate().getTime();
             long nowTime = new Date().getTime();
@@ -336,19 +341,19 @@ public class CouponDaoImpl implements CouponDao {
     public boolean publishCoupon(String coupon_id) throws Exception {
         session = sessionFactory.getCurrentSession();
         //tx = session.beginTransaction();
-       
-            Coupons coupon = (Coupons) session.createCriteria(Coupons.class).add(Restrictions.eq("couponId", coupon_id)).uniqueResult();
-            if (coupon != null) {
-                if (coupon.getIsBalance() == 1) {
-                    System.out.println("enter func " + coupon.getIsBalance());
-                    AvailableCoupons availableCoupon = new AvailableCoupons(coupon, new Date(), 1);
-                    availableCoupon.getCoupons().setIsBalance(0);
-                    session.save(availableCoupon);
-                    //  tx.commit();
-                    return true;
-                }
+
+        Coupons coupon = (Coupons) session.createCriteria(Coupons.class).add(Restrictions.eq("couponId", coupon_id)).uniqueResult();
+        if (coupon != null) {
+            if (coupon.getIsBalance() == 1) {
+                System.out.println("enter func " + coupon.getIsBalance());
+                AvailableCoupons availableCoupon = new AvailableCoupons(coupon, new Date(), 1);
+                availableCoupon.getCoupons().setIsBalance(0);
+                session.save(availableCoupon);
+                //  tx.commit();
+                return true;
             }
-       
+        }
+
         return false;
     }
 
