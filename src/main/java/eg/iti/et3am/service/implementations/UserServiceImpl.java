@@ -97,4 +97,9 @@ public class UserServiceImpl implements UserService {
     public boolean verifyUser(String userID,int verifiedID) throws Exception {
         return userDao.verifyUser(userID,verifiedID);
     }
+
+    @Override
+    public boolean requestPasswordReset(String email) {
+       return userDao.requestPasswordReset(email);
+    }
 }

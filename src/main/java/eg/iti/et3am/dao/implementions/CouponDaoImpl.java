@@ -54,6 +54,7 @@ public class CouponDaoImpl implements CouponDao {
         Coupons coupon = new Coupons();
         coupon.setUsers(user);
         coupon.setIsBalance(1);
+        coupon.setCreationDate(new Date());
         coupon.setCouponValue(couponValue);
         coupon.setCouponBarcode(UUID.randomUUID().toString().substring(24).toUpperCase());
         session.save(coupon);
@@ -69,7 +70,7 @@ public class CouponDaoImpl implements CouponDao {
                 createAlias("coupons", "c").
                 add(Restrictions.eq("c.couponBarcode", code)).add(Restrictions.eq("status", 1));
         UserReserveCoupon coupon = (UserReserveCoupon) criteria.uniqueResult();
-    
+
         if (coupon != null) {
             coupon.setStatus(0);
             session.update(coupon);
@@ -87,19 +88,19 @@ public class CouponDaoImpl implements CouponDao {
 
         UserReserveCoupon reserveCoupon = checkCoupon(code);
         if (reserveCoupon != null) {
-                session = sessionFactory.getCurrentSession();
-                Restaurants restaurantAdmin = (Restaurants) session.load(Restaurants.class, restaurantId);
-                UserUsedCoupon userUsedCoupon = new UserUsedCoupon(EntityCopier.getRestaurant(restaurantAdmin), EntityCopier.getReservedCoupon(reserveCoupon), Calendar.getInstance().getTime(), (float) price, 1);
-                System.out.println("jjj" + userUsedCoupon.getPrice());
-                session.save(userUsedCoupon);
-                float remainingValue = (float) (reserveCoupon.getCoupons().getCouponValue() - price);
-                if (remainingValue > 0) {
-                    RemainingBalance balance = new RemainingBalance(userUsedCoupon, remainingValue);
-                    session.save(balance);
-                }
-                int id = (int) session.getIdentifier(userUsedCoupon);
-                return id;
-            
+            session = sessionFactory.getCurrentSession();
+            Restaurants restaurantAdmin = (Restaurants) session.load(Restaurants.class, restaurantId);
+            UserUsedCoupon userUsedCoupon = new UserUsedCoupon(EntityCopier.getRestaurant(restaurantAdmin), EntityCopier.getReservedCoupon(reserveCoupon), Calendar.getInstance().getTime(), (float) price, 1);
+            System.out.println("jjj" + userUsedCoupon.getPrice());
+            session.save(userUsedCoupon);
+            float remainingValue = (float) (reserveCoupon.getCoupons().getCouponValue() - price);
+            if (remainingValue > 0) {
+                RemainingBalance balance = new RemainingBalance(userUsedCoupon, remainingValue);
+                session.save(balance);
+            }
+            int id = (int) session.getIdentifier(userUsedCoupon);
+            return id;
+
         }
         return -1;
     }
@@ -158,6 +159,7 @@ public class CouponDaoImpl implements CouponDao {
         List<AvailableCoupons> couponList = session.createCriteria(AvailableCoupons.class).
                 add(Restrictions.eq("status", 1)).list();
         AvailableCoupons coupon2 = null;
+
         if (!couponList.isEmpty()) {
             coupon2 = EntityCopier.getAvailableCoupons(couponList.get(0));
             couponList.get(0).setStatus(0);
@@ -172,7 +174,6 @@ public class CouponDaoImpl implements CouponDao {
         try {
             session = sessionFactory.getCurrentSession();
 
-            
             AvailableCoupons av = EntityCopier.getAvailableCoupons(c);
 
             Users user = (Users) session.load(Users.class, userId);
@@ -350,7 +351,7 @@ public class CouponDaoImpl implements CouponDao {
     public List<Coupons> getAllCoupons(String userId) throws Exception {
         session = sessionFactory.getCurrentSession();
         List<Coupons> coupons = sessionFactory.getCurrentSession().createCriteria(Coupons.class)
-                .add(Restrictions.eq("users.userId", userId)).list();
+                .add(Restrictions.eq("users.userId", userId)).add(Restrictions.eq("isBalance", 0)).list();
         List<Coupons> couponses = new ArrayList<>();
         for (Coupons coupons1 : coupons) {
             Coupons c = (Coupons) coupons1.clone();
