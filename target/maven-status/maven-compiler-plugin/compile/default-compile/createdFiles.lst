@@ -7,6 +7,7 @@ eg\iti\et3am\dao\interfaces\AdminDao.class
 eg\iti\et3am\dao\implementions\CouponDaoImpl.class
 eg\iti\et3am\service\interfaces\CouponService.class
 eg\iti\et3am\dao\implementions\RestaurantDaoImpl$1.class
+eg\iti\et3am\utils\Mail.class
 eg\iti\et3am\model\RestaurantAdminId.class
 eg\iti\et3am\dao\implementions\UserDaoImpl.class
 eg\iti\et3am\model\Meals.class

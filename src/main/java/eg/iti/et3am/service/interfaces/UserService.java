@@ -43,4 +43,6 @@ public interface UserService {
 
     /* --- Verify User ---*/
    boolean verifyUser(String userID,int verifiedID) throws Exception;
+
+    public boolean requestPasswordReset(String email);
 }
