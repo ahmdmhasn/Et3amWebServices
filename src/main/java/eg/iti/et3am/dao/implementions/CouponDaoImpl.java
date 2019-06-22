@@ -335,14 +335,19 @@ public class CouponDaoImpl implements CouponDao {
     public boolean publishCoupon(String coupon_id) throws Exception {
         session = sessionFactory.getCurrentSession();
         //tx = session.beginTransaction();
-        Coupons coupon = (Coupons) session.load(Coupons.class, coupon_id);
-        if (coupon != null) {
-            AvailableCoupons availableCoupon = new AvailableCoupons(coupon, new Date(), 1);
-            availableCoupon.getCoupons().setIsBalance(0);
-            session.save(availableCoupon);
-            //  tx.commit();
-            return true;
-        }
+       
+            Coupons coupon = (Coupons) session.createCriteria(Coupons.class).add(Restrictions.eq("couponId", coupon_id)).uniqueResult();
+            if (coupon != null) {
+                if (coupon.getIsBalance() == 1) {
+                    System.out.println("enter func " + coupon.getIsBalance());
+                    AvailableCoupons availableCoupon = new AvailableCoupons(coupon, new Date(), 1);
+                    availableCoupon.getCoupons().setIsBalance(0);
+                    session.save(availableCoupon);
+                    //  tx.commit();
+                    return true;
+                }
+            }
+       
         return false;
     }
 
@@ -372,6 +377,8 @@ public class CouponDaoImpl implements CouponDao {
             List<Coupons> couponses = new ArrayList<>();
             for (Coupons coupon : coupons) {
                 Coupons c = (Coupons) coupon.clone();
+                System.out.println("ufesksfkeueibusgeiulbsdiugesfiugaefiugafeiub " + c.getCreationDate());
+
                 couponses.add(c);
             }
             return coupons;

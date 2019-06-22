@@ -258,6 +258,7 @@ public class CouponController {
         try {
             List<Coupons> coupons = couponService.getInBalanceCoupon(1, userId);
             if (coupons != null && !coupons.isEmpty()) {
+                System.out.println("ADsfasfasfasfsafwqfagqe"+coupons.get(0).getCreationDate());
                 result.put("code", 1);
                 result.put("Coupons", coupons);
                 return new ResponseEntity<>(result, HttpStatus.OK);
