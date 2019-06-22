@@ -72,8 +72,7 @@ public class CouponDaoImpl implements CouponDao {
         UserReserveCoupon coupon = (UserReserveCoupon) criteria.uniqueResult();
 
         if (coupon != null) {
-            coupon.setStatus(0);
-            session.update(coupon);
+           
             if(changeStatus)
             {
                 coupon.setStatus(0);
