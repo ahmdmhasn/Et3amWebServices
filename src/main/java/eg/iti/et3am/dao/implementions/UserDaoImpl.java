@@ -229,11 +229,10 @@ public class UserDaoImpl implements UserDao {
         String newPassword = randomPassword();
         user.setPassword(newPassword);
         session.update(user);
-        String receiver = "asmaa.fathy002@gmail.com";
-        String sender = "asmaa.fathy002@gmail.com";
+        String receiver = "nesmatharwat20@gmail.com";
         String subject = user.getUserName() + ", your password was successfully reset";
         String msg = "\n Hi " + user.getUserName() + ",\n your new password is " + user.getPassword() + "\n Thanks for using Et3am App!\nThe Et3am Team";
-        mail.sendMail(sender, receiver, subject, msg);
+        mail.sendMail(receiver, subject, msg);
         System.out.println("success");
         return true;
     }
