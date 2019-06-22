@@ -273,6 +273,7 @@ public class CouponDaoImpl implements CouponDao {
         if (!availableCoupon.isEmpty()) {
             availableCoupon.get(0).setStatus(1);
             session.update(availableCoupon.get(0));
+            System.out.println("test   "+coupon.getReservationDate());
             System.out.println("time" + (coupon.getReservationDate().getTime() - 48));
             long resrveTime = coupon.getReservationDate().getTime();
             long nowTime = new Date().getTime();
