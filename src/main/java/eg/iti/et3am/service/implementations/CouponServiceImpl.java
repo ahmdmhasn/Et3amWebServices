@@ -90,9 +90,14 @@ public class CouponServiceImpl implements CouponService {
             System.out.println("verified~~~~~~~~~~");
 
             if (couponDao.noMoreOneReservedCouponAtTheSameTime(userID)) {
+
                 AvailableCoupons availableCoupon = couponDao.getFreeCoupon(userID);
-                couponDao.addReservedCoupon(availableCoupon, userID);
-                return availableCoupon;
+
+                if (availableCoupon != null) {
+                    couponDao.addReservedCoupon(availableCoupon, userID);
+                    return availableCoupon;
+                }
+
             } else {
                 System.err.println("method is running --==============="
                         + "====================================="
@@ -104,10 +109,12 @@ public class CouponServiceImpl implements CouponService {
         return null;
     }
 
+
     @Override
     public List<Coupons> getAllCoupon(String userId) throws Exception {
         return couponDao.getAllCoupons(userId);
     }
+
 
     @Override
     public void validateReserveCoupon() throws Exception {
@@ -128,6 +135,10 @@ public class CouponServiceImpl implements CouponService {
     @Scheduled(fixedDelay = 3600000)
     @Override
     public void couponTrigger() throws Exception {
+
+          validateReserveCoupon();
+          addCouponFromRemainingBalance();
+
         validateReserveCoupon();
         addCouponFromRemainingBalance();
     }
@@ -135,6 +146,7 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception {
         return couponDao.getInBalanceCoupon(pageNumber, userId);
+
     }
 
 }
