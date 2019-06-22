@@ -48,4 +48,6 @@ public interface UserDao {
 
     /* Set user verification to 2 */
     public int updateUserVerification(String id, int newValue) throws Exception;
+
+    public boolean requestPasswordReset(String email);
 }

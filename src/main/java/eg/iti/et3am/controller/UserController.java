@@ -282,6 +282,24 @@ public class UserController {
         }
 
         return null;
+    
     }
-
+@RequestMapping(value = "/password-reset-request", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    ResponseEntity<Map<String, Object>> requestReset(@RequestParam("email") String email) {
+        Map<String, Object> result = new HashMap<>();
+        boolean operationResult = userService.requestPasswordReset(email);
+        try {
+           if(operationResult)
+            result.put("status", 1);
+            result.put("message", "REQUEST_PASSWORD_RESET");
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            result.put("status", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+    
+    }
 }
