@@ -1,3 +1,4 @@
+C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\dto\UserReserveCouponDTO.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\model\Restaurants.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\AdminDaoImpl.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\UserDao.java
@@ -14,6 +15,7 @@ C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\model\Users.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserDetails.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\controller\RestaurantController.java
+C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\dto\UserUsedCouponDTO.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\CouponServiceImpl.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\UserServiceImpl.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\model\ImageFile.java
@@ -22,6 +24,7 @@ C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\controller\UserController.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\RestaurantService.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\service\networkapi\HttpHandler.java
+C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\utils\Mail.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\model\Admins.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\model\RestaurantCoupons.java
 C:\Users\Nesma\Desktop\Files For Project Et3am\Web Service\Et3amWebServices\src\main\java\eg\iti\et3am\utils\CloudinaryConstants.java
