@@ -2,6 +2,8 @@ package eg.iti.et3am.dao.implementions;
 
 import eg.iti.et3am.dao.interfaces.CouponDao;
 import eg.iti.et3am.dao.interfaces.UserDao;
+import eg.iti.et3am.dto.UserReserveCouponDTO;
+import eg.iti.et3am.dto.UserUsedCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.RemainingBalance;
@@ -27,6 +29,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.beans.BeanUtils;
 
 @Repository
 public class CouponDaoImpl implements CouponDao {
@@ -64,7 +67,7 @@ public class CouponDaoImpl implements CouponDao {
     }
 
     @Override
-    public UserReserveCoupon checkCoupon(String code ) throws Exception {
+    public UserReserveCoupon checkCoupon(String code) throws Exception {
         session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(UserReserveCoupon.class).
                 createAlias("coupons", "c").
@@ -357,16 +360,58 @@ public class CouponDaoImpl implements CouponDao {
         return false;
     }
 
+    //reserved coupon
     @Override
-    public List<Coupons> getAllCoupons(String userId) throws Exception {
+    public List<UserReserveCouponDTO> getAllReservedCoupons(String donatorId) throws Exception {
         session = sessionFactory.getCurrentSession();
-        List<Coupons> coupons = sessionFactory.getCurrentSession().createCriteria(Coupons.class)
-                .add(Restrictions.eq("users.userId", userId)).add(Restrictions.eq("isBalance", 0)).list();
-        List<Coupons> couponses = new ArrayList<>();
-        for (Coupons coupons1 : coupons) {
-            Coupons c = (Coupons) coupons1.clone();
-            couponses.add(c);
+        List<UserReserveCoupon> coupons = sessionFactory.getCurrentSession().createCriteria(UserReserveCoupon.class)
+                .createAlias("coupons", "coupon")
+                .createAlias("coupon.users", "donator")
+                .add(Restrictions.eq("donator.userId", donatorId))
+                .add(Restrictions.eq("status", 1)).list();
+        List<UserReserveCouponDTO> couponses = new ArrayList<>();
+        for (UserReserveCoupon coupons1 : coupons) {
+            UserReserveCoupon c = (UserReserveCoupon) coupons1.clone();
+            UserReserveCouponDTO couponDTO = new UserReserveCouponDTO();
+            couponDTO.setUserId(c.getUsers().getUserId());
+            couponDTO.setReservationDate(c.getReservationDate());
+            couponDTO.setCouponId(c.getCoupons().getCouponId());
+            couponDTO.setCouponQrCode(c.getCoupons().getCouponBarcode());
+            couponDTO.setCouponValue(c.getCoupons().getCouponValue());
+            couponses.add(couponDTO);
         }
+        return couponses;
+    }
+
+    //used coupon
+    @Override
+    public List<UserUsedCouponDTO> getAllUsedCoupons(String donatorId) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        List<UserUsedCoupon> coupons = sessionFactory.getCurrentSession().createCriteria(UserUsedCoupon.class)
+                .createAlias("userReserveCoupon", "urc")
+                .createAlias("urc.coupons", "coupon")
+                .createAlias("coupon.users", "donator")
+                .add(Restrictions.eq("donator.userId", donatorId))
+                .add(Restrictions.eq("status", 1)).list();
+        List<UserUsedCouponDTO> couponses = new ArrayList<>();
+
+        for (UserUsedCoupon coupons1 : coupons) {
+
+            UserUsedCouponDTO couponDTO = new UserUsedCouponDTO();
+
+            UserUsedCoupon c = (UserUsedCoupon) coupons1.clone();
+
+            couponDTO.setCouponId(c.getUserReserveCoupon().getCoupons().getCouponId());
+            couponDTO.setUserId(c.getUserReserveCoupon().getUsers().getUserId());
+            couponDTO.setRestaurantName(c.getRestaurants().getRestaurantName());
+            couponDTO.setRestaurantAddress(c.getRestaurants().getCity() + ", " + c.getRestaurants().getCountry());
+            couponDTO.setUseDate(c.getUseDate());
+            couponDTO.setPrice(c.getPrice());
+            couponDTO.setUserName(c.getUserReserveCoupon().getUsers().getUserName());
+
+            couponses.add(couponDTO);
+        }
+
         return couponses;
     }
 
@@ -395,3 +440,28 @@ public class CouponDaoImpl implements CouponDao {
         return null;
     }
 }
+
+/*
+public List<UserUsedCoupon> getAllUsedCoupons(String donatorId) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        List<UserUsedCoupon> coupons = sessionFactory.getCurrentSession().createCriteria(UserUsedCoupon.class)
+                .createAlias("userReserveCoupon", "urc")
+                .createAlias("urc.coupons", "coupon")
+                .createAlias("coupon.users", "donator")
+                .add(Restrictions.eq("donator.userId", donatorId))
+                .add(Restrictions.eq("status", 1)).list();
+        List<UserUsedCoupon> couponses = new ArrayList<>();
+        for (UserUsedCoupon coupons1 : coupons) {
+            UserUsedCoupon c = (UserUsedCoupon) coupons1.clone();
+            System.out.println("c.getUseDate() " + c.getUseDate());
+            System.out.println("c.getUsedCouponId() " + c.getUsedCouponId());
+            System.out.println("c.getRestaurants().getRestaurantName() " + c.getRestaurants().getRestaurantName());
+            System.out.println("c.getRestaurants().getCity() " + c.getRestaurants().getCity());
+            System.out.println("c.getUserReserveCoupon().getCoupons().getCouponId() " + c.getUserReserveCoupon().getCoupons().getCouponId());
+            System.out.println("c.getUserReserveCoupon().getUsers().getUserId() " + c.getUserReserveCoupon().getUsers().getUserId());
+            couponses.add(c);
+        }
+        return couponses;
+    }
+
+ */
