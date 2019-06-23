@@ -136,8 +136,8 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public void couponTrigger() throws Exception {
 
-//          validateReserveCoupon();
-//          addCouponFromRemainingBalance();
+          validateReserveCoupon();
+          addCouponFromRemainingBalance();
 
     }
 

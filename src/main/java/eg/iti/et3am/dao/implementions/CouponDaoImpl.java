@@ -64,7 +64,7 @@ public class CouponDaoImpl implements CouponDao {
     }
 
     @Override
-    public UserReserveCoupon checkCoupon(String code , boolean  changeStatus) throws Exception {
+    public UserReserveCoupon checkCoupon(String code, boolean changeStatus) throws Exception {
         session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(UserReserveCoupon.class).
                 createAlias("coupons", "c").
@@ -72,9 +72,8 @@ public class CouponDaoImpl implements CouponDao {
         UserReserveCoupon coupon = (UserReserveCoupon) criteria.uniqueResult();
 
         if (coupon != null) {
-           
-            if(changeStatus)
-            {
+
+            if (changeStatus) {
                 coupon.setStatus(0);
                 session.update(coupon);
             }
@@ -272,11 +271,9 @@ public class CouponDaoImpl implements CouponDao {
 
     boolean checkExperation(UserReserveCoupon coupon) {
 
-        List<AvailableCoupons> availableCoupon = session.createCriteria(AvailableCoupons.class).createAlias("coupons", "c").
-                add(Restrictions.eq("c.couponId", coupon.getCoupons().getCouponId())).list();
-        if (!availableCoupon.isEmpty()) {
-            availableCoupon.get(0).setStatus(1);
-            session.update(availableCoupon.get(0));
+        AvailableCoupons availableCoupon = (AvailableCoupons)session.createCriteria(AvailableCoupons.class).createAlias("coupons", "c").
+                add(Restrictions.eq("c.couponId", coupon.getCoupons().getCouponId())).uniqueResult();
+        if (availableCoupon!= null) {
             System.out.println("test   " + coupon.getReservationDate());
             System.out.println("time" + (coupon.getReservationDate().getTime() - 48));
             long resrveTime = coupon.getReservationDate().getTime();
@@ -285,6 +282,8 @@ public class CouponDaoImpl implements CouponDao {
             System.err.println("time" + TimeUnit.MILLISECONDS.toHours(nowTime - resrveTime));
 
             if ((TimeUnit.MILLISECONDS.toHours(nowTime - resrveTime)) - 48 > 0) {
+                availableCoupon.setStatus(1);
+                session.update(availableCoupon);
                 return true;
             }
 
