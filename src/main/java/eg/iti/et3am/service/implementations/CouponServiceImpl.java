@@ -7,6 +7,8 @@ package eg.iti.et3am.service.implementations;
 
 import eg.iti.et3am.dao.interfaces.CouponDao;
 import eg.iti.et3am.dao.interfaces.UserDao;
+import eg.iti.et3am.dto.UserReserveCouponDTO;
+import eg.iti.et3am.dto.UserUsedCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.RestaurantCoupons;
@@ -111,8 +113,8 @@ public class CouponServiceImpl implements CouponService {
 
 
     @Override
-    public List<Coupons> getAllCoupon(String userId) throws Exception {
-        return couponDao.getAllCoupons(userId);
+    public List<UserReserveCouponDTO> getAllReservedCoupons(String userId) throws Exception {
+        return couponDao.getAllReservedCoupons(userId);
     }
 
 
@@ -145,6 +147,11 @@ public class CouponServiceImpl implements CouponService {
     public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception {
         return couponDao.getInBalanceCoupon(pageNumber, userId);
 
+    }
+
+    @Override
+    public List<UserUsedCouponDTO> getAllUsedCoupons(String donatorId) throws Exception {
+        return couponDao.getAllUsedCoupons(donatorId);
     }
 
 }
