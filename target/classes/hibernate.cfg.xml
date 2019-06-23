@@ -62,3 +62,4 @@ Contributor(s):
     <mapping class="eg.iti.et3am.model.Coupons"/>
   </session-factory>
 </hibernate-configuration>
+

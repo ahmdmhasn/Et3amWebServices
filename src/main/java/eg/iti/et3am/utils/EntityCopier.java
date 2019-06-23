@@ -73,7 +73,7 @@ public class EntityCopier {
         restaurants1.setCity(restaurants.getCity());
         restaurants1.setCountry(restaurants.getCountry());
         restaurants1.setDistance(restaurants.getDistance());
-        restaurants1.setLatitude(restaurants.getLongitude());
+        restaurants1.setLatitude(restaurants.getLatitude());
         restaurants1.setLongitude(restaurants.getLongitude());
         restaurants1.setMealses(restaurants.getMealses());
         restaurants1.setRestaurantAdmins(restaurants.getRestaurantAdmins());
@@ -125,7 +125,5 @@ public class EntityCopier {
         ac2.setDate(ac1.getDate());
         ac2.setStatus(ac1.getStatus());
         return ac2;
-
-
     }
 }

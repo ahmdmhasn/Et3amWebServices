@@ -5,14 +5,14 @@
  */
 package eg.iti.et3am.controller;
 
+import eg.iti.et3am.dto.UserReserveCouponDTO;
+import eg.iti.et3am.dto.UserUsedCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.RestaurantCoupons;
 import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.UserUsedCoupon;
 import eg.iti.et3am.service.interfaces.CouponService;
-import eg.iti.et3am.utils.EntityCopier;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -55,9 +55,9 @@ public class CouponController {
             @RequestParam("value_50") int value50,
             @RequestParam("value_100") int value100,
             @RequestParam("value_200") int value200) {
-        
+
         Map<String, Object> result = new HashMap<>();
-        
+
         if (value50 == 0 && value100 == 0 && value200 == 0) {
             result.put("status", 0);
             result.put("message", "At least one coupon is required!");
@@ -101,7 +101,7 @@ public class CouponController {
         }
 
     }
-    
+
     // reserve coupon  
     @RequestMapping(value = "/reserve_coupon", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> reserveCoupon(@RequestParam("reserver_id") String reserver_id,
@@ -221,11 +221,85 @@ public class CouponController {
             }
         } catch (Exception ex) {
             result.put("status", 0);
+            result.put("message", ex.getMessage() + "  ax");
+            ex.printStackTrace();
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+
+    }
+
+    //get coupons for user
+    @RequestMapping(value = "/get_all_reserved_coupon", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> getAllReservedCoupon(@RequestParam("user_id") String userId) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<UserReserveCouponDTO> coupons = couponService.getAllReservedCoupons(userId);
+            if (coupons != null && !coupons.isEmpty()) {
+                result.put("code", 1);
+                result.put("Coupons", coupons);
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                result.put("code", 0);
+                result.put("message", "there are not Coupons");
+                return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception ex) {
+            result.put("status", 0);
             result.put("message", ex.getMessage());
             ex.printStackTrace();
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
 
+    }
+
+    //get coupons for user
+    @RequestMapping(value = "/get_all_used_coupon", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> getAllUsedCoupon(@RequestParam("user_id") String userId) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<UserUsedCouponDTO> coupons = couponService.getAllUsedCoupons(userId);
+            if (coupons != null && !coupons.isEmpty()) {
+                result.put("code", 1);
+                result.put("Coupons", coupons);
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                result.put("code", 0);
+                result.put("message", "there are not Coupons");
+                return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception ex) {
+            result.put("status", 0);
+            result.put("message", ex.getMessage());
+            ex.printStackTrace();
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+
+    }
+
+//get coupons for user
+    @RequestMapping(value = "/get_inBalance_coupon", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> getInBalanceCoupon(@RequestParam("user_id") String userId) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            List<Coupons> coupons = couponService.getInBalanceCoupon(1, userId);
+            if (coupons != null && !coupons.isEmpty()) {
+                System.out.println("ADsfasfasfasfsafwqfagqe" + coupons.get(0).getCreationDate());
+                result.put("code", 1);
+                result.put("Coupons", coupons);
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                result.put("code", 0);
+                result.put("message", "there are not Coupons");
+                return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
+            result.put("code", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
     }
 
     @RequestMapping(value = "/publish_coupon", method = RequestMethod.GET)
@@ -259,5 +333,27 @@ public class CouponController {
         } catch (Exception ex) {
             Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @RequestMapping(value = "/cancel_reservation", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> cancelReservation(@RequestParam("coupon_id") String coupon_id) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            if(couponService.cancelReservation(coupon_id))
+            {
+            result.put("status", 1);
+            result.put("message", "reservation is cancelled.");
+            }
+            else{
+                 result.put("status", 0);
+            result.put("message", "no reservation to cancel.");
+            }
+        } catch (Exception ex) {
+            result.put("status", 0);
+            result.put("message", ex.getMessage());
+
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

@@ -14,9 +14,23 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd 
                 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
-    <!-- Getting Database and Other properties -->
+ 
     <context:property-placeholder location="classpath:application.properties" />
-
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">  
+        <property name="host" value="smtp.gmail.com" />  
+        <property name="username" value="asmaa.fathy002" />  
+        <property name="password" value="asmaafathy002" />  
+        <property name="javaMailProperties">  
+            <props> 
+                <prop key="mail.smtp.auth">true</prop> 
+                <prop key="mail.smtp.port">587</prop>  
+                <prop key="mail.smtp.starttls.enable">true</prop>
+            </props>  
+        </property>  
+    </bean>  
+    <bean id="mail" class="eg.iti.et3am.utils.Mail">  
+        <property name="mailSender" ref="mailSender" />  
+    </bean>  
     <!--Spring dataSource-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${database.driverClassName}" />

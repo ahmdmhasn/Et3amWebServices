@@ -7,18 +7,17 @@ package eg.iti.et3am.service.implementations;
 
 import eg.iti.et3am.dao.interfaces.CouponDao;
 import eg.iti.et3am.dao.interfaces.UserDao;
+import eg.iti.et3am.dto.UserReserveCouponDTO;
+import eg.iti.et3am.dto.UserUsedCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.RestaurantCoupons;
 import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.UserUsedCoupon;
-import eg.iti.et3am.model.Users;
 import eg.iti.et3am.service.interfaces.CouponService;
-import eg.iti.et3am.utils.EntityCopier;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -63,7 +62,7 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public UserReserveCoupon checkCouponReservation(String code) throws Exception {
-        return couponDao.checkCoupon(code);
+        return couponDao.checkCoupon(code,false);
     }
 
     @Override
@@ -93,9 +92,14 @@ public class CouponServiceImpl implements CouponService {
             System.out.println("verified~~~~~~~~~~");
 
             if (couponDao.noMoreOneReservedCouponAtTheSameTime(userID)) {
+
                 AvailableCoupons availableCoupon = couponDao.getFreeCoupon(userID);
-                couponDao.addReservedCoupon(availableCoupon, userID);
-                return availableCoupon;
+
+                if (availableCoupon != null) {
+                    couponDao.addReservedCoupon(availableCoupon, userID);
+                    return availableCoupon;
+                }
+
             } else {
                 System.err.println("method is running --==============="
                         + "====================================="
@@ -109,6 +113,12 @@ public class CouponServiceImpl implements CouponService {
 
 
     @Override
+    public List<UserReserveCouponDTO> getAllReservedCoupons(String userId) throws Exception {
+        return couponDao.getAllReservedCoupons(userId);
+    }
+
+
+    @Override
     public void validateReserveCoupon() throws Exception {
         couponDao.validateReserveCoupon();
         System.out.println("hdhdhd");
@@ -116,19 +126,37 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public void addCouponFromRemainingBalance() throws Exception {
-       couponDao.addCouponFromRemainingBalance();
+        couponDao.addCouponFromRemainingBalance();
     }
 
     @Override
     public boolean publishCoupon(String coupon_id) throws Exception {
-       return couponDao.publishCoupon(coupon_id);
+        return couponDao.publishCoupon(coupon_id);
     }
-    
+
     @Scheduled(fixedDelay = 3600000)
     @Override
     public void couponTrigger() throws Exception {
+
           validateReserveCoupon();
           addCouponFromRemainingBalance();
+
+    }
+
+    @Override
+    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception {
+        return couponDao.getInBalanceCoupon(pageNumber, userId);
+
+    }
+
+    @Override
+    public List<UserUsedCouponDTO> getAllUsedCoupons(String donatorId) throws Exception {
+        return couponDao.getAllUsedCoupons(donatorId);
+    }
+
+    @Override
+    public boolean cancelReservation(String coupon_id) throws Exception {
+       return couponDao.cancleReservation(coupon_id); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -5,12 +5,13 @@
  */
 package eg.iti.et3am.dao.interfaces;
 
+import eg.iti.et3am.dto.UserReserveCouponDTO;
+import eg.iti.et3am.dto.UserUsedCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.RestaurantCoupons;
 import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.UserUsedCoupon;
-import eg.iti.et3am.model.Users;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface CouponDao {
 
     public Coupons findByCode(String code) throws Exception;
 
-    public UserReserveCoupon checkCoupon(String code) throws Exception;
+    public UserReserveCoupon checkCoupon(String code, boolean changeStatus) throws Exception;
 
     public int useCoupon(String code, double price, int restaurantId) throws Exception;
 
@@ -43,7 +44,20 @@ public interface CouponDao {
     public void validateReserveCoupon() throws Exception;
 
     public void addCouponFromRemainingBalance() throws Exception;
-    
+
     public boolean publishCoupon(String coupon_id) throws Exception;
-            
+
+    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception;
+
+    public List<UserReserveCouponDTO> getAllReservedCoupons(String userId) throws Exception;
+
+    public List<UserUsedCouponDTO> getAllUsedCoupons(String donatorId) throws Exception;
+
+    public long getUserUsedCouponsCount(String userId) throws Exception;
+
+    public long getUserDonatedCouponsCount(String id) throws Exception;
+
+    public Date getUserReservedCouponReservationDate(String id) throws Exception;
+    
+    public boolean cancleReservation(String coupon_id) throws Exception;
 }

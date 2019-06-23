@@ -3,6 +3,7 @@ package eg.iti.et3am.service.interfaces;
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Users;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -43,4 +44,9 @@ public interface UserService {
 
     /* --- Verify User ---*/
    boolean verifyUser(String userID,int verifiedID) throws Exception;
+
+    public boolean requestPasswordReset(String email);
+
+    /* Get summary related to the user includes donated coupons number received, ...etc */
+    public Map<String, Object> getSummaryById(String id) throws Exception;
 }
