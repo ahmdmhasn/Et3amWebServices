@@ -1,10 +1,15 @@
 package eg.iti.et3am.service.implementations;
 
+import eg.iti.et3am.dao.interfaces.CouponDao;
 import eg.iti.et3am.service.interfaces.UserService;
 import eg.iti.et3am.dao.interfaces.UserDao;
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Users;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,12 +21,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private CouponDao couponDao;
+
     @Override
     @Transactional
     public Users addEntity(Users user) throws Exception {
         user.setUserStatus(1);
         user.setVerified(0);
-        
+
         String userId = userDao.addEntity(user);
         UserDetails ud = new UserDetails();
         ud.setUsers(userDao.getEntityById(userId));
@@ -41,7 +49,7 @@ public class UserServiceImpl implements UserService {
     public List<Users> getEntityList() throws Exception {
         return userDao.getEntityList();
     }
-    
+
     @Override
     @Transactional
     public void updateEntity(Users user) {
@@ -53,7 +61,7 @@ public class UserServiceImpl implements UserService {
     public Users updateEntity(UserDetails userDetails, String id) throws Exception {
         return userDao.updateEntity(userDetails, id);
     }
-    
+
     @Override
     @Transactional
     public void updateUserVerification(UserDetails userDetails, String id) throws Exception {
@@ -94,12 +102,35 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean verifyUser(String userID,int verifiedID) throws Exception {
-        return userDao.verifyUser(userID,verifiedID);
+    public boolean verifyUser(String userID, int verifiedID) throws Exception {
+        return userDao.verifyUser(userID, verifiedID);
     }
 
     @Override
     public boolean requestPasswordReset(String email) {
-       return userDao.requestPasswordReset(email);
+        return userDao.requestPasswordReset(email);
     }
+
+    @Override
+    @Transactional
+    public Map<String, Object> getSummaryById(String id) throws Exception {
+
+        Map<String, Object> summary = new HashMap<>();
+
+        summary.put("donated", couponDao.getUserDonatedCouponsCount(id));
+        summary.put("used", couponDao.getUserUsedCouponsCount(id));
+
+        Date reservationDate = couponDao.getUserReservedCouponReservationDate(id);
+        if (reservationDate != null) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(reservationDate);
+            cal.add(Calendar.DATE, 2); //minus number would decrement the days
+            summary.put("reserved", cal.getTime());
+        } else {
+            summary.put("reserved", "");
+        }
+
+        return summary;
+    }
+
 }

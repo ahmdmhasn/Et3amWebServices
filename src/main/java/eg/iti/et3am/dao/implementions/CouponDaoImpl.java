@@ -24,6 +24,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -241,10 +242,53 @@ public class CouponDaoImpl implements CouponDao {
         for (UserUsedCoupon userUsedCoupon : userUsedCoupons) {
             listOfUsedCouponse.add(EntityCopier.getUsedCoupon(userUsedCoupon));
             System.out.println(EntityCopier.getCoupon(EntityCopier.getUsedCoupon(userUsedCoupon).getUserReserveCoupon().getCoupons()));
-            //    System.out.println(listOfUsedCouponse);
         }
 
         return listOfUsedCouponse;
+    }
+    
+    @Override
+    public long getUserUsedCouponsCount(String userId) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        return (long) session.createCriteria(UserUsedCoupon.class)
+                .createAlias("userReserveCoupon", "r")
+                .createAlias("r.users", "u")
+                .add(Restrictions.eq("u.userId", userId))
+                .setProjection(Projections.rowCount())
+                .uniqueResult();
+    }
+    
+    @Override
+    public long getUserDonatedCouponsCount(String id) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        return (long) session.createCriteria(Coupons.class)
+                .createAlias("users", "u")
+                .add(Restrictions.eq("u.userId", id))
+                .setProjection(Projections.rowCount())
+                .uniqueResult();
+    }
+    
+    @Override
+    public Date getUserReservedCouponReservationDate(String id) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        
+        Criteria criteria = session.createCriteria(UserReserveCoupon.class)
+                .createAlias("users", "u")
+                .add(Restrictions.eq("u.userId", id))
+                .add(Restrictions.eq("status", 1));
+                
+        long rowCount = (long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+        
+        if (rowCount > 0) {
+            UserReserveCoupon coupon = (UserReserveCoupon) session.createCriteria(UserReserveCoupon.class)
+                    .createAlias("users", "u")
+                    .add(Restrictions.eq("u.userId", id))
+                    .add(Restrictions.eq("status", 1))
+                    .uniqueResult();
+            return coupon.getReservationDate();
+        } else {
+            return null;
+        }
     }
 
     @Override

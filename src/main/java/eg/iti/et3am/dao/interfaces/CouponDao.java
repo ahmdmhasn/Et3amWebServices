@@ -32,7 +32,7 @@ public interface CouponDao {
     public AvailableCoupons getFreeCoupon(String userID) throws Exception;
 
     public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception;
-
+    
     public boolean addReservedCoupon(AvailableCoupons c, String userID) throws Exception;
 
     public boolean noMoreOneReservedCouponAtTheSameTime(String userId) throws Exception;
@@ -48,5 +48,10 @@ public interface CouponDao {
     public boolean publishCoupon(String coupon_id) throws Exception;
     
     public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception;
-            
+
+    public long getUserUsedCouponsCount(String userId) throws Exception;
+    
+    public long getUserDonatedCouponsCount(String id) throws Exception;            
+
+    public Date getUserReservedCouponReservationDate(String id) throws Exception;
 }
