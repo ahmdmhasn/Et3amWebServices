@@ -54,6 +54,7 @@ public class UserController {
             Users user = userService.getEntityById(id);
             result.put("status", 1);
             result.put("user", user);
+            result.put("summary", userService.getSummaryById(id));
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception ex) {
             Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
@@ -101,6 +102,7 @@ public class UserController {
         try {
             result.put("status", 1);
             result.put("users", userService.updateEntity(userDetails, id));
+            result.put("summary", userService.getSummaryById(id));
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -93,7 +93,6 @@ public class EntityCopier {
         userReserveCoupon2.setStatus(reserveCoupon.getStatus());
         userReserveCoupon2.setUserUsedCoupons(reserveCoupon.getUserUsedCoupons());
         userReserveCoupon2.setUsers(EntityCopier.getUser(reserveCoupon.getUsers()));
-        
 
         return userReserveCoupon2;
     }
