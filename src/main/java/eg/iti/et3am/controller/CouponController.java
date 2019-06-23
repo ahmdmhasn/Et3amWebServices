@@ -5,6 +5,8 @@
  */
 package eg.iti.et3am.controller;
 
+import eg.iti.et3am.dto.UserReserveCouponDTO;
+import eg.iti.et3am.dto.UserUsedCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.RestaurantCoupons;
@@ -227,11 +229,11 @@ public class CouponController {
     }
 
     //get coupons for user
-    @RequestMapping(value = "/get_all_coupon", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, Object>> getAllCoupon(@RequestParam("user_id") String userId) throws Exception {
+    @RequestMapping(value = "/get_all_reserved_coupon", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> getAllReservedCoupon(@RequestParam("user_id") String userId) throws Exception {
         Map<String, Object> result = new HashMap<>();
         try {
-            List<Coupons> coupons = couponService.getAllCoupon(userId);
+            List<UserReserveCouponDTO> coupons = couponService.getAllReservedCoupons(userId);
             if (coupons != null && !coupons.isEmpty()) {
                 result.put("code", 1);
                 result.put("Coupons", coupons);
@@ -250,6 +252,31 @@ public class CouponController {
 
     }
 
+    //get coupons for user
+    @RequestMapping(value = "/get_all_used_coupon", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> getAllUsedCoupon(@RequestParam("user_id") String userId) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<UserUsedCouponDTO> coupons = couponService.getAllUsedCoupons(userId);
+            if (coupons != null && !coupons.isEmpty()) {
+                result.put("code", 1);
+                result.put("Coupons", coupons);
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                result.put("code", 0);
+                result.put("message", "there are not Coupons");
+                return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception ex) {
+            result.put("status", 0);
+            result.put("message", ex.getMessage());
+            ex.printStackTrace();
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+
+    }
+
+    
 //get coupons for user
     @RequestMapping(value = "/get_inBalance_coupon", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getInBalanceCoupon(@RequestParam("user_id") String userId) throws Exception {
