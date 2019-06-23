@@ -102,6 +102,7 @@ public class UserController {
         try {
             result.put("status", 1);
             result.put("users", userService.updateEntity(userDetails, id));
+            result.put("summary", userService.getSummaryById(id));
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception ex) {
             ex.printStackTrace();
