@@ -221,7 +221,7 @@ public class CouponController {
             }
         } catch (Exception ex) {
             result.put("status", 0);
-            result.put("message", ex.getMessage()+"  ax");
+            result.put("message", ex.getMessage() + "  ax");
             ex.printStackTrace();
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
@@ -276,7 +276,6 @@ public class CouponController {
 
     }
 
-    
 //get coupons for user
     @RequestMapping(value = "/get_inBalance_coupon", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getInBalanceCoupon(@RequestParam("user_id") String userId) throws Exception {
@@ -285,7 +284,7 @@ public class CouponController {
         try {
             List<Coupons> coupons = couponService.getInBalanceCoupon(1, userId);
             if (coupons != null && !coupons.isEmpty()) {
-                System.out.println("ADsfasfasfasfsafwqfagqe"+coupons.get(0).getCreationDate());
+                System.out.println("ADsfasfasfasfsafwqfagqe" + coupons.get(0).getCreationDate());
                 result.put("code", 1);
                 result.put("Coupons", coupons);
                 return new ResponseEntity<>(result, HttpStatus.OK);
@@ -334,5 +333,27 @@ public class CouponController {
         } catch (Exception ex) {
             Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @RequestMapping(value = "/cancel_reservation", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> cancelReservation(@RequestParam("coupon_id") String coupon_id) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            if(couponService.cancelReservation(coupon_id))
+            {
+            result.put("status", 1);
+            result.put("message", "reservation is cancelled.");
+            }
+            else{
+                 result.put("status", 0);
+            result.put("message", "no reservation to cancel.");
+            }
+        } catch (Exception ex) {
+            result.put("status", 0);
+            result.put("message", ex.getMessage());
+
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

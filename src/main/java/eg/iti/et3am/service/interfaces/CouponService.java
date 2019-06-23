@@ -51,4 +51,6 @@ public interface CouponService {
     public List<UserUsedCouponDTO> getAllUsedCoupons(String donatorId) throws Exception;
     
     public List<UserReserveCouponDTO> getAllReservedCoupons(String userId) throws Exception;
+    
+    public boolean cancelReservation(String coupon_id) throws Exception;
 }

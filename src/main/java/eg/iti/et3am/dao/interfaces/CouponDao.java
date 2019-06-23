@@ -58,4 +58,6 @@ public interface CouponDao {
     public long getUserDonatedCouponsCount(String id) throws Exception;
 
     public Date getUserReservedCouponReservationDate(String id) throws Exception;
+    
+    public boolean cancleReservation(String coupon_id) throws Exception;
 }

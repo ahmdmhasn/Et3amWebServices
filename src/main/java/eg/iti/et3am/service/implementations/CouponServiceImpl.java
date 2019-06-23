@@ -154,4 +154,9 @@ public class CouponServiceImpl implements CouponService {
         return couponDao.getAllUsedCoupons(donatorId);
     }
 
+    @Override
+    public boolean cancelReservation(String coupon_id) throws Exception {
+       return couponDao.cancleReservation(coupon_id); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
