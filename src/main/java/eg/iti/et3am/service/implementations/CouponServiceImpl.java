@@ -62,7 +62,7 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public UserReserveCoupon checkCouponReservation(String code) throws Exception {
-        return couponDao.checkCoupon(code);
+        return couponDao.checkCoupon(code,false);
     }
 
     @Override
@@ -138,8 +138,8 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public void couponTrigger() throws Exception {
 
-//          validateReserveCoupon();
-//          addCouponFromRemainingBalance();
+          validateReserveCoupon();
+          addCouponFromRemainingBalance();
 
     }
 

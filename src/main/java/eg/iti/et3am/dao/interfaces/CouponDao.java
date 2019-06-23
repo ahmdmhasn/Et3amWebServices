@@ -23,7 +23,7 @@ public interface CouponDao {
 
     public Coupons findByCode(String code) throws Exception;
 
-    public UserReserveCoupon checkCoupon(String code) throws Exception;
+    public UserReserveCoupon checkCoupon(String code, boolean changeStatus) throws Exception;
 
     public int useCoupon(String code, double price, int restaurantId) throws Exception;
 
@@ -53,4 +53,9 @@ public interface CouponDao {
 
     public List<UserUsedCouponDTO> getAllUsedCoupons(String donatorId) throws Exception;
 
+    public long getUserUsedCouponsCount(String userId) throws Exception;
+
+    public long getUserDonatedCouponsCount(String id) throws Exception;
+
+    public Date getUserReservedCouponReservationDate(String id) throws Exception;
 }
