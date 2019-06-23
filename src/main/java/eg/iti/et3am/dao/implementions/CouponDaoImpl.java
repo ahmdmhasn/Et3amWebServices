@@ -157,7 +157,7 @@ public class CouponDaoImpl implements CouponDao {
 
         List<RestaurantCoupons> restaurantCoupons = new ArrayList<>();
         for (UserUsedCoupon coupon : usedCouponsList2) {
-            RestaurantCoupons restCoupon = new RestaurantCoupons(EntityCopier.getReservedCoupon(coupon.getUserReserveCoupon()).getCoupons().getCouponBarcode(), coupon.getUseDate(), coupon.getPrice());
+            RestaurantCoupons restCoupon = new RestaurantCoupons(EntityCopier.getReservedCoupon(coupon.getUserReserveCoupon()).getCoupons().getCouponBarcode(), coupon.getUseDate(), coupon.getPrice(),coupon.getStatus());
             restaurantCoupons.add(restCoupon);
         }
 
