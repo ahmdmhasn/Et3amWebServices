@@ -14,6 +14,7 @@ public interface RestaurantDao {
 
     String addRestaurant(Restaurants restaurant) throws Exception;
 
+    
     // get restaurant by id
     Restaurants getRestaurantById(Integer id) throws Exception;
 
@@ -37,4 +38,6 @@ public interface RestaurantDao {
     boolean deleteMeal(Integer restaurantId, Integer mealId) throws Exception;
 
     RestaurantAdmin login(String email, String password) throws Exception;
+    
+    String addResturantAdmin(String email,String password,int restaurantId) throws Exception;
 }

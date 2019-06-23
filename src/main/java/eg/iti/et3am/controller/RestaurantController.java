@@ -5,7 +5,9 @@ import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.model.Status;
 import eg.iti.et3am.service.interfaces.RestaurantService;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static org.hibernate.jpa.internal.EntityManagerImpl.LOG;
@@ -42,7 +44,6 @@ public class RestaurantController {
     }
 
     // Restaurant deatails
-
     @RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
     public ResponseEntity<List<Meals>> get(@PathVariable("rest_id") Integer id) throws Exception {
         LOG.info("getting user with id: {}");
@@ -54,7 +55,6 @@ public class RestaurantController {
         }
         return new ResponseEntity<>(mealses, HttpStatus.OK);
     }
-
 
     // Get Restaurant by id
     @RequestMapping(value = "/rest/{rest_id}", method = RequestMethod.GET)
@@ -136,4 +136,46 @@ public class RestaurantController {
             return new Status(0, e.toString());
         }
     }
-}
+    
+     @RequestMapping(value = "/add_restuarant", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<Map<String, Object>> addResturant(@RequestParam("restuarant_name") String restaurantName, @RequestParam("city") String city,@RequestParam("country") String country, @RequestParam("longitude") double longitude, @RequestParam("latitude") double latitude, @RequestParam("restaurant_image") String restaurantImage ) {
+               Map<String, Object> response = new HashMap<>();
+
+        
+        if (!restaurantName.isEmpty() && !city.isEmpty() && !country.isEmpty() && longitude != 0 && latitude !=0 ) {
+            try {
+                Restaurants restaurants =new Restaurants();
+                restaurants.setRestaurantName(restaurantName);
+                restaurants.setCity(city);
+                restaurants.setCountry(country);
+                restaurants.setLongitude(longitude);
+                restaurants.setLatitude(latitude);
+                restaurants.setRestaurantImage(restaurantImage);
+               String  idOfRestuarant = restaurantService.addRestaurant(restaurants);
+                if (idOfRestuarant != null) {
+                    response.put("code", 1);
+                    response.put("message", "restuarant added succesfully");
+                    response.put("id", idOfRestuarant);
+                    return new ResponseEntity<>(response, HttpStatus.OK);
+                } else {
+                    response.put("code", 0);
+                    response.put("message", "Error while adding restuarant ");
+
+                    return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+                }
+            } catch (Exception e) {
+                response.put("code", 0);
+                response.put("message", " exception while adding resturant \n" + e.toString());
+                e.printStackTrace();
+                return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+            }
+        } else {
+            response.put("code", 0);
+            response.put("message", "restuarant data must not be empty.");
+            return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+    }
+    }
+

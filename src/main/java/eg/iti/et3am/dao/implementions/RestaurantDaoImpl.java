@@ -140,8 +140,10 @@ public class RestaurantDaoImpl implements RestaurantDao {
         session = sessionFactory.getCurrentSession();
 
         session.save(restaurant);
-        String id = (String) session.getIdentifier(restaurant);
-        return id;
+        
+        int id = (int) session.getIdentifier(restaurant);
+        
+        return String.valueOf(id);
     }
 
     @Override
@@ -172,7 +174,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
                 restaurant.getCity(), restaurant.getCountry(), restaurant.getLatitude(),
                 restaurant.getLongitude(), restaurant.getRestaurantImage(), null, null, null);
 
-        admin2.setId(admin.getId());
+        admin2.setRestaurantAdminId(admin.getRestaurantAdminId());
         admin2.setRestaurantAdminEmail(admin.getRestaurantAdminEmail());
         admin2.setRestaurants(restaurant2);
 
@@ -214,5 +216,21 @@ public class RestaurantDaoImpl implements RestaurantDao {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public String addResturantAdmin(String email, String password, int restaurantId) throws Exception {
+        Restaurants restaurants = getRestaurantById(restaurantId);
+        System.out.println(restaurants.getCountry()+"country nnnnnnn");
+        session = sessionFactory.getCurrentSession();
+        RestaurantAdmin restaurantAdmin = new RestaurantAdmin();
+        restaurantAdmin.setRestaurantAdminEmail(email);
+        restaurantAdmin.setRestaurantAdminPassword(password);
+        restaurantAdmin.setRestaurants(restaurants);
+        session.save(restaurantAdmin);
+       int id = (int) session.getIdentifier(restaurantAdmin);
+        
+        return String.valueOf(id);
+
     }
 }
