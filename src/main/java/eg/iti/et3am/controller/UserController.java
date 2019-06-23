@@ -54,7 +54,6 @@ public class UserController {
             Users user = userService.getEntityById(id);
             result.put("status", 1);
             result.put("user", user);
-            result.put("summary", userService.getSummaryById(id));
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception ex) {
             Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
@@ -64,6 +63,22 @@ public class UserController {
         }
     }
 
+    /*---Get user by id---*/
+    @RequestMapping(value = "/summary/{id}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<Map<String, Object>> getUserSummaryById(@PathVariable("id") String id) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            result.put("status", 1);
+            result.put("summary", userService.getSummaryById(id));
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception ex) {
+            Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
+            result.put("status", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+        }
+    }
 
     /*---get all user---*/
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -102,7 +117,6 @@ public class UserController {
         try {
             result.put("status", 1);
             result.put("users", userService.updateEntity(userDetails, id));
-            result.put("summary", userService.getSummaryById(id));
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception ex) {
             ex.printStackTrace();
