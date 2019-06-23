@@ -82,7 +82,7 @@ public class UserController {
     List<Users> listOfUserToBeVerified() {
         List<Users> userList = null;
         try {
-           
+
             userList = userService.getEntityListToBeVerified();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -142,9 +142,9 @@ public class UserController {
     /* Update user verification state */
     @RequestMapping(value = "/update/verification/{id}", method = RequestMethod.PUT)
     public @ResponseBody
-    ResponseEntity<Map<String, Object>> updateUserVerification(@PathVariable("id") String id, 
+    ResponseEntity<Map<String, Object>> updateUserVerification(@PathVariable("id") String id,
             @RequestBody UserDetails userDetails) {
-        
+
         Map<String, Object> result = new HashMap<>();
         try {
             userService.updateUserVerification(userDetails, id);
@@ -158,7 +158,7 @@ public class UserController {
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
     }
-    
+
     // Not supported
     /*---Delete a user by id---*/
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
@@ -252,13 +252,13 @@ public class UserController {
 
     @RequestMapping(value = "/verify_or_block", method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<Map<String, Object>> verifyOrBlockUser(@RequestParam("user_id") String userID,@RequestParam("verified_id") int verifiedID) {
+    ResponseEntity<Map<String, Object>> verifyOrBlockUser(@RequestParam("user_id") String userID, @RequestParam("verified_id") int verifiedID) {
         Map<String, Object> response = new HashMap<>();
 
-        if (!userID.isEmpty() && (verifiedID !=0 && verifiedID !=2)) {
+        if (!userID.isEmpty() && (verifiedID != 0 && verifiedID != 2)) {
 
             try {
-                if (userService.verifyUser(userID,verifiedID)) {
+                if (userService.verifyUser(userID, verifiedID)) {
                     response.put("code", 1);
                     response.put("message", "User Verified Successfully");
                     return new ResponseEntity<>(response, HttpStatus.OK);
@@ -282,24 +282,31 @@ public class UserController {
         }
 
         return null;
-    
+
     }
-@RequestMapping(value = "/password-reset-request", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+
+    @RequestMapping(value = "/password-reset-request", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<Map<String, Object>> requestReset(@RequestParam("email") String email) {
         Map<String, Object> result = new HashMap<>();
         boolean operationResult = userService.requestPasswordReset(email);
         try {
-           if(operationResult)
-            result.put("status", 1);
-            result.put("message", "REQUEST_PASSWORD_RESET");
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            if (operationResult) {
+                result.put("status", 1);
+                result.put("message", "REQUEST_PASSWORD_RESET");
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                result.put("status", 0);
+                result.put("message", "UserEmail is not exist");
+                return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             result.put("status", 0);
             result.put("message", ex.getMessage());
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
-    
+
     }
 }
