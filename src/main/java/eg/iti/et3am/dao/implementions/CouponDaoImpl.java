@@ -97,7 +97,7 @@ public class CouponDaoImpl implements CouponDao {
 
         UserReserveCoupon reserveCoupon = checkCoupon(code, true);
         if (reserveCoupon != null) {
-            updateReserveCouponStatus(reserveCoupon);
+//            updateReserveCouponStatus(reserveCoupon);
             session = sessionFactory.getCurrentSession();
             Restaurants restaurantAdmin = (Restaurants) session.createCriteria(Restaurants.class).add(Restrictions.eq("restaurantId", restaurantId)).uniqueResult();
             UserUsedCoupon userUsedCoupon = new UserUsedCoupon(restaurantAdmin, reserveCoupon, new Date(), (float) price, 1);
