@@ -122,10 +122,4 @@ public class UserReserveCoupon implements Serializable, Cloneable {
         return super.clone();
     }
     
-     @Override
-    public String toString() {
-        return "Bid{" +
-                ", bidder=" + getUserUsedCoupons() +
-                '}';
-    }
 }
