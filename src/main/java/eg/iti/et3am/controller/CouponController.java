@@ -87,7 +87,7 @@ public class CouponController {
                 result.put("code", 1);
                 result.put("coupon", coupon);
                 result.put("id", coupon.getReservedCouponId());
-                return new ResponseEntity<>(result, HttpStatus.OK);
+                return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
             } else {
                 result.put("code", 0);
                 result.put("message", "Coupon was not found");
