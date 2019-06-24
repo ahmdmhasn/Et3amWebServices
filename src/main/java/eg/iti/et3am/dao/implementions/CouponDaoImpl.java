@@ -420,6 +420,7 @@ public class CouponDaoImpl implements CouponDao {
             UserReserveCoupon c = (UserReserveCoupon) coupons1.clone();
             UserReserveCouponDTO couponDTO = new UserReserveCouponDTO();
             couponDTO.setUserId(c.getUsers().getUserId());
+            couponDTO.setCouponBarcode(c.getCoupons().getCouponBarcode());
             couponDTO.setReservationDate(c.getReservationDate());
             couponDTO.setCouponId(c.getCoupons().getCouponId());
             couponDTO.setCouponQrCode(c.getCoupons().getCouponBarcode());
@@ -449,6 +450,7 @@ public class CouponDaoImpl implements CouponDao {
 
             couponDTO.setCouponId(c.getUserReserveCoupon().getCoupons().getCouponId());
             couponDTO.setUserId(c.getUserReserveCoupon().getUsers().getUserId());
+            couponDTO.setBarCode(c.getUserReserveCoupon().getCoupons().getCouponBarcode());
             couponDTO.setRestaurantName(c.getRestaurants().getRestaurantName());
             couponDTO.setRestaurantAddress(c.getRestaurants().getCity() + ", " + c.getRestaurants().getCountry());
             couponDTO.setUseDate(c.getUseDate());
