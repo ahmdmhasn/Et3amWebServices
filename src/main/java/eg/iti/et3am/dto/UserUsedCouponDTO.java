@@ -7,6 +7,7 @@ public class UserUsedCouponDTO implements Serializable {
 
     private String couponId;
     private String userId;
+    private String barCode;
     private String userName;
     private String restaurantName;
     private String restaurantAddress;
@@ -16,22 +17,15 @@ public class UserUsedCouponDTO implements Serializable {
     public UserUsedCouponDTO() {
     }
 
-    public UserUsedCouponDTO(String couponId, String userId, String userName, String restaurantName, String restaurantAddress, Date useDate, float price) {
+    public UserUsedCouponDTO(String couponId, String userId, String barCode, String userName, String restaurantName, String restaurantAddress, Date useDate, float price) {
         this.couponId = couponId;
         this.userId = userId;
+        this.barCode = barCode;
         this.userName = userName;
         this.restaurantName = restaurantName;
         this.restaurantAddress = restaurantAddress;
         this.useDate = useDate;
         this.price = price;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getCouponId() {
@@ -48,6 +42,22 @@ public class UserUsedCouponDTO implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getBarCode() {
+        return barCode;
+    }
+
+    public void setBarCode(String barCode) {
+        this.barCode = barCode;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getRestaurantName() {

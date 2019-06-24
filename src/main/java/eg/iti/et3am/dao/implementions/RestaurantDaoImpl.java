@@ -169,12 +169,14 @@ public class RestaurantDaoImpl implements RestaurantDao {
         criteria.add(Restrictions.eq("restaurantAdminPassword", password));
 
         RestaurantAdmin admin = (RestaurantAdmin) criteria.uniqueResult();
+        
         Restaurants restaurant = admin.getRestaurants();
-
+        System.out.println(restaurant.getCity()+"city");
         RestaurantAdmin admin2 = new RestaurantAdmin();
         Restaurants restaurant2 = new Restaurants(restaurant.getRestaurantName(),
                 restaurant.getCity(), restaurant.getCountry(), restaurant.getLatitude(),
                 restaurant.getLongitude(), restaurant.getRestaurantImage(), null, null, null);
+        restaurant2.setRestaurantId(restaurant.getRestaurantId());
 
         admin2.setRestaurantAdminId(admin.getRestaurantAdminId());
         admin2.setRestaurantAdminEmail(admin.getRestaurantAdminEmail());

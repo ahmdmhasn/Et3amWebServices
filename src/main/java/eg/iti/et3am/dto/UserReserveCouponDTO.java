@@ -15,13 +15,13 @@ public class UserReserveCouponDTO implements Serializable {
     public UserReserveCouponDTO() {
     }
 
-    public UserReserveCouponDTO(String userId, String couponId, String couponQrCode, String couponBarcode, double couponValue, Date reservationDate) {
+    public UserReserveCouponDTO(String userId, String couponId, String couponBarcode, String couponQrCode, double couponValue, Date reservationDate) {
         this.userId = userId;
         this.couponId = couponId;
+        this.couponBarcode = couponBarcode;
         this.couponQrCode = couponQrCode;
         this.couponValue = couponValue;
         this.reservationDate = reservationDate;
-        this.couponBarcode = couponBarcode;
     }
 
     public String getUserId() {
