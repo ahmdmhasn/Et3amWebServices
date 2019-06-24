@@ -241,13 +241,13 @@ public class CouponController {
             } else {
                 result.put("code", 0);
                 result.put("message", "there are not Coupons");
-                return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(result, HttpStatus.OK);
             }
         } catch (Exception ex) {
             result.put("status", 0);
             result.put("message", ex.getMessage());
             ex.printStackTrace();
-            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
 
     }
@@ -265,13 +265,13 @@ public class CouponController {
             } else {
                 result.put("code", 0);
                 result.put("message", "there are not Coupons");
-                return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(result, HttpStatus.OK);
             }
         } catch (Exception ex) {
             result.put("status", 0);
             result.put("message", ex.getMessage());
             ex.printStackTrace();
-            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
 
     }
@@ -291,14 +291,14 @@ public class CouponController {
             } else {
                 result.put("code", 0);
                 result.put("message", "there are not Coupons");
-                return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(result, HttpStatus.OK);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
             Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
             result.put("code", 0);
             result.put("message", ex.getMessage());
-            return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }
 
