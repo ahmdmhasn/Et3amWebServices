@@ -28,7 +28,7 @@ public class UserReserveCoupon implements Serializable, Cloneable {
 
     private Integer reservedCouponId;
     
-    @JsonIgnore
+//    @JsonIgnore
     private Coupons coupons;
     @JsonIgnore
     private Users users;
