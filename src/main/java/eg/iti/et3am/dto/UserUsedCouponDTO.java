@@ -28,16 +28,6 @@ public class UserUsedCouponDTO implements Serializable {
         this.price = price;
     }
 
- 
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public String getCouponId() {
         return couponId;
     }
@@ -54,6 +44,22 @@ public class UserUsedCouponDTO implements Serializable {
         this.userId = userId;
     }
 
+    public String getBarCode() {
+        return barCode;
+    }
+
+    public void setBarCode(String barCode) {
+        this.barCode = barCode;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public String getRestaurantName() {
         return restaurantName;
     }
@@ -68,14 +74,6 @@ public class UserUsedCouponDTO implements Serializable {
 
     public void setRestaurantAddress(String restaurantAddress) {
         this.restaurantAddress = restaurantAddress;
-    }
-
-    public String getBarCode() {
-        return barCode;
-    }
-
-    public void setBarCode(String barCode) {
-        this.barCode = barCode;
     }
 
     public Date getUseDate() {

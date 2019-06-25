@@ -488,6 +488,7 @@ public class CouponDaoImpl implements CouponDao {
         return null;
     }
 
+    @Override
     public boolean cancleReservation(String coupon_id) throws Exception {
         session = sessionFactory.getCurrentSession();
         UserReserveCoupon reserveCoupon = (UserReserveCoupon) session.createCriteria(UserReserveCoupon.class).createAlias("coupons", "c").add(Restrictions.eq("c.couponId", coupon_id)).add(Restrictions.eq("status", 1)).uniqueResult();
