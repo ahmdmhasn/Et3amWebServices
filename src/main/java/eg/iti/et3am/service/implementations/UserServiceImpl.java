@@ -59,13 +59,14 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public Users updateEntity(UserDetails userDetails, String id) throws Exception {
-        return userDao.updateEntity(userDetails, id);
+        userDao.updateDetailsEntity(userDetails, id);
+        return getEntityById(id);
     }
 
     @Override
     @Transactional
     public void updateUserVerification(UserDetails userDetails, String id) throws Exception {
-        userDao.updateEntity(userDetails, id);
+        userDao.updateDetailsEntity(userDetails, id);
         userDao.updateUserVerification(id, 2);
     }
 

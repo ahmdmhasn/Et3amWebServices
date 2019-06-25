@@ -53,31 +53,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Users getEntityById(String id) throws Exception {
         session = sessionFactory.getCurrentSession();
-
         Users user = (Users) session.load(Users.class, id);
         return (user != null) ? EntityCopier.getUser(user) : null;
 
-    }
-
-    @Override
-    public UserDetails getDetailsEntityById(String id) throws Exception {
-        throw new UnsupportedOperationException("Not tested yet. #AhmedHassan");
-        /*
-         checkCurrentSession();
-        
-         Criteria criteria = session.createCriteria(UserDetails.class).
-         createAlias("users", "users").
-         createAlias("users.userId", "id").
-         add(Restrictions.eq("id", id));
-         UserDetails user = (UserDetails) criteria.uniqueResult();
-         UserDetails user2 = EntityCopier.getUserDetails(Collections.singleton(user)).
-         iterator().next();
-        
-         tx = session.getTransaction();
-         session.beginTransaction();
-         tx.commit();
-         return user2;
-         */
     }
 
     @Override
@@ -99,24 +77,30 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Users updateEntity(UserDetails ud, String id) throws Exception {
+    public void updateDetailsEntity(UserDetails ud, String id) throws Exception {
         session = sessionFactory.getCurrentSession();
 
-        Users user = (Users) session.load(Users.class, id);
-        Criteria criteria = session.createCriteria(UserDetails.class).
-                add(Restrictions.eq("users", user));
-        UserDetails userDetails = (UserDetails) criteria.uniqueResult();
+        UserDetails userDetails = (UserDetails) session.createCriteria(UserDetails.class)
+                .createAlias("users", "u")
+                .add(Restrictions.eq("u.userId", id))
+                .uniqueResult();
+        
+        String mobNumber = ud.getMobileNumber();
+        String nationaId = ud.getNationalId();
+        
+        if (!mobNumber.isEmpty())
+            userDetails.setMobileNumber(mobNumber);
+        
+        if (!nationaId.isEmpty())
+            userDetails.setNationalId(nationaId);
+        
         userDetails.setBirthdate(ud.getBirthdate());
         userDetails.setJob(ud.getJob());
-        userDetails.setMobileNumber(ud.getMobileNumber());
-        userDetails.setNationalId(ud.getNationalId());
         userDetails.setNationalIdBack(ud.getNationalIdBack());
         userDetails.setNationalIdFront(ud.getNationalIdFront());
         userDetails.setProfileImage(ud.getProfileImage());
 
         session.update(userDetails);
-        Users tempUser = EntityCopier.getUser(user);
-        return tempUser;
     }
 
     @Override

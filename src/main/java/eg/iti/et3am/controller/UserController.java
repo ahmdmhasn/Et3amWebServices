@@ -112,6 +112,8 @@ public class UserController {
     public @ResponseBody
     ResponseEntity<Map<String, Object>> updateUserDetails(@PathVariable("id") String id,
             @RequestBody UserDetails userDetails) {
+        
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~" + userDetails);
 
         Map<String, Object> result = new HashMap<>();
         try {
