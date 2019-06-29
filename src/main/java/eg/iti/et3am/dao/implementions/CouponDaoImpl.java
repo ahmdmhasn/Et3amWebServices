@@ -242,12 +242,13 @@ public class CouponDaoImpl implements CouponDao {
                 .createAlias("userReserveCoupon", "r")
                 .createAlias("r.users", "u")
                 .add(Restrictions.eq("u.userId", userId)).list();
-        System.out.println(userUsedCoupons);
+
         List<UserUsedCoupon> listOfUsedCouponse = new ArrayList<>();
 
         for (UserUsedCoupon userUsedCoupon : userUsedCoupons) {
             listOfUsedCouponse.add(EntityCopier.getUsedCoupon(userUsedCoupon));
-            System.out.println(EntityCopier.getCoupon(EntityCopier.getUsedCoupon(userUsedCoupon).getUserReserveCoupon().getCoupons()));
+            System.out.println("~~~~~~~~~~~~~~~" + userUsedCoupon.getUserReserveCoupon().getCoupons().getCouponId());
+//            System.out.println(EntityCopier.getCoupon(EntityCopier.getUsedCoupon(userUsedCoupon).getUserReserveCoupon().getCoupons()));
         }
 
         return listOfUsedCouponse;

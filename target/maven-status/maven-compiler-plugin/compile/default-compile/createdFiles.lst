@@ -36,7 +36,6 @@ eg\iti\et3am\service\implementations\AdminServiceImpl.class
 eg\iti\et3am\utils\Mail.class
 eg\iti\et3am\controller\PhotoController.class
 eg\iti\et3am\controller\CouponController.class
-.netbeans_automatic_build
 eg\iti\et3am\model\Restaurants.class
 eg\iti\et3am\model\UserReserveCoupon.class
 eg\iti\et3am\model\UserDetails.class

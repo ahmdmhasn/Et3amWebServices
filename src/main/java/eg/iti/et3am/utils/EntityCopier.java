@@ -109,16 +109,21 @@ public class EntityCopier {
     return admin2;
 
     }
+    
     public static UserUsedCoupon getUsedCoupon(UserUsedCoupon userUsedCoupon) {
         UserUsedCoupon userUsedCoupon2 = new UserUsedCoupon();
         userUsedCoupon2.setUserReserveCoupon(EntityCopier.getReservedCoupon(userUsedCoupon.getUserReserveCoupon()));
         userUsedCoupon2.setPrice(userUsedCoupon.getPrice());
         userUsedCoupon2.setUsedCouponId(userUsedCoupon.getUsedCouponId());
         userUsedCoupon2.setUseDate(userUsedCoupon.getUseDate());
+        
         userUsedCoupon2.setRestaurants(EntityCopier.getRestaurant(userUsedCoupon.getRestaurants()));
+        
+        userUsedCoupon2.setUserReserveCoupon(EntityCopier.getReservedCoupon(userUsedCoupon.getUserReserveCoupon()));
         return userUsedCoupon2;
     }
-      public static AvailableCoupons getAvailableCoupons(AvailableCoupons ac1) {
+    
+    public static AvailableCoupons getAvailableCoupons(AvailableCoupons ac1) {
         AvailableCoupons ac2 = new AvailableCoupons();
         ac2.setAvailableCouponId(ac1.getAvailableCouponId());
         ac2.setCoupons(EntityCopier.getCoupon(ac1.getCoupons()));

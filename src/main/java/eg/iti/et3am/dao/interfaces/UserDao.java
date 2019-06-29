@@ -18,17 +18,14 @@ public interface UserDao {
     
     /*---Get user by id---*/
     Users getEntityById(String id) throws Exception;
-    
-    /*---Get user details by id---*/
-    UserDetails getDetailsEntityById(String id) throws Exception;
-    
+        
     /*---Get all user---*/
     List<Users> getEntityList() throws Exception;
     
     List<Users> getEntityListToBeVerified () throws Exception;
     
-    /*---Update a user by id---*/
-    Users updateEntity(UserDetails ud, String id) throws Exception;
+    /*---Update a user details by id---*/
+    void updateDetailsEntity(UserDetails ud, String id) throws Exception;
     
     /*---Delete a user by id---*/
     boolean deleteEntity(long id) throws Exception;

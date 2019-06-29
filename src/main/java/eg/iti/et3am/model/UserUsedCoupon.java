@@ -25,12 +25,24 @@ import javax.persistence.TemporalType;
 @Table(name = "user_used_coupon", catalog = "heroku_24f192cc0bbf6af")
 public class UserUsedCoupon implements Serializable, Cloneable {
 
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "used_coupon_id", unique = true, nullable = false)
     private Integer usedCouponId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurants restaurants;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_reserve_coupon_reserved_coupon_id", nullable = false)
     private UserReserveCoupon userReserveCoupon;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "use_date", nullable = false, length = 26)
     private Date useDate;
+    @Column(name = "price", nullable = false, precision = 12, scale = 0)
     private float price;
+    @Column(name = "status", nullable = false)
     private int status;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userUsedCoupon")
     private Set<RemainingBalance> remainingBalances = new HashSet<>(0);
 
     public UserUsedCoupon() {
@@ -53,10 +65,7 @@ public class UserUsedCoupon implements Serializable, Cloneable {
         this.remainingBalances = remainingBalances;
     }
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-
-    @Column(name = "used_coupon_id", unique = true, nullable = false)
+    
     public Integer getUsedCouponId() {
         return this.usedCouponId;
     }
@@ -65,8 +74,6 @@ public class UserUsedCoupon implements Serializable, Cloneable {
         this.usedCouponId = usedCouponId;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id", nullable = false)
     public Restaurants getRestaurants() {
         return this.restaurants;
     }
@@ -75,8 +82,6 @@ public class UserUsedCoupon implements Serializable, Cloneable {
         this.restaurants = restaurants;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_reserve_coupon_reserved_coupon_id", nullable = false)
     public UserReserveCoupon getUserReserveCoupon() {
         return this.userReserveCoupon;
     }
@@ -85,8 +90,6 @@ public class UserUsedCoupon implements Serializable, Cloneable {
         this.userReserveCoupon = userReserveCoupon;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "use_date", nullable = false, length = 26)
     public Date getUseDate() {
         return this.useDate;
     }
@@ -95,7 +98,6 @@ public class UserUsedCoupon implements Serializable, Cloneable {
         this.useDate = useDate;
     }
 
-    @Column(name = "price", nullable = false, precision = 12, scale = 0)
     public float getPrice() {
         return this.price;
     }
@@ -104,7 +106,6 @@ public class UserUsedCoupon implements Serializable, Cloneable {
         this.price = price;
     }
 
-    @Column(name = "status", nullable = false)
     public int getStatus() {
         return this.status;
     }
@@ -113,7 +114,6 @@ public class UserUsedCoupon implements Serializable, Cloneable {
         this.status = status;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userUsedCoupon")
     public Set<RemainingBalance> getRemainingBalances() {
         return this.remainingBalances;
     }

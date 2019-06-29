@@ -136,34 +136,27 @@ public class RestaurantController {
             return new Status(0, e.toString());
         }
     }
-    
-     @RequestMapping(value = "/add_restuarant", method = RequestMethod.GET)
-    public @ResponseBody
-    ResponseEntity<Map<String, Object>> addResturant(@RequestParam("restuarant_name") String restaurantName, @RequestParam("city") String city,@RequestParam("country") String country, @RequestParam("longitude") double longitude, @RequestParam("latitude") double latitude, @RequestParam("restaurant_image") String restaurantImage ) {
-               Map<String, Object> response = new HashMap<>();
 
-        
-        if (!restaurantName.isEmpty() && !city.isEmpty() && !country.isEmpty() && longitude != 0 && latitude !=0 ) {
+    @RequestMapping(value = "/add_restuarant", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<Map<String, Object>> addResturant(@RequestParam("restuarant_name") String restaurantName, @RequestParam("city") String city, @RequestParam("country") String country, @RequestParam("longitude") double longitude, @RequestParam("latitude") double latitude, @RequestParam("restaurant_image") String restaurantImage) {
+        Map<String, Object> response = new HashMap<>();
+
+        if (!restaurantName.isEmpty() && !city.isEmpty() && !country.isEmpty() && longitude != 0 && latitude != 0) {
             try {
-                Restaurants restaurants =new Restaurants();
+                Restaurants restaurants = new Restaurants();
                 restaurants.setRestaurantName(restaurantName);
                 restaurants.setCity(city);
                 restaurants.setCountry(country);
                 restaurants.setLongitude(longitude);
                 restaurants.setLatitude(latitude);
                 restaurants.setRestaurantImage(restaurantImage);
-               String  idOfRestuarant = restaurantService.addRestaurant(restaurants);
-                if (idOfRestuarant != null) {
-                    response.put("code", 1);
-                    response.put("message", "restuarant added succesfully");
-                    response.put("id", idOfRestuarant);
-                    return new ResponseEntity<>(response, HttpStatus.OK);
-                } else {
-                    response.put("code", 0);
-                    response.put("message", "Error while adding restuarant ");
+                int idOfRestuarant = Integer.parseInt(restaurantService.addRestaurant(restaurants));
+                response.put("code", 1);
+                response.put("message", "restuarant added succesfully");
+                response.put("id", idOfRestuarant);
+                return new ResponseEntity<>(response, HttpStatus.OK);
 
-                    return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
-                }
             } catch (Exception e) {
                 response.put("code", 0);
                 response.put("message", " exception while adding resturant \n" + e.toString());
@@ -177,5 +170,4 @@ public class RestaurantController {
         }
 
     }
-    }
-
+}
