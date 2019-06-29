@@ -501,28 +501,3 @@ public class CouponDaoImpl implements CouponDao {
         return false;
     }
 }
-
-/*
-public List<UserUsedCoupon> getAllUsedCoupons(String donatorId) throws Exception {
-        session = sessionFactory.getCurrentSession();
-        List<UserUsedCoupon> coupons = sessionFactory.getCurrentSession().createCriteria(UserUsedCoupon.class)
-                .createAlias("userReserveCoupon", "urc")
-                .createAlias("urc.coupons", "coupon")
-                .createAlias("coupon.users", "donator")
-                .add(Restrictions.eq("donator.userId", donatorId))
-                .add(Restrictions.eq("status", 1)).list();
-        List<UserUsedCoupon> couponses = new ArrayList<>();
-        for (UserUsedCoupon coupons1 : coupons) {
-            UserUsedCoupon c = (UserUsedCoupon) coupons1.clone();
-            System.out.println("c.getUseDate() " + c.getUseDate());
-            System.out.println("c.getUsedCouponId() " + c.getUsedCouponId());
-            System.out.println("c.getRestaurants().getRestaurantName() " + c.getRestaurants().getRestaurantName());
-            System.out.println("c.getRestaurants().getCity() " + c.getRestaurants().getCity());
-            System.out.println("c.getUserReserveCoupon().getCoupons().getCouponId() " + c.getUserReserveCoupon().getCoupons().getCouponId());
-            System.out.println("c.getUserReserveCoupon().getUsers().getUserId() " + c.getUserReserveCoupon().getUsers().getUserId());
-            couponses.add(c);
-        }
-        return couponses;
-    }
-
- */

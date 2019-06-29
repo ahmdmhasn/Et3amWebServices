@@ -339,14 +339,12 @@ public class CouponController {
     public ResponseEntity<Map<String, Object>> cancelReservation(@RequestParam("coupon_id") String coupon_id) {
         Map<String, Object> result = new HashMap<>();
         try {
-            if(couponService.cancelReservation(coupon_id))
-            {
-            result.put("status", 1);
-            result.put("message", "reservation is cancelled.");
-            }
-            else{
-                 result.put("status", 0);
-            result.put("message", "no reservation to cancel.");
+            if (couponService.cancelReservation(coupon_id)) {
+                result.put("status", 1);
+                result.put("message", "reservation is cancelled.");
+            } else {
+                result.put("status", 0);
+                result.put("message", "no reservation to cancel.");
             }
         } catch (Exception ex) {
             result.put("status", 0);
