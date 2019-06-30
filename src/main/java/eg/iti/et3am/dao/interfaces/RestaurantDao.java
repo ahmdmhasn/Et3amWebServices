@@ -1,5 +1,6 @@
 package eg.iti.et3am.dao.interfaces;
 
+import eg.iti.et3am.dto.MealDTO;
 import eg.iti.et3am.dto.RestaurantDTO;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
@@ -28,7 +29,7 @@ public interface RestaurantDao {
     Integer addMeal(Meals meal, Integer restaurantId) throws Exception;
 
     // get list of meals by id
-    List<Meals> getMealsListById(Integer id) throws Exception;
+    public List<MealDTO> getMealsListById(Integer id, int page) throws Exception;
 
     //
     Set<Meals> getMealsSetById(Integer id) throws Exception;

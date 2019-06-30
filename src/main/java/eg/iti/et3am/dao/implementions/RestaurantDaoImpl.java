@@ -1,6 +1,7 @@
 package eg.iti.et3am.dao.implementions;
 
 import eg.iti.et3am.dao.interfaces.RestaurantDao;
+import eg.iti.et3am.dto.MealDTO;
 import eg.iti.et3am.dto.RestaurantDTO;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
@@ -89,9 +90,9 @@ public class RestaurantDaoImpl implements RestaurantDao {
         Criteria criteria = session.createCriteria(Restaurants.class);
 //        criteria.add(Restrictions.ilike("restaurantName", query, MatchMode.ANYWHERE));
 //        criteria.add(Restrictions.ilike("city", query, MatchMode.ANYWHERE));
-        Criterion restaurantName = Restrictions.ilike("restaurantName", ""+query+"", MatchMode.ANYWHERE);
+        Criterion restaurantName = Restrictions.ilike("restaurantName", "" + query + "", MatchMode.ANYWHERE);
         Criterion city = Restrictions.ilike("city", query, MatchMode.ANYWHERE);
-        System.out.println("query+++++++++ "+query.getBytes("UTF-8"));
+        System.out.println("query+++++++++ " + query.getBytes("UTF-8"));
         LogicalExpression orExp = Restrictions.or(restaurantName, city);
         criteria.add(orExp);
         criteria.addOrder(Order.asc("restaurantName"));
@@ -119,6 +120,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
         return listRDtos;
     }
 
+    // Not Used
     @Override
     public List<Restaurants> getRestaurantsListWithMeals() throws Exception {
         session = sessionFactory.getCurrentSession();
@@ -156,21 +158,24 @@ public class RestaurantDaoImpl implements RestaurantDao {
     }
 
     @Override
-    public List<Meals> getMealsListById(Integer id) throws Exception {
+    public List<MealDTO> getMealsListById(Integer id, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
+        int pageSize = 10;
 
         List<Meals> mealses = session.createCriteria(Meals.class)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
                 .add(Restrictions.eq("restaurants.restaurantId", id)).list();
 
         // Create another array to be sent on response
-        List<Meals> mealList = new ArrayList<>();
+        List<MealDTO> mealList = new ArrayList<>();
         for (Meals meals : mealses) {
-            Meals mealsResponse = new Meals();
+            MealDTO mealsResponse = new MealDTO();
             mealsResponse.setMealId(meals.getMealId());
             mealsResponse.setMealName(meals.getMealName());
             mealsResponse.setMealValue(meals.getMealValue());
             mealsResponse.setMealImage(meals.getMealImage());
-            mealsResponse.setRestaurants(meals.getRestaurants());
+            //mealsResponse.setRestaurants(meals.getRestaurants());
             mealList.add(mealsResponse);
         }
 
@@ -286,6 +291,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     }
 }
+
 /*
 @Override
     public List<Restaurants> getRestaurantsList(int pageNumber, double latitude, double longitude) throws Exception {

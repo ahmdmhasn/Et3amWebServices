@@ -1,6 +1,7 @@
 package eg.iti.et3am.service.implementations;
 
 import eg.iti.et3am.dao.interfaces.RestaurantDao;
+import eg.iti.et3am.dto.MealDTO;
 import eg.iti.et3am.dto.RestaurantDTO;
 import eg.iti.et3am.service.interfaces.RestaurantService;
 import eg.iti.et3am.model.Meals;
@@ -54,8 +55,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public List<Meals> getMealById(Integer id) throws Exception {
-        return restaurantDao.getMealsListById(id);
+    public List<MealDTO> getMealById(Integer id,int page) throws Exception {
+        return restaurantDao.getMealsListById(id,page);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package eg.iti.et3am.controller;
 
+import eg.iti.et3am.dto.MealDTO;
 import eg.iti.et3am.dto.RestaurantDTO;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.Meals;
@@ -100,16 +101,35 @@ public class RestaurantController {
     }
 
     // Restaurant deatails
-    @RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
-    public ResponseEntity<List<Meals>> get(@PathVariable("rest_id") Integer id) throws Exception {
-        LOG.info("getting user with id: {}");
-        List<Meals> mealses = restaurantService.getMealById(id);
-
-        if (mealses.isEmpty()) {
-            LOG.info("user with id {} not found");
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> get(@PathVariable("rest_id") Integer id, @RequestParam("page") int page) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            if (page <= 0) {
+                result.put("code", 0);
+                result.put("message", "page must be greater than 0");
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                List<MealDTO> mealsList = restaurantService.getMealById(id, page);
+                if (mealsList != null && !mealsList.isEmpty()) {
+                    result.put("code", 1);
+                    result.put("page", page);
+                    result.put("total_results", mealsList.size());
+                    result.put("results", mealsList);
+                    return new ResponseEntity<>(result, HttpStatus.OK);
+                } else {
+                    result.put("code", 0);
+                    result.put("message", "there are not Coupons");
+                    return new ResponseEntity<>(result, HttpStatus.OK);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Logger.getLogger(RestaurantController.class.getName()).log(Level.SEVERE, null, ex);
+            result.put("code", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
-        return new ResponseEntity<>(mealses, HttpStatus.OK);
     }
 
     // Get Restaurant by id
