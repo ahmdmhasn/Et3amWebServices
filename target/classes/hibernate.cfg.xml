@@ -40,26 +40,30 @@ made subject to such option by the copyright holder.
 Contributor(s):
 -->
 <hibernate-configuration>
-  <session-factory>
-    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://us-cdbr-iron-east-02.cleardb.net/heroku_24f192cc0bbf6af?reconnect=true</property>
-    <property name="hibernate.connection.username">b7ea7f298a1796</property>
-    <property name="hibernate.connection.password">87eeaffa</property>
-    <mapping class="eg.iti.et3am.model.Restaurants"/>
-    <mapping class="eg.iti.et3am.model.Meals"/>
-    <mapping class="eg.iti.et3am.model.RestaurantAdmin"/>
-    <mapping class="eg.iti.et3am.model.UserReserveCoupon"/>
-    <mapping class="eg.iti.et3am.model.AvailableCoupons"/>
-    <mapping class="eg.iti.et3am.model.Users"/>
-    <mapping class="eg.iti.et3am.model.UserDetails"/>
-    <mapping class="eg.iti.et3am.model.ImageFile"/>
-    <mapping class="eg.iti.et3am.model.UserUsedCoupon"/>
-    <mapping class="eg.iti.et3am.model.RemainingBalance"/>
-    <mapping class="eg.iti.et3am.model.Status"/>
-    <mapping class="eg.iti.et3am.model.Admins"/>
-    <mapping class="eg.iti.et3am.model.RestaurantCoupons"/>
-    <mapping class="eg.iti.et3am.model.Coupons"/>
-  </session-factory>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://us-cdbr-iron-east-02.cleardb.net/heroku_24f192cc0bbf6af?reconnect=true</property>
+        <property name="hibernate.connection.username">b7ea7f298a1796</property>
+        <property name="hibernate.connection.password">87eeaffa</property>
+        <property name="hibernate.connection.CharSet">utf8</property>
+        <property name="hibernate.connection.characterEncoding">utf8</property>
+        <property name="hibernate.connection.useUnicode">true</property>
+        
+        <mapping class="eg.iti.et3am.model.Restaurants"/>
+        <mapping class="eg.iti.et3am.model.Meals"/>
+        <mapping class="eg.iti.et3am.model.RestaurantAdmin"/>
+        <mapping class="eg.iti.et3am.model.UserReserveCoupon"/>
+        <mapping class="eg.iti.et3am.model.AvailableCoupons"/>
+        <mapping class="eg.iti.et3am.model.Users"/>
+        <mapping class="eg.iti.et3am.model.UserDetails"/>
+        <mapping class="eg.iti.et3am.model.ImageFile"/>
+        <mapping class="eg.iti.et3am.model.UserUsedCoupon"/>
+        <mapping class="eg.iti.et3am.model.RemainingBalance"/>
+        <mapping class="eg.iti.et3am.model.Status"/>
+        <mapping class="eg.iti.et3am.model.Admins"/>
+        <mapping class="eg.iti.et3am.model.RestaurantCoupons"/>
+        <mapping class="eg.iti.et3am.model.Coupons"/>
+    </session-factory>
 </hibernate-configuration>
 

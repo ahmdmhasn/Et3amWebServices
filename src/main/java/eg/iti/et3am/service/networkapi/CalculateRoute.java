@@ -1,8 +1,11 @@
 package eg.iti.et3am.service.networkapi;
 
+import eg.iti.et3am.dto.RestaurantDTO;
 import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.utils.HereMapConstants;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 import org.codehaus.jettison.json.JSONArray;
@@ -17,11 +20,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CalculateRoute {
 
-    public List<Restaurants> calculateRoute(List<Restaurants> restaurantList, double lat, double log) throws Exception {
-        List<Restaurants> listOfActualDistance = new ArrayList<>();
+    public List<RestaurantDTO> calculateRoute(List<RestaurantDTO> restaurantList, double lat, double log) throws Exception {
+        List<RestaurantDTO> listOfActualDistance = new ArrayList<>();
         HttpHandler handler = new HttpHandler();
         // Making a request to url and getting response
-        for (Restaurants restaurants : restaurantList) {
+        for (RestaurantDTO restaurants : restaurantList) {
             String url = HereMapConstants.url(lat, log, restaurants.getLatitude(), restaurants.getLongitude());
             String jsonStr = handler.getURL(url);
             Logger.getLogger("Response from url: " + jsonStr);
@@ -50,10 +53,18 @@ public class CalculateRoute {
                 } catch (final JSONException e) {
                     Logger.getLogger("Json parsing error: " + e.getMessage());
                 }
+
             } else {
                 System.out.println("Get URL Is Failed");
             }
         }
+
+        Collections.sort(listOfActualDistance, new Comparator<RestaurantDTO>() {
+            @Override
+            public int compare(RestaurantDTO u1, RestaurantDTO u2) {
+                return new Double(u1.getDistance()).compareTo(u2.getDistance());
+            }
+        });
         return listOfActualDistance;
     }
 }

@@ -478,7 +478,6 @@ public class CouponDaoImpl implements CouponDao {
             for (Coupons coupon : coupons) {
                 Coupons c = (Coupons) coupon.clone();
                 System.out.println("ufesksfkeueibusgeiulbsdiugesfiugaefiugafeiub " + c.getCreationDate());
-
                 couponses.add(c);
             }
             return coupons;

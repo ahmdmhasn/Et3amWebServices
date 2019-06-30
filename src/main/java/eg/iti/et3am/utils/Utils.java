@@ -50,7 +50,6 @@ public class Utils {
         double height = el1 - el2;
 
         distance = Math.pow(distance, 2) + Math.pow(height, 2);
-        System.out.println("Diatance in Method" + distance);
         return Math.sqrt(distance);
     }
 

@@ -280,7 +280,6 @@ public class CouponController {
     @RequestMapping(value = "/get_inBalance_coupon", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getInBalanceCoupon(@RequestParam("user_id") String userId) throws Exception {
         Map<String, Object> result = new HashMap<>();
-
         try {
             List<Coupons> coupons = couponService.getInBalanceCoupon(1, userId);
             if (coupons != null && !coupons.isEmpty()) {
