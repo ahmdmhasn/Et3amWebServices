@@ -21,6 +21,16 @@ import java.util.List;
  */
 public interface CouponDao {
 
+    public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception;
+
+    public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception;
+
+    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception;
+
+    public List<UserReserveCouponDTO> getAllReservedCoupons(int pageNumber, String userId) throws Exception;
+
+    public List<UserUsedCouponDTO> getAllUsedCoupons(int pageNumber, String donatorId) throws Exception;
+
     public Coupons findByCode(String code) throws Exception;
 
     public UserReserveCoupon checkCoupon(String code, boolean changeStatus) throws Exception;
@@ -33,13 +43,9 @@ public interface CouponDao {
 
     public AvailableCoupons getFreeCoupon(String userID) throws Exception;
 
-    public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception;
-
     public boolean addReservedCoupon(AvailableCoupons c, String userID) throws Exception;
 
     public boolean noMoreOneReservedCouponAtTheSameTime(String userId) throws Exception;
-
-    public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception;
 
     public void validateReserveCoupon() throws Exception;
 
@@ -47,17 +53,11 @@ public interface CouponDao {
 
     public boolean publishCoupon(String coupon_id) throws Exception;
 
-    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception;
-
-    public List<UserReserveCouponDTO> getAllReservedCoupons(String userId) throws Exception;
-
-    public List<UserUsedCouponDTO> getAllUsedCoupons(String donatorId) throws Exception;
-
     public long getUserUsedCouponsCount(String userId) throws Exception;
 
     public long getUserDonatedCouponsCount(String id) throws Exception;
 
     public Date getUserReservedCouponReservationDate(String id) throws Exception;
-    
+
     public boolean cancleReservation(String coupon_id) throws Exception;
 }

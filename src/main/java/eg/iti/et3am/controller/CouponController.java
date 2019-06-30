@@ -233,7 +233,7 @@ public class CouponController {
     public ResponseEntity<Map<String, Object>> getAllReservedCoupon(@RequestParam("user_id") String userId) throws Exception {
         Map<String, Object> result = new HashMap<>();
         try {
-            List<UserReserveCouponDTO> coupons = couponService.getAllReservedCoupons(userId);
+            List<UserReserveCouponDTO> coupons = couponService.getAllReservedCoupons(1,userId);
             if (coupons != null && !coupons.isEmpty()) {
                 result.put("code", 1);
                 result.put("Coupons", coupons);
@@ -257,7 +257,7 @@ public class CouponController {
     public ResponseEntity<Map<String, Object>> getAllUsedCoupon(@RequestParam("user_id") String userId) throws Exception {
         Map<String, Object> result = new HashMap<>();
         try {
-            List<UserUsedCouponDTO> coupons = couponService.getAllUsedCoupons(userId);
+            List<UserUsedCouponDTO> coupons = couponService.getAllUsedCoupons(1,userId);
             if (coupons != null && !coupons.isEmpty()) {
                 result.put("code", 1);
                 result.put("Coupons", coupons);

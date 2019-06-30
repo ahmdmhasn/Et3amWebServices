@@ -22,9 +22,19 @@ import java.util.List;
  */
 public interface CouponService {
 
-    public Coupons findByCode(String code) throws Exception;
-
     public List<String> addCoupon(String userId, int coupon50, int coupon100, int coupon200) throws Exception;
+
+    public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception;
+
+    public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception;
+
+    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception;
+
+    public List<UserUsedCouponDTO> getAllUsedCoupons(int pageNumber, String donatorId) throws Exception;
+
+    public List<UserReserveCouponDTO> getAllReservedCoupons(int pageNumber, String userId) throws Exception;
+
+    public Coupons findByCode(String code) throws Exception;
 
     public UserReserveCoupon checkCouponReservation(String code) throws Exception;
 
@@ -34,10 +44,6 @@ public interface CouponService {
 
     public AvailableCoupons getFreeCoupon(String userID) throws Exception;
 
-    public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception;
-
-    public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception;
-
     public void validateReserveCoupon() throws Exception;
 
     public void addCouponFromRemainingBalance() throws Exception;
@@ -46,11 +52,5 @@ public interface CouponService {
 
     public void couponTrigger() throws Exception;
 
-    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception;
-
-    public List<UserUsedCouponDTO> getAllUsedCoupons(String donatorId) throws Exception;
-    
-    public List<UserReserveCouponDTO> getAllReservedCoupons(String userId) throws Exception;
-    
     public boolean cancelReservation(String coupon_id) throws Exception;
 }
