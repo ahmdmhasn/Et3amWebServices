@@ -37,11 +37,6 @@ public class CouponServiceImpl implements CouponService {
     private UserDao userDao;
 
     @Override
-    public Coupons findByCode(String code) throws Exception {
-        return couponDao.findByCode(code);
-    }
-
-    @Override
     public List<String> addCoupon(String userId, int coupon50, int coupon100, int coupon200) throws Exception {
         List<String> createdCouponsIds = new ArrayList<>();
 
@@ -61,8 +56,39 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
+    public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception {
+        return couponDao.getUsedCoupon(restaurantId);
+    }
+
+    @Override
+    public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception {
+        return couponDao.getUserUsedCoupon(userId);
+    }
+
+    @Override
+    public List<UserReserveCouponDTO> getAllReservedCoupons(int pageNumber, String userId) throws Exception {
+        return couponDao.getAllReservedCoupons(pageNumber, userId);
+    }
+
+    @Override
+    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception {
+        return couponDao.getInBalanceCoupon(pageNumber, userId);
+
+    }
+
+    @Override
+    public List<UserUsedCouponDTO> getAllUsedCoupons(int pageNumber, String donatorId) throws Exception {
+        return couponDao.getAllUsedCoupons(pageNumber, donatorId);
+    }
+
+    @Override
+    public Coupons findByCode(String code) throws Exception {
+        return couponDao.findByCode(code);
+    }
+
+    @Override
     public UserReserveCoupon checkCouponReservation(String code) throws Exception {
-        return couponDao.checkCoupon(code,false);
+        return couponDao.checkCoupon(code, false);
     }
 
     @Override
@@ -73,16 +99,6 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public int reserveCoupon(String reserverId, String couponId, Date reservationDate) throws Exception {
         return couponDao.reserveCoupon(reserverId, couponId, reservationDate);
-    }
-
-    @Override
-    public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception {
-        return couponDao.getUsedCoupon(restaurantId);
-    }
-
-    @Override
-    public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception {
-        return couponDao.getUserUsedCoupon(userId);
     }
 
     @Override
@@ -111,13 +127,6 @@ public class CouponServiceImpl implements CouponService {
         return null;
     }
 
-
-    @Override
-    public List<UserReserveCouponDTO> getAllReservedCoupons(String userId) throws Exception {
-        return couponDao.getAllReservedCoupons(userId);
-    }
-
-
     @Override
     public void validateReserveCoupon() throws Exception {
         couponDao.validateReserveCoupon();
@@ -138,25 +147,14 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public void couponTrigger() throws Exception {
 
-          validateReserveCoupon();
-          addCouponFromRemainingBalance();
+        validateReserveCoupon();
+        addCouponFromRemainingBalance();
 
-    }
-
-    @Override
-    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception {
-        return couponDao.getInBalanceCoupon(pageNumber, userId);
-
-    }
-
-    @Override
-    public List<UserUsedCouponDTO> getAllUsedCoupons(String donatorId) throws Exception {
-        return couponDao.getAllUsedCoupons(donatorId);
     }
 
     @Override
     public boolean cancelReservation(String coupon_id) throws Exception {
-       return couponDao.cancleReservation(coupon_id); //To change body of generated methods, choose Tools | Templates.
+        return couponDao.cancleReservation(coupon_id); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

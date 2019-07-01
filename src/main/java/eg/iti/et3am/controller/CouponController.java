@@ -233,7 +233,7 @@ public class CouponController {
     public ResponseEntity<Map<String, Object>> getAllReservedCoupon(@RequestParam("user_id") String userId) throws Exception {
         Map<String, Object> result = new HashMap<>();
         try {
-            List<UserReserveCouponDTO> coupons = couponService.getAllReservedCoupons(userId);
+            List<UserReserveCouponDTO> coupons = couponService.getAllReservedCoupons(1,userId);
             if (coupons != null && !coupons.isEmpty()) {
                 result.put("code", 1);
                 result.put("Coupons", coupons);
@@ -257,7 +257,7 @@ public class CouponController {
     public ResponseEntity<Map<String, Object>> getAllUsedCoupon(@RequestParam("user_id") String userId) throws Exception {
         Map<String, Object> result = new HashMap<>();
         try {
-            List<UserUsedCouponDTO> coupons = couponService.getAllUsedCoupons(userId);
+            List<UserUsedCouponDTO> coupons = couponService.getAllUsedCoupons(1,userId);
             if (coupons != null && !coupons.isEmpty()) {
                 result.put("code", 1);
                 result.put("Coupons", coupons);
@@ -280,7 +280,6 @@ public class CouponController {
     @RequestMapping(value = "/get_inBalance_coupon", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getInBalanceCoupon(@RequestParam("user_id") String userId) throws Exception {
         Map<String, Object> result = new HashMap<>();
-
         try {
             List<Coupons> coupons = couponService.getInBalanceCoupon(1, userId);
             if (coupons != null && !coupons.isEmpty()) {
@@ -339,14 +338,12 @@ public class CouponController {
     public ResponseEntity<Map<String, Object>> cancelReservation(@RequestParam("coupon_id") String coupon_id) {
         Map<String, Object> result = new HashMap<>();
         try {
-            if(couponService.cancelReservation(coupon_id))
-            {
-            result.put("status", 1);
-            result.put("message", "reservation is cancelled.");
-            }
-            else{
-                 result.put("status", 0);
-            result.put("message", "no reservation to cancel.");
+            if (couponService.cancelReservation(coupon_id)) {
+                result.put("status", 1);
+                result.put("message", "reservation is cancelled.");
+            } else {
+                result.put("status", 0);
+                result.put("message", "no reservation to cancel.");
             }
         } catch (Exception ex) {
             result.put("status", 0);

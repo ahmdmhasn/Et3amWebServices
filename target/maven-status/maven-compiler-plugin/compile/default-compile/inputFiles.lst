@@ -19,6 +19,7 @@ C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\controller\UserController.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\RestaurantCoupons.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserDetails.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dto\MealDTO.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\PhotoService.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\PhotoServiceImpl.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\utils\HereMapConstants.java
@@ -37,6 +38,7 @@ C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\UserDao.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\Admins.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\utils\Constants.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dto\RestaurantDTO.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserReserveCoupon.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\RestaurantDao.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\networkapi\HttpHandler.java

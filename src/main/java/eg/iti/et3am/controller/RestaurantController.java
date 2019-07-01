@@ -1,15 +1,20 @@
 package eg.iti.et3am.controller;
 
+import eg.iti.et3am.dto.MealDTO;
+import eg.iti.et3am.dto.RestaurantDTO;
+import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.model.Status;
 import eg.iti.et3am.service.interfaces.RestaurantService;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.io.Charsets;
 import static org.hibernate.jpa.internal.EntityManagerImpl.LOG;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,28 +37,99 @@ public class RestaurantController {
 
     // List of nearest restaurants
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Restaurants> RestaurantsList(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude) {
-        List<Restaurants> restaurantList = null;
+    public ResponseEntity<Map<String, Object>> RestaurantsList(@RequestParam("page") int page, @RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude) {
+        Map<String, Object> result = new HashMap<>();
         try {
-            restaurantList = restaurantService.getRestaurantsList(latitude, longitude);
+            if (page <= 0) {
+                result.put("code", 0);
+                result.put("message", "page must be greater than 0");
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                List<RestaurantDTO> restaurantList = restaurantService.getRestaurantsList(page, latitude, longitude);
+                if (restaurantList != null && !restaurantList.isEmpty()) {
+                    result.put("code", 1);
+                    result.put("page", page);
+                    result.put("total_results", restaurantList.size());
+                    result.put("results", restaurantList);
+                    return new ResponseEntity<>(result, HttpStatus.OK);
+                } else {
+                    result.put("code", 0);
+                    result.put("message", "there are not Coupons");
+                    return new ResponseEntity<>(result, HttpStatus.OK);
+                }
+            }
         } catch (Exception ex) {
-            ex.getMessage();
             ex.printStackTrace();
+            Logger.getLogger(RestaurantController.class.getName()).log(Level.SEVERE, null, ex);
+            result.put("code", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
-        return restaurantList;
+    }
+
+    // search in List of nearest restaurants
+    @RequestMapping(value = "/searchList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> searchInRestaurantsList(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude, @RequestParam("query") String query, @RequestParam("page") int page) {
+        System.out.println("query-------- " + query);
+        Map<String, Object> result = new HashMap<>();
+        try {
+            if (page <= 0 || query.isEmpty()) {
+                result.put("code", 0);
+                result.put("message", "page must be greater than 0");
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                List<RestaurantDTO> restaurantList = restaurantService.searchInRestaurantsList(page, latitude, longitude, query);
+                if (restaurantList != null && !restaurantList.isEmpty()) {
+                    result.put("code", 1);
+                    result.put("page", page);
+                    result.put("total_results", restaurantList.size());
+                    result.put("results", restaurantList);
+                    return new ResponseEntity<>(result, HttpStatus.OK);
+                } else {
+                    result.put("code", 0);
+                    result.put("message", "there are not restaurants");
+                    return new ResponseEntity<>(result, HttpStatus.OK);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Logger.getLogger(RestaurantController.class.getName()).log(Level.SEVERE, null, ex);
+            result.put("code", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
     }
 
     // Restaurant deatails
-    @RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
-    public ResponseEntity<List<Meals>> get(@PathVariable("rest_id") Integer id) throws Exception {
-        LOG.info("getting user with id: {}");
-        List<Meals> mealses = restaurantService.getMealById(id);
-
-        if (mealses.isEmpty()) {
-            LOG.info("user with id {} not found");
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> get(@PathVariable("rest_id") Integer id, @RequestParam("page") int page) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            if (page <= 0) {
+                result.put("code", 0);
+                result.put("message", "page must be greater than 0");
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                List<MealDTO> mealsList = restaurantService.getMealById(id, page);
+                if (mealsList != null && !mealsList.isEmpty()) {
+                    result.put("code", 1);
+                    result.put("page", page);
+                    result.put("total_results", mealsList.size());
+                    result.put("results", mealsList);
+                    return new ResponseEntity<>(result, HttpStatus.OK);
+                } else {
+                    result.put("code", 0);
+                    result.put("message", "there are not Coupons");
+                    return new ResponseEntity<>(result, HttpStatus.OK);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Logger.getLogger(RestaurantController.class.getName()).log(Level.SEVERE, null, ex);
+            result.put("code", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
-        return new ResponseEntity<>(mealses, HttpStatus.OK);
     }
 
     // Get Restaurant by id

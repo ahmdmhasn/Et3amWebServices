@@ -1,4 +1,7 @@
 package eg.iti.et3am.service.interfaces;
+
+import eg.iti.et3am.dto.MealDTO;
+import eg.iti.et3am.dto.RestaurantDTO;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
@@ -16,15 +19,17 @@ public interface RestaurantService {
 
     Restaurants getRestaurantById(Integer id) throws Exception;
 
-    List<Restaurants> getRestaurantsList(double latitude, double longitude) throws Exception;
+    List<RestaurantDTO> getRestaurantsList(int page, double latitude, double longitude) throws Exception;
 
-    List<Meals> getMealById(Integer id) throws Exception;
+    public List<RestaurantDTO> searchInRestaurantsList(int pageNumber, double latitude, double longitude, String query) throws Exception;
+
+    public List<MealDTO> getMealById(Integer id,int page) throws Exception;
 
     Meals findMealById(Integer id) throws Exception;
 
     boolean updateMeal(Integer mealId, Meals meals) throws Exception;
 
     public boolean deleteMeal(Integer restaurantId, Integer mealId) throws Exception;
-    
+
     public RestaurantAdmin login(String email, String password) throws Exception;
 }
