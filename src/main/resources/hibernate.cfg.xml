@@ -60,6 +60,8 @@ Contributor(s):
     <mapping class="eg.iti.et3am.model.Admins"/>
     <mapping class="eg.iti.et3am.model.RestaurantCoupons"/>
     <mapping class="eg.iti.et3am.model.Coupons"/>
+    <mapping class="eg.iti.et3amtest.Inquiries"/>
+    <mapping class="eg.iti.et3amtest.ThanksMessages"/>
   </session-factory>
 </hibernate-configuration>
 

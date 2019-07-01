@@ -44,6 +44,10 @@ public class UserUsedCoupon implements Serializable, Cloneable {
     private int status;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userUsedCoupon")
     private Set<RemainingBalance> remainingBalances = new HashSet<>(0);
+    
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="message_id")
+    private ThanksMessages thanksMessages;
 
     public UserUsedCoupon() {
     }
@@ -121,6 +125,15 @@ public class UserUsedCoupon implements Serializable, Cloneable {
     public void setRemainingBalances(Set<RemainingBalance> remainingBalances) {
         this.remainingBalances = remainingBalances;
     }
+    
+    public ThanksMessages getThanksMessages() {
+        return this.thanksMessages;
+    }
+    
+    public void setThanksMessages(ThanksMessages thanksMessages) {
+        this.thanksMessages = thanksMessages;
+    }
+    
 @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
