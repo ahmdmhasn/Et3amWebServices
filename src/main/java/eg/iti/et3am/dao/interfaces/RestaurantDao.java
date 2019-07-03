@@ -2,6 +2,7 @@ package eg.iti.et3am.dao.interfaces;
 
 import eg.iti.et3am.dto.MealDTO;
 import eg.iti.et3am.dto.RestaurantDTO;
+import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
@@ -20,6 +21,7 @@ public interface RestaurantDao {
     Restaurants getRestaurantById(Integer id) throws Exception;
 
     List<RestaurantDTO> getRestaurantsList(int page, double latitude, double longitude) throws Exception;
+//    Results getRestaurantsList(int page, double latitude, double longitude) throws Exception;
 
     public List<RestaurantDTO> searchInRestaurantsList(int pageNumber, double latitude, double longitude, String query) throws Exception;
 

@@ -3,6 +3,7 @@ package eg.iti.et3am.dao.implementions;
 import eg.iti.et3am.dao.interfaces.RestaurantDao;
 import eg.iti.et3am.dto.MealDTO;
 import eg.iti.et3am.dto.RestaurantDTO;
+import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
@@ -61,11 +62,12 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
         List<Restaurants> restaurantses = criteria.list();
 
+        criteria.setProjection(Projections.rowCount());
+        Long count = (Long) criteria.uniqueResult();
         List<RestaurantDTO> listRDtos = new ArrayList<>();
-
         for (Restaurants restaurants : restaurantses) {
             RestaurantDTO restaurantDTO = new RestaurantDTO();
-
+            
             restaurantDTO.setRestaurantID(restaurants.getRestaurantId());
             restaurantDTO.setRestaurantName(restaurants.getRestaurantName());
             restaurantDTO.setRestaurantImage(restaurants.getRestaurantImage());
@@ -75,9 +77,11 @@ public class RestaurantDaoImpl implements RestaurantDao {
             restaurantDTO.setLongitude(restaurants.getLongitude());
             double distance = Utils.distance(restaurants.getLatitude(), latitude, restaurants.getLongitude(), longitude, 0.0, 0.0);
             restaurantDTO.setDistance(distance);
+            restaurantDTO.setTotalPage(count);
 
             listRDtos.add(restaurantDTO);
         }
+        
         return listRDtos;
     }
 
@@ -119,6 +123,50 @@ public class RestaurantDaoImpl implements RestaurantDao {
         }
         return listRDtos;
     }
+//    @Override
+//    public Results getRestaurantsList(int pageNumber, double latitude, double longitude) throws Exception {
+//
+//        int pageSize = 10;
+//
+//        session = sessionFactory.getCurrentSession();
+//        Criteria criteria = session.createCriteria(Restaurants.class);
+//        criteria.addOrder(Order.asc("latitude"));
+//        criteria.addOrder(Order.asc("longitude"));
+//        criteria.setFirstResult((pageNumber - 1) * pageSize);
+//        criteria.setMaxResults(pageSize);
+//
+//        List<Restaurants> restaurantses = criteria.list();
+//
+//        criteria.setProjection(Projections.rowCount());
+//        Long count = (Long) criteria.uniqueResult();
+//
+//        System.out.println("CCCCCCCCC " + count);
+//        List<RestaurantDTO> listRDtos = new ArrayList<>();
+//        Results results = new Results();
+//        results.setPage(pageNumber);
+//        results.setTotalPages(count);
+//        results.setTotalResults(count);
+//        for (Restaurants restaurants : restaurantses) {
+//            RestaurantDTO restaurantDTO = new RestaurantDTO();
+//            
+//            restaurantDTO.setRestaurantID(restaurants.getRestaurantId());
+//            restaurantDTO.setRestaurantName(restaurants.getRestaurantName());
+//            restaurantDTO.setRestaurantImage(restaurants.getRestaurantImage());
+//            restaurantDTO.setCity(restaurants.getCity());
+//            restaurantDTO.setCountry(restaurants.getCountry());
+//            restaurantDTO.setLatitude(restaurants.getLatitude());
+//            restaurantDTO.setLongitude(restaurants.getLongitude());
+//            double distance = Utils.distance(restaurants.getLatitude(), latitude, restaurants.getLongitude(), longitude, 0.0, 0.0);
+//            restaurantDTO.setDistance(distance);
+//            restaurantDTO.setTotalPage(count);
+//
+//            listRDtos.add(restaurantDTO);
+//            results.setResults(listRDtos);
+//        }
+//        System.out.println("hgrterwwefeweqfeewq"+results.getTotalPages());
+//        return results;
+//    }
+
 
     // Not Used
     @Override

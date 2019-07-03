@@ -49,7 +49,7 @@ public class RestaurantController {
                 if (restaurantList != null && !restaurantList.isEmpty()) {
                     result.put("code", 1);
                     result.put("page", page);
-                    result.put("total_results", restaurantList.size());
+                    result.put("total_results", restaurantList.get(0).getTotalPage());
                     result.put("results", restaurantList);
                     return new ResponseEntity<>(result, HttpStatus.OK);
                 } else {
