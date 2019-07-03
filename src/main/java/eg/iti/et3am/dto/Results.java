@@ -25,7 +25,8 @@ public class Results<T> {
         this.results = results;
     }
 
-    public Results() {}
+    public Results() {
+    }
 
     public int getPage() {
         return page;

@@ -2,6 +2,7 @@ package eg.iti.et3am.controller;
 
 import eg.iti.et3am.dto.MealDTO;
 import eg.iti.et3am.dto.RestaurantDTO;
+import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
@@ -45,12 +46,13 @@ public class RestaurantController {
                 result.put("message", "page must be greater than 0");
                 return new ResponseEntity<>(result, HttpStatus.OK);
             } else {
-                List<RestaurantDTO> restaurantList = restaurantService.getRestaurantsList(page, latitude, longitude);
-                if (restaurantList != null && !restaurantList.isEmpty()) {
+                Results results = restaurantService.getRestaurantsListTrial(page, latitude, longitude);
+                if (results != null) {
                     result.put("code", 1);
-                    result.put("page", page);
-                    result.put("total_results", restaurantList.get(0).getTotalPage());
-                    result.put("results", restaurantList);
+                    result.put("page", results.getPage());
+                    result.put("total_page", results.getTotalPages());
+                    result.put("total_results", results.getTotalResults());
+                    result.put("results", results.getResults());
                     return new ResponseEntity<>(result, HttpStatus.OK);
                 } else {
                     result.put("code", 0);
@@ -70,7 +72,6 @@ public class RestaurantController {
     // search in List of nearest restaurants
     @RequestMapping(value = "/searchList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Object>> searchInRestaurantsList(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude, @RequestParam("query") String query, @RequestParam("page") int page) {
-        System.out.println("query-------- " + query);
         Map<String, Object> result = new HashMap<>();
         try {
             if (page <= 0 || query.isEmpty()) {
@@ -78,12 +79,13 @@ public class RestaurantController {
                 result.put("message", "page must be greater than 0");
                 return new ResponseEntity<>(result, HttpStatus.OK);
             } else {
-                List<RestaurantDTO> restaurantList = restaurantService.searchInRestaurantsList(page, latitude, longitude, query);
-                if (restaurantList != null && !restaurantList.isEmpty()) {
+                Results restaurantList = restaurantService.searchInRestaurantsList(page, latitude, longitude, query);
+                if (restaurantList != null) {
                     result.put("code", 1);
-                    result.put("page", page);
-                    result.put("total_results", restaurantList.size());
-                    result.put("results", restaurantList);
+                    result.put("page", restaurantList.getPage());
+                    result.put("total_results", restaurantList.getTotalResults());
+                    result.put("total_pages", restaurantList.getTotalPages());
+                    result.put("results", restaurantList.getResults());
                     return new ResponseEntity<>(result, HttpStatus.OK);
                 } else {
                     result.put("code", 0);

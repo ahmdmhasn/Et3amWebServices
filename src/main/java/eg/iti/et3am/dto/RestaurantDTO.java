@@ -20,12 +20,11 @@ public class RestaurantDTO implements Comparable<RestaurantDTO> {
     private double distance;
     private double travelTime;
     private String restaurantImage;
-    private Long totalPage;
-
+    
     public RestaurantDTO() {
     }
 
-    public RestaurantDTO(Integer restaurantID, String restaurantName, String city, String country, double latitude, double longitude, double distance, double travelTime, String restaurantImage, Long totalPage) {
+    public RestaurantDTO(Integer restaurantID, String restaurantName, String city, String country, double latitude, double longitude, double distance, double travelTime, String restaurantImage) {
         this.restaurantID = restaurantID;
         this.restaurantName = restaurantName;
         this.city = city;
@@ -35,7 +34,6 @@ public class RestaurantDTO implements Comparable<RestaurantDTO> {
         this.distance = distance;
         this.travelTime = travelTime;
         this.restaurantImage = restaurantImage;
-        this.totalPage = totalPage;
     }
 
     public Integer getRestaurantID() {
@@ -108,19 +106,6 @@ public class RestaurantDTO implements Comparable<RestaurantDTO> {
 
     public void setRestaurantImage(String restaurantImage) {
         this.restaurantImage = restaurantImage;
-    }
-
-    public Long getTotalPage() {
-        return totalPage;
-    }
-
-    public void setTotalPage(Long totalPage) {
-        Long total = totalPage / 10;
-        if ( (totalPage % 10) > 0) {
-            System.out.println("Sum = " + total);
-            total += 1;
-        }
-        this.totalPage = total;
     }
 
     @Override

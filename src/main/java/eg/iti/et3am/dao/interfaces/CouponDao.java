@@ -5,6 +5,7 @@
  */
 package eg.iti.et3am.dao.interfaces;
 
+import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.dto.UserReserveCouponDTO;
 import eg.iti.et3am.dto.UserUsedCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
@@ -21,43 +22,45 @@ import java.util.List;
  */
 public interface CouponDao {
 
-    public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception;
+    List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception;
 
-    public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception;
+    List<UserUsedCoupon> getUserUsedCoupon(int pageNumber, String userId) throws Exception;
 
-    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception;
+    List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception;
 
-    public List<UserReserveCouponDTO> getAllReservedCoupons(int pageNumber, String userId) throws Exception;
+    Results getInBalanceCouponTrial(int pageNumber, String userId) throws Exception;
 
-    public List<UserUsedCouponDTO> getAllUsedCoupons(int pageNumber, String donatorId) throws Exception;
+    List<UserReserveCouponDTO> getAllReservedCoupons(int pageNumber, String userId) throws Exception;
 
-    public Coupons findByCode(String code) throws Exception;
+    List<UserUsedCouponDTO> getAllUsedCoupons(int pageNumber, String donatorId) throws Exception;
 
-    public UserReserveCoupon checkCoupon(String code, boolean changeStatus) throws Exception;
+    Coupons findByCode(String code) throws Exception;
 
-    public int useCoupon(String code, double price, int restaurantId) throws Exception;
+    UserReserveCoupon checkCoupon(String code, boolean changeStatus) throws Exception;
 
-    public String addCoupon(String userId, Double couponValue) throws Exception;
+    int useCoupon(String code, double price, int restaurantId) throws Exception;
 
-    public int reserveCoupon(String reserverId, String couponId, Date reservationDate) throws Exception;
+    String addCoupon(String userId, Double couponValue) throws Exception;
 
-    public AvailableCoupons getFreeCoupon(String userID) throws Exception;
+    int reserveCoupon(String reserverId, String couponId, Date reservationDate) throws Exception;
 
-    public boolean addReservedCoupon(AvailableCoupons c, String userID) throws Exception;
+    AvailableCoupons getFreeCoupon(String userID) throws Exception;
 
-    public boolean noMoreOneReservedCouponAtTheSameTime(String userId) throws Exception;
+    boolean addReservedCoupon(AvailableCoupons c, String userID) throws Exception;
 
-    public void validateReserveCoupon() throws Exception;
+    boolean noMoreOneReservedCouponAtTheSameTime(String userId) throws Exception;
 
-    public void addCouponFromRemainingBalance() throws Exception;
+    void validateReserveCoupon() throws Exception;
 
-    public boolean publishCoupon(String coupon_id) throws Exception;
+    void addCouponFromRemainingBalance() throws Exception;
 
-    public long getUserUsedCouponsCount(String userId) throws Exception;
+    boolean publishCoupon(String coupon_id) throws Exception;
 
-    public long getUserDonatedCouponsCount(String id) throws Exception;
+    long getUserUsedCouponsCount(String userId) throws Exception;
 
-    public Date getUserReservedCouponReservationDate(String id) throws Exception;
+    long getUserDonatedCouponsCount(String id) throws Exception;
 
-    public boolean cancleReservation(String coupon_id) throws Exception;
+    Date getUserReservedCouponReservationDate(String id) throws Exception;
+
+    boolean cancleReservation(String coupon_id) throws Exception;
 }
