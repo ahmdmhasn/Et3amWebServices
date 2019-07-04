@@ -35,20 +35,20 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     Session session = null;
     Transaction tx = null;
-    
+
     private Session checkCurrentSession() {
         if (session == null) {
             session = sessionFactory.openSession();
         } else if (!session.isOpen()) {
             session = sessionFactory.openSession();
-        } 
+        }
         session = sessionFactory.getCurrentSession();
         return session;
     }
 
     @Override
     public Restaurants getRestaurantById(Integer id) throws Exception {
-         session = checkCurrentSession();;
+        session = checkCurrentSession();;
         Restaurants restaurants = (Restaurants) session.load(Restaurants.class, id);
         //Copy Data from object To another
         Restaurants restaurants1 = (Restaurants) restaurants.clone();
@@ -90,7 +90,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public List<Restaurants> getRestaurantsListWithMeals() throws Exception {
-         session = checkCurrentSession();
+        session = checkCurrentSession();
         tx = session.beginTransaction();
         List<Restaurants> restaurantses = session.createCriteria(Restaurants.class).list();
 
@@ -108,7 +108,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public Set<Meals> getMealsSetById(Integer id) throws Exception {
-         session = checkCurrentSession();
+        session = checkCurrentSession();
         List<Meals> mealses = session.createCriteria(Meals.class)
                 .add(Restrictions.eq("restaurants.restaurantId", id)).list();
 
@@ -126,7 +126,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public List<Meals> getMealsListById(Integer id) throws Exception {
-         session = checkCurrentSession();
+        session = checkCurrentSession();
         tx = session.beginTransaction();
         List<Meals> mealses = session.createCriteria(Meals.class)
                 .add(Restrictions.eq("restaurants.restaurantId", id)).list();
@@ -146,7 +146,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public Meals findMealById(Integer id) throws Exception {
-         session = checkCurrentSession();
+        session = checkCurrentSession();
         tx = session.beginTransaction();
         Meals meals = (Meals) session.load(Meals.class, id);
         tx.commit();
@@ -155,7 +155,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public String addRestaurant(Restaurants restaurant) throws Exception {
-         session = checkCurrentSession();
+        session = checkCurrentSession();
         tx = session.beginTransaction();
         System.out.println(session.save(restaurant) + "~~~~~~~~~~~~");
         tx.commit();
@@ -180,7 +180,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public RestaurantAdmin login(String email, String password) throws Exception {
-         session = checkCurrentSession();
+        session = checkCurrentSession();
         Criteria criteria = session.createCriteria(RestaurantAdmin.class);
         criteria.add(Restrictions.eq("restaurantAdminEmail", email));
         criteria.add(Restrictions.eq("restaurantAdminPassword", password));
@@ -201,7 +201,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public boolean updateMeal(Integer mealId, Meals meals) throws Exception {
-         session = checkCurrentSession();
+        session = checkCurrentSession();
         tx = session.beginTransaction();
         Meals meal = (Meals) session.load(Meals.class, mealId);
         meal.setMealName(meals.getMealName());
@@ -214,7 +214,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public boolean deleteMeal(Integer restaurantId, Integer mealId) throws Exception {
-         session = checkCurrentSession();
+        session = checkCurrentSession();
         tx = session.beginTransaction();
         Restaurants r = (Restaurants) session.load(Restaurants.class, restaurantId);
         for (Meals meal : r.getMealses()) {

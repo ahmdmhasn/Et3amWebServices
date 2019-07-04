@@ -44,8 +44,7 @@ public class RestaurantController {
     }
 
     // Restaurant deatails
-    /*
-    @RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
+   /* @RequestMapping(value = "/{rest_id}/meals", method = RequestMethod.GET)
     public List<Meals> getMealById(@PathVariable("rest_id") Integer id) {
         List<Meals> meals = null;
         try {
