@@ -25,7 +25,6 @@ import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
-import org.hibernate.transform.ResultTransformer;
 
 /**
  *
@@ -146,9 +145,6 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
         List<Restaurants> restaurantses = criteria.list();
 
-        criteria.setProjection(Projections.rowCount());
-        Long count = (Long) criteria.uniqueResult();
-
         List<RestaurantDTO> listRDtos = new ArrayList<>();
 
         for (Restaurants restaurants : restaurantses) {
@@ -166,9 +162,12 @@ public class RestaurantDaoImpl implements RestaurantDao {
             listRDtos.add(restaurantDTO);
         }
         Results results = new Results();
+        criteria = session.createCriteria(Restaurants.class);
+        criteria.setProjection(Projections.rowCount());
+        Long count = (Long) criteria.uniqueResult();
         results.setPage(pageNumber);
-//        results.setTotalPages(count);
-//        results.setTotalResults(count);
+        results.setTotalPages(count);
+        results.setTotalResults(count);
         results.setResults(listRDtos);
         return results;
     }
