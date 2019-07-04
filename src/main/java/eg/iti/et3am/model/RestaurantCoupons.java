@@ -14,14 +14,30 @@ import java.util.Date;
  */
 public class RestaurantCoupons implements Serializable{
 
-    public RestaurantCoupons(String barCode, Date usedDate, float price) {
+    /**
+     * @return the status
+     */
+    public int getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public RestaurantCoupons(String barCode, Date usedDate, float price ,int status) {
         this.barCode = barCode;
         this.usedDate = usedDate;
         this.price = price;
+        this.status = status;
     }
     private String barCode;
     private Date usedDate;
     private float price;
+    private int status;
 
     /**
      * @return the barCode

@@ -6,15 +6,21 @@
 package eg.iti.et3am.service.implementations;
 
 import eg.iti.et3am.dao.interfaces.CouponDao;
+import eg.iti.et3am.dao.interfaces.UserDao;
+import eg.iti.et3am.dto.Results;
+import eg.iti.et3am.dto.UserReserveCouponDTO;
+import eg.iti.et3am.dto.UserUsedCouponDTO;
+import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
+import eg.iti.et3am.model.RestaurantCoupons;
 import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.UserUsedCoupon;
-import eg.iti.et3am.model.Users;
 import eg.iti.et3am.service.interfaces.CouponService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,15 +29,13 @@ import org.springframework.transaction.annotation.Transactional;
  * @author A7med
  */
 @Service
+@Transactional
 public class CouponServiceImpl implements CouponService {
 
     @Autowired
     private CouponDao couponDao;
-
-    @Override
-    public Coupons findByCode(String code) throws Exception {
-        return couponDao.findByCode(code);
-    }
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public List<String> addCoupon(String userId, int coupon50, int coupon100, int coupon200) throws Exception {
@@ -49,23 +53,53 @@ public class CouponServiceImpl implements CouponService {
         for (int i = 0; i < coupon200; i++) {
             createdCouponsIds.add(couponDao.addCoupon(userId, 200.00));
         }
-
-//        List<Coupons> createdCoupons = new ArrayList<>();
-//        for (String id : createdCouponsIds) {
-//            createdCoupons.add(couponDao.findByCode(id));
-//        }
-//        return createdCoupons;
         return createdCouponsIds;
     }
 
     @Override
-    public UserReserveCoupon checkCouponReservation(String code) throws Exception {
-        return couponDao.checkCoupon(code);
+    public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception {
+        return couponDao.getUsedCoupon(restaurantId);
     }
 
     @Override
-    public int useCoupon(String code, double price, Date usedDate , int restaurantId) throws Exception {
-        return couponDao.useCoupon(code, price ,usedDate,restaurantId);
+    public List<UserUsedCoupon> getUserUsedCoupon(int pageNumber, String userId) throws Exception {
+        return couponDao.getUserUsedCoupon(pageNumber, userId);
+    }
+
+    @Override
+    public List<UserReserveCouponDTO> getAllReservedCoupons(int pageNumber, String userId) throws Exception {
+        return couponDao.getAllReservedCoupons(pageNumber, userId);
+    }
+
+    @Override
+    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception {
+        return couponDao.getInBalanceCoupon(pageNumber, userId);
+
+    }
+
+    @Override
+    public Results getInBalanceCouponTrial(int pageNumber, String userId) throws Exception {
+        return couponDao.getInBalanceCouponTrial(pageNumber, userId);
+    }
+
+    @Override
+    public List<UserUsedCouponDTO> getAllUsedCoupons(int pageNumber, String donatorId) throws Exception {
+        return couponDao.getAllUsedCoupons(pageNumber, donatorId);
+    }
+
+    @Override
+    public Coupons findByCode(String code) throws Exception {
+        return couponDao.findByCode(code);
+    }
+
+    @Override
+    public UserReserveCoupon checkCouponReservation(String code) throws Exception {
+        return couponDao.checkCoupon(code, false);
+    }
+
+    @Override
+    public int useCoupon(String code, double price, int restaurantId) throws Exception {
+        return couponDao.useCoupon(code, price, restaurantId);
     }
 
     @Override
@@ -74,8 +108,50 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public List<UserUsedCoupon> getUsedCoupon(int restaurantId) throws Exception {
-        return couponDao.getUsedCoupon(restaurantId);
+    public AvailableCoupons getFreeCoupon(String userID) throws Exception {
+
+        if (userDao.getEntityById(userID).getVerified() == 1) {
+            if (couponDao.noMoreOneReservedCouponAtTheSameTime(userID)) {
+
+                AvailableCoupons availableCoupon = couponDao.getFreeCoupon(userID);
+
+                if (availableCoupon != null) {
+                    couponDao.addReservedCoupon(availableCoupon, userID);
+                    return availableCoupon;
+                }
+
+            } else {
+                System.err.println("method is running --===============");
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void validateReserveCoupon() throws Exception {
+        couponDao.validateReserveCoupon();
+    }
+
+    @Override
+    public void addCouponFromRemainingBalance() throws Exception {
+        couponDao.addCouponFromRemainingBalance();
+    }
+
+    @Override
+    public boolean publishCoupon(String coupon_id) throws Exception {
+        return couponDao.publishCoupon(coupon_id);
+    }
+
+    @Scheduled(fixedDelay = 3600000)
+    @Override
+    public void couponTrigger() throws Exception {
+        validateReserveCoupon();
+        addCouponFromRemainingBalance();
+    }
+
+    @Override
+    public boolean cancelReservation(String coupon_id) throws Exception {
+        return couponDao.cancleReservation(coupon_id); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -1,40 +1,114 @@
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\CouponDao.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserDetails.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\cloudinary\validator\ImageFileValidator.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\controller\PhotoController.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\RestaurantDaoImpl.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\model\RestaurantAdmin.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\model\RestaurantCoupons.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\utils\EntityCopier.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\utils\Utils.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\controller\RestaurantController.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\model\Restaurants.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\controller\CouponController.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\service\networkapi\HttpHandler.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\CouponService.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\UserDao.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\model\Users.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\model\ImageFile.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\UserService.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\model\Coupons.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\model\Meals.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\UserDaoImpl.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\model\AvailableCoupons.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\RestaurantDao.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\UserServiceImpl.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\PhotoServiceImpl.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\RestaurantServiceImpl.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\service\networkapi\CalculateRoute.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\RestaurantService.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\model\RestaurantAdminId.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\utils\CloudinaryConstants.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\model\RemainingBalance.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\PhotoService.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\controller\AdminController.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\controller\UserController.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\model\Admins.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\CouponServiceImpl.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\CouponDaoImpl.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\model\Status.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserReserveCoupon.java
-C:\Users\HP\Desktop\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserUsedCoupon.java
+<<<<<<< HEAD
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\utils\CloudinaryConstants.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dto\UserReserveCouponDTO.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\controller\AdminController.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\AdminServiceImpl.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\networkapi\CalculateRoute.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\AdminService.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\utils\Mail.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\Meals.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\utils\Utils.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\AdminDaoImpl.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\Users.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\RemainingBalance.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\CouponDao.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\CouponDaoImpl.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\AdminDao.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\Coupons.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\utils\EntityCopier.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dto\UserUsedCouponDTO.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\InquiryDao.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\controller\UserController.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\RestaurantCoupons.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\InquiryDaoImpl.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\InquiryService.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserDetails.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dto\MealDTO.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\PhotoService.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\PhotoServiceImpl.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\utils\HereMapConstants.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\controller\PhotoController.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\RestaurantServiceImpl.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\controller\CouponController.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\controller\RestaurantController.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\UserServiceImpl.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\RestaurantDaoImpl.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\RestaurantService.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\RestaurantAdmin.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\Restaurants.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserUsedCoupon.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\Status.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\InquiryServiceImpl.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\controller\InquiryController.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\CouponService.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\UserDao.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\Admins.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\utils\Constants.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dto\RestaurantDTO.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserReserveCoupon.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\RestaurantDao.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\networkapi\HttpHandler.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\CouponServiceImpl.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\ImageFile.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\AvailableCoupons.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\cloudinary\validator\ImageFileValidator.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\ThanksMessages.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\UserService.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\UserDaoImpl.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\Inquiries.java
+=======
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\controller\PhotoController.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserReserveCoupon.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\controller\UserController.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\Meals.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\CouponServiceImpl.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\UserDao.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\UserServiceImpl.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\utils\Constants.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\PhotoServiceImpl.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\AdminDao.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\controller\CouponDonatedController.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\PhotoService.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dto\RestaurantDTO.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\utils\Mail.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dto\Results.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\AdminDaoImpl.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\RestaurantService.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\RestaurantDaoImpl.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\ImageFile.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\CouponService.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dto\MealDTO.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\Users.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\AdminServiceImpl.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dto\UserUsedCouponDTO.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\AvailableCoupons.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\utils\EntityCopier.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\Coupons.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\RestaurantDao.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\utils\CloudinaryConstants.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\UserDaoImpl.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\Restaurants.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\AdminService.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\utils\Utils.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\Inquiries.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\RestaurantCoupons.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dto\UserReserveCouponDTO.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\networkapi\CalculateRoute.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\CouponDaoImpl.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\RestaurantServiceImpl.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\RestaurantAdmin.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\controller\CouponController.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\cloudinary\validator\ImageFileValidator.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserUsedCoupon.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\Admins.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\ThanksMessages.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\Status.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\networkapi\HttpHandler.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\utils\HereMapConstants.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\CouponDao.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\RemainingBalance.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\controller\AdminController.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\UserService.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserDetails.java
+E:\ITI Intake 39\Lectures\Et3am Project\New Folder\Et3amWebServices\src\main\java\eg\iti\et3am\controller\RestaurantController.java
+>>>>>>> af66aa6e5a4d33a1d1f63cf554a1a8385b6c03df

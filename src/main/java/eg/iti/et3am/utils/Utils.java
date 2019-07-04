@@ -1,5 +1,8 @@
 package eg.iti.et3am.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author Wael M Elmahask
@@ -47,7 +50,6 @@ public class Utils {
         double height = el1 - el2;
 
         distance = Math.pow(distance, 2) + Math.pow(height, 2);
-
         return Math.sqrt(distance);
     }
 

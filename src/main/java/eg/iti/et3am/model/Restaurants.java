@@ -38,6 +38,8 @@ public class Restaurants implements Serializable, Cloneable, Comparable<Restaura
     private double longitude;
     @Transient
     private double distance;
+    @Transient
+    private double travelTime;
     @Column(name = "restaurant_image", length = 45)
     private String restaurantImage;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurants")
@@ -124,6 +126,14 @@ public class Restaurants implements Serializable, Cloneable, Comparable<Restaura
 
     public void setDistance(double distance) {
         this.distance = distance;
+    }
+
+    public double getTravelTime() {
+        return travelTime;
+    }
+
+    public void setTravelTime(double travelTime) {
+        this.travelTime = travelTime;
     }
 
     public String getRestaurantImage() {

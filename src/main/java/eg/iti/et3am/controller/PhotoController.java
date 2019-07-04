@@ -33,7 +33,7 @@ public class PhotoController {
     PhotoService photoService;
 
     @RequestMapping(value = "/fileupload", headers = ("content-type=multipart/*"), method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> upload(@RequestParam("file") MultipartFile inputFile, @RequestParam("name") String name) {
+    public ResponseEntity<Map<String, Object>> upload(@RequestParam("file") MultipartFile inputFile) {
         Map<String, Object> response = new HashMap<>();
         try {
             if (!inputFile.isEmpty()) {
@@ -50,12 +50,9 @@ public class PhotoController {
                 if (resultFromCloud.size() > 0) {
                     myImage.setSecure_url((String) resultFromCloud.get("secure_url"));
                     response.put("code", 1);
-                    response.put("message", "Uploaded Seccessfully");
+                    response.put("message", "Uploaded Successfully");
                     response.put("image", resultFromCloud);
                     return new ResponseEntity<>(response, HttpStatus.OK);
-                    // Store At DB
-                    //  photoService.updateDB("Meals", id,myImage.getImageName());
-
                 } else {
                     // return new Status(0, "Failed While Uploading");
                     response.put("code", 0);

@@ -1,6 +1,9 @@
 package eg.iti.et3am.service.implementations;
 
 import eg.iti.et3am.dao.interfaces.RestaurantDao;
+import eg.iti.et3am.dto.MealDTO;
+import eg.iti.et3am.dto.RestaurantDTO;
+import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.service.interfaces.RestaurantService;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
@@ -9,16 +12,19 @@ import eg.iti.et3am.service.networkapi.CalculateRoute;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Wael M Elmahask
  */
 @Service
+@Transactional
 public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
     private RestaurantDao restaurantDao;
+
     @Autowired
     private CalculateRoute calculateRoute;
 
@@ -38,15 +44,26 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public List<Restaurants> getRestaurantsList(double latitude, double longitude) throws Exception {
-        System.out.println("lat ->" + latitude);
-        List<Restaurants> list = restaurantDao.getRestaurantsList(latitude, longitude);
+    public List<RestaurantDTO> getRestaurantsList(int page, double latitude, double longitude) throws Exception {
+        List<RestaurantDTO> list = restaurantDao.getRestaurantsList(page, latitude, longitude);
         return calculateRoute.calculateRoute(list, latitude, longitude);
     }
 
     @Override
-    public List<Meals> getMealById(Integer id) throws Exception {
-        return restaurantDao.getMealsListById(id);
+    public Results getRestaurantsListTrial(int page, double latitude, double longitude) throws Exception {
+        Results list = restaurantDao.getRestaurantsListTrial(page, latitude, longitude);
+        return calculateRoute.calculateRoute(list, latitude, longitude);
+    }
+
+    @Override
+    public Results searchInRestaurantsList(int page, double latitude, double longitude, String query) throws Exception {
+        Results list = restaurantDao.searchInRestaurantsList(page, latitude, longitude, query);
+        return calculateRoute.calculateRoute(list, latitude, longitude);
+    }
+
+    @Override
+    public List<MealDTO> getMealById(Integer id, int page) throws Exception {
+        return restaurantDao.getMealsListById(id, page);
     }
 
     @Override
