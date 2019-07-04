@@ -10,6 +10,7 @@ import eg.iti.et3am.model.Admins;
 import eg.iti.et3am.model.AvailableCoupons;
 
 import eg.iti.et3am.model.Coupons;
+import eg.iti.et3am.model.Inquiries;
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.model.UserReserveCoupon;
@@ -130,5 +131,18 @@ public class EntityCopier {
         ac2.setDate(ac1.getDate());
         ac2.setStatus(ac1.getStatus());
         return ac2;
+    }
+
+    public static Inquiries getInquiry(Inquiries inquiry) {
+        Inquiries temp = new Inquiries();
+        
+        temp.setCreationDate(inquiry.getCreationDate());
+        temp.setIdInquiries(inquiry.getIdInquiries());
+        temp.setImage(inquiry.getImage());
+        temp.setMessage(inquiry.getMessage());
+        temp.setStatus(inquiry.getStatus());
+        temp.setUsers(EntityCopier.getUser(inquiry.getUsers()));
+        
+        return temp;
     }
 }
