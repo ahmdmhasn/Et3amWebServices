@@ -133,11 +133,12 @@ public class CouponController {
     // use coupon  
     @RequestMapping(value = "/use_coupon", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> useCoupon(@RequestParam("restaurantId") int restaurantId,
+            @RequestParam("mealId") int mealId,
             @RequestParam("barCode") String barCode,
             @RequestParam("price") float price) {
         Map<String, Object> result = new HashMap<>();
         try {
-            int id = couponService.useCoupon(barCode, price, restaurantId);
+            int id = couponService.useCoupon(barCode, price, restaurantId,mealId);
             if (id != -1) {
                 result.put("code", 1);
                 result.put("id", id);

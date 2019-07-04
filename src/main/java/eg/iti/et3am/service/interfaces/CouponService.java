@@ -41,7 +41,7 @@ public interface CouponService {
 
     public UserReserveCoupon checkCouponReservation(String code) throws Exception;
 
-    public int useCoupon(String code, double price, int restaurantId) throws Exception;
+    public int useCoupon(String code, double price, int restaurantId, int mealId) throws Exception;
 
     public int reserveCoupon(String reserverId, String couponId, Date reservationDate) throws Exception;
 

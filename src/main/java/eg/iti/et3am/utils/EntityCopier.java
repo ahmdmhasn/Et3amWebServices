@@ -46,7 +46,7 @@ public class EntityCopier {
         coupon2.setCouponQrcode(coupon.getCouponQrcode());
         coupon2.setCouponValue(coupon.getCouponValue());
         coupon2.setCreationDate(coupon.getCreationDate());
-        coupon2.setIsBalance(coupon.getIsBalance());
+        coupon2.setInBalance(coupon.getInBalance());
         coupon2.setUsers(getUser(coupon.getUsers()));
 
         return coupon2;
@@ -73,7 +73,7 @@ public class EntityCopier {
         Restaurants restaurants1 = new Restaurants();
         restaurants1.setCity(restaurants.getCity());
         restaurants1.setCountry(restaurants.getCountry());
-        restaurants1.setDistance(restaurants.getDistance());
+//        restaurants1.setDistance(restaurants.getDistance());
         restaurants1.setLatitude(restaurants.getLatitude());
         restaurants1.setLongitude(restaurants.getLongitude());
         restaurants1.setMealses(restaurants.getMealses());

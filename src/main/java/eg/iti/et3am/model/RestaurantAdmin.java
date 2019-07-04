@@ -1,6 +1,5 @@
-
 package eg.iti.et3am.model;
-// Generated Jun 23, 2019 8:17:36 PM by Hibernate Tools 4.3.1
+// Generated Jul 4, 2019 9:55:21 PM by Hibernate Tools 4.3.1
 
 
 import javax.persistence.Column;
