@@ -7,6 +7,7 @@ package eg.iti.et3am.service.implementations;
 
 import eg.iti.et3am.dao.interfaces.CouponDao;
 import eg.iti.et3am.dao.interfaces.UserDao;
+import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.dto.UserReserveCouponDTO;
 import eg.iti.et3am.dto.UserUsedCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
@@ -61,8 +62,8 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception {
-        return couponDao.getUserUsedCoupon(userId);
+    public List<UserUsedCoupon> getUserUsedCoupon(int pageNumber, String userId) throws Exception {
+        return couponDao.getUserUsedCoupon(pageNumber, userId);
     }
 
     @Override
@@ -74,6 +75,11 @@ public class CouponServiceImpl implements CouponService {
     public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception {
         return couponDao.getInBalanceCoupon(pageNumber, userId);
 
+    }
+
+    @Override
+    public Results getInBalanceCouponTrial(int pageNumber, String userId) throws Exception {
+        return couponDao.getInBalanceCouponTrial(pageNumber, userId);
     }
 
     @Override
@@ -105,8 +111,6 @@ public class CouponServiceImpl implements CouponService {
     public AvailableCoupons getFreeCoupon(String userID) throws Exception {
 
         if (userDao.getEntityById(userID).getVerified() == 1) {
-            System.out.println("verified~~~~~~~~~~");
-
             if (couponDao.noMoreOneReservedCouponAtTheSameTime(userID)) {
 
                 AvailableCoupons availableCoupon = couponDao.getFreeCoupon(userID);
@@ -117,20 +121,15 @@ public class CouponServiceImpl implements CouponService {
                 }
 
             } else {
-                System.err.println("method is running --==============="
-                        + "====================================="
-                        + "===================================="
-                        + "=============================================");
+                System.err.println("method is running --===============");
             }
         }
-        System.out.println("new~~~~~~~~~~");
         return null;
     }
 
     @Override
     public void validateReserveCoupon() throws Exception {
         couponDao.validateReserveCoupon();
-        System.out.println("hdhdhd");
     }
 
     @Override
@@ -146,10 +145,8 @@ public class CouponServiceImpl implements CouponService {
     @Scheduled(fixedDelay = 3600000)
     @Override
     public void couponTrigger() throws Exception {
-
         validateReserveCoupon();
         addCouponFromRemainingBalance();
-
     }
 
     @Override

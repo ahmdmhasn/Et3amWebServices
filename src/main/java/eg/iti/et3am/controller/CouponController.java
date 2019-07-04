@@ -5,6 +5,7 @@
  */
 package eg.iti.et3am.controller;
 
+import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.dto.UserReserveCouponDTO;
 import eg.iti.et3am.dto.UserUsedCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
@@ -13,6 +14,7 @@ import eg.iti.et3am.model.RestaurantCoupons;
 import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.UserUsedCoupon;
 import eg.iti.et3am.service.interfaces.CouponService;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -180,10 +182,10 @@ public class CouponController {
     }
 
     @RequestMapping(value = "/user_used_coupon", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, Object>> getUserUsedCoupon(@RequestParam("userId") String userId) {
+    public ResponseEntity<Map<String, Object>> getUserUsedCoupon(@RequestParam("userId") String userId, @RequestParam("page") int page) {
         Map<String, Object> result = new HashMap<>();
         try {
-            List<UserUsedCoupon> listOfUsedCouponse = couponService.getUserUsedCoupon(userId);
+            List<UserUsedCoupon> listOfUsedCouponse = couponService.getUserUsedCoupon(page, userId);
             if (listOfUsedCouponse != null && !listOfUsedCouponse.isEmpty()) {
 
                 result.put("code", 1);
@@ -226,79 +228,6 @@ public class CouponController {
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
 
-    }
-
-    //get coupons for user
-    @RequestMapping(value = "/get_all_reserved_coupon", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, Object>> getAllReservedCoupon(@RequestParam("user_id") String userId) throws Exception {
-        Map<String, Object> result = new HashMap<>();
-        try {
-            List<UserReserveCouponDTO> coupons = couponService.getAllReservedCoupons(1,userId);
-            if (coupons != null && !coupons.isEmpty()) {
-                result.put("code", 1);
-                result.put("Coupons", coupons);
-                return new ResponseEntity<>(result, HttpStatus.OK);
-            } else {
-                result.put("code", 0);
-                result.put("message", "there are not Coupons");
-                return new ResponseEntity<>(result, HttpStatus.OK);
-            }
-        } catch (Exception ex) {
-            result.put("status", 0);
-            result.put("message", ex.getMessage());
-            ex.printStackTrace();
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }
-
-    }
-
-    //get coupons for user
-    @RequestMapping(value = "/get_all_used_coupon", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, Object>> getAllUsedCoupon(@RequestParam("user_id") String userId) throws Exception {
-        Map<String, Object> result = new HashMap<>();
-        try {
-            List<UserUsedCouponDTO> coupons = couponService.getAllUsedCoupons(1,userId);
-            if (coupons != null && !coupons.isEmpty()) {
-                result.put("code", 1);
-                result.put("Coupons", coupons);
-                return new ResponseEntity<>(result, HttpStatus.OK);
-            } else {
-                result.put("code", 0);
-                result.put("message", "there are not Coupons");
-                return new ResponseEntity<>(result, HttpStatus.OK);
-            }
-        } catch (Exception ex) {
-            result.put("status", 0);
-            result.put("message", ex.getMessage());
-            ex.printStackTrace();
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }
-
-    }
-
-//get coupons for user
-    @RequestMapping(value = "/get_inBalance_coupon", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, Object>> getInBalanceCoupon(@RequestParam("user_id") String userId) throws Exception {
-        Map<String, Object> result = new HashMap<>();
-        try {
-            List<Coupons> coupons = couponService.getInBalanceCoupon(1, userId);
-            if (coupons != null && !coupons.isEmpty()) {
-                System.out.println("ADsfasfasfasfsafwqfagqe" + coupons.get(0).getCreationDate());
-                result.put("code", 1);
-                result.put("Coupons", coupons);
-                return new ResponseEntity<>(result, HttpStatus.OK);
-            } else {
-                result.put("code", 0);
-                result.put("message", "there are not Coupons");
-                return new ResponseEntity<>(result, HttpStatus.OK);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
-            result.put("code", 0);
-            result.put("message", ex.getMessage());
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }
     }
 
     @RequestMapping(value = "/publish_coupon", method = RequestMethod.GET)

@@ -2,6 +2,7 @@ package eg.iti.et3am.dao.implementions;
 
 import eg.iti.et3am.dao.interfaces.CouponDao;
 import eg.iti.et3am.dao.interfaces.UserDao;
+import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.dto.UserReserveCouponDTO;
 import eg.iti.et3am.dto.UserUsedCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
@@ -41,7 +42,39 @@ public class CouponDaoImpl implements CouponDao {
 
     Session session = null;
     //Transaction tx = null;
+    private final int pageSize = 10;
 
+    @Override
+    public Results getInBalanceCouponTrial(int pageNumber, String userId) throws Exception {
+
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Coupons.class);
+        criteria.add(Restrictions.eq("users.userId", userId));
+        criteria.add(Restrictions.eq("isBalance", 1));
+        criteria.setFirstResult((pageNumber - 1) * pageSize);
+        criteria.setMaxResults(pageSize);
+
+        List<Coupons> coupons = criteria.list();
+
+        criteria.setProjection(Projections.rowCount());
+        Long count = (Long) criteria.uniqueResult();
+
+        List<Coupons> couponses = new ArrayList<>();
+        for (Coupons coupon : coupons) {
+            Coupons c = (Coupons) coupon.clone();
+            couponses.add(c);
+        }
+        Results results = new Results();
+        results.setPage(pageNumber);
+//        results.setTotalPages(count);
+//        results.setTotalResults(count);
+        results.setResults(couponses);
+        return results;
+    }
+
+    
+    
+    
+    
     @Override
     public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception {
         session = sessionFactory.getCurrentSession();
@@ -67,19 +100,24 @@ public class CouponDaoImpl implements CouponDao {
     }
 
     @Override
-    public List<UserUsedCoupon> getUserUsedCoupon(String userId) throws Exception {
+    public List<UserUsedCoupon> getUserUsedCoupon(int pageNumber, String userId) throws Exception {
+        //int pageSize = 10;
         session = sessionFactory.getCurrentSession();
-        List<UserUsedCoupon> userUsedCoupons = session.createCriteria(UserUsedCoupon.class)
-                .createAlias("userReserveCoupon", "r")
-                .createAlias("r.users", "u")
-                .add(Restrictions.eq("u.userId", userId)).list();
+        Criteria criteria = session.createCriteria(UserUsedCoupon.class);
+        criteria.createAlias("userReserveCoupon", "r");
+        criteria.createAlias("r.users", "u");
+        criteria.add(Restrictions.eq("u.userId", userId));
+        criteria.setFirstResult(pageNumber - 1);
+        criteria.setMaxResults(pageSize);
+        List<UserUsedCoupon> userUsedCoupons = criteria.list();
 
         List<UserUsedCoupon> listOfUsedCouponse = new ArrayList<>();
 
+        criteria.setProjection(Projections.rowCount());
+        Long count = (Long) criteria.uniqueResult();
+
         for (UserUsedCoupon userUsedCoupon : userUsedCoupons) {
             listOfUsedCouponse.add(EntityCopier.getUsedCoupon(userUsedCoupon));
-            System.out.println("~~~~~~~~~~~~~~~" + userUsedCoupon.getUserReserveCoupon().getCoupons().getCouponId());
-//            System.out.println(EntityCopier.getCoupon(EntityCopier.getUsedCoupon(userUsedCoupon).getUserReserveCoupon().getCoupons()));
         }
 
         return listOfUsedCouponse;
@@ -87,14 +125,24 @@ public class CouponDaoImpl implements CouponDao {
 
     //reserved coupon
     @Override
-    public List<UserReserveCouponDTO> getAllReservedCoupons(int pageNumber,String donatorId) throws Exception {
+    public List<UserReserveCouponDTO> getAllReservedCoupons(int pageNumber, String donatorId) throws Exception {
+
+        //int pageSize = 10;
         session = sessionFactory.getCurrentSession();
-        List<UserReserveCoupon> coupons = sessionFactory.getCurrentSession().createCriteria(UserReserveCoupon.class)
-                .createAlias("coupons", "coupon")
-                .createAlias("coupon.users", "donator")
-                .add(Restrictions.eq("donator.userId", donatorId))
-                .add(Restrictions.eq("status", 1)).list();
+        Criteria criteria = session.createCriteria(UserReserveCoupon.class);
+        criteria.createAlias("coupons", "coupon");
+        criteria.createAlias("coupon.users", "donator");
+        criteria.add(Restrictions.eq("donator.userId", donatorId));
+        criteria.add(Restrictions.eq("status", 1));
+        criteria.setFirstResult((pageNumber - 1) * pageSize);
+        criteria.setMaxResults(pageSize);
+
+        List<UserReserveCoupon> coupons = criteria.list();
+        criteria.setProjection(Projections.rowCount());
+        Long count = (Long) criteria.uniqueResult();
+
         List<UserReserveCouponDTO> couponses = new ArrayList<>();
+
         for (UserReserveCoupon coupons1 : coupons) {
             UserReserveCoupon c = (UserReserveCoupon) coupons1.clone();
             UserReserveCouponDTO couponDTO = new UserReserveCouponDTO();
@@ -104,6 +152,7 @@ public class CouponDaoImpl implements CouponDao {
             couponDTO.setCouponId(c.getCoupons().getCouponId());
             couponDTO.setCouponQrCode(c.getCoupons().getCouponBarcode());
             couponDTO.setCouponValue(c.getCoupons().getCouponValue());
+//            couponDTO.set
             couponses.add(couponDTO);
         }
         return couponses;
@@ -111,14 +160,23 @@ public class CouponDaoImpl implements CouponDao {
 
     //used coupon
     @Override
-    public List<UserUsedCouponDTO> getAllUsedCoupons(int pageNumber,String donatorId) throws Exception {
+    public List<UserUsedCouponDTO> getAllUsedCoupons(int pageNumber, String donatorId) throws Exception {
+
         session = sessionFactory.getCurrentSession();
-        List<UserUsedCoupon> coupons = sessionFactory.getCurrentSession().createCriteria(UserUsedCoupon.class)
-                .createAlias("userReserveCoupon", "urc")
-                .createAlias("urc.coupons", "coupon")
-                .createAlias("coupon.users", "donator")
-                .add(Restrictions.eq("donator.userId", donatorId))
-                .add(Restrictions.eq("status", 1)).list();
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(UserUsedCoupon.class);
+        criteria.createAlias("userReserveCoupon", "urc");
+        criteria.createAlias("urc.coupons", "coupon");
+        criteria.createAlias("coupon.users", "donator");
+        criteria.add(Restrictions.eq("donator.userId", donatorId));
+        criteria.add(Restrictions.eq("status", 1));
+        criteria.setFirstResult((pageNumber - 1) * pageSize);
+        criteria.setMaxResults(pageSize);
+
+        List<UserUsedCoupon> coupons = criteria.list();
+
+        criteria.setProjection(Projections.rowCount());
+        Long count = (Long) criteria.uniqueResult();
+
         List<UserUsedCouponDTO> couponses = new ArrayList<>();
 
         for (UserUsedCoupon coupons1 : coupons) {
@@ -145,20 +203,24 @@ public class CouponDaoImpl implements CouponDao {
     @Override
     public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception {
         try {
-            int pageSize = 10;
             Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Coupons.class);
             criteria.add(Restrictions.eq("users.userId", userId));
             criteria.add(Restrictions.eq("isBalance", 1));
             criteria.setFirstResult((pageNumber - 1) * pageSize);
             criteria.setMaxResults(pageSize);
+
             List<Coupons> coupons = criteria.list();
+
+            criteria.setProjection(Projections.rowCount());
+            Long count = (Long) criteria.uniqueResult();
+
             List<Coupons> couponses = new ArrayList<>();
             for (Coupons coupon : coupons) {
                 Coupons c = (Coupons) coupon.clone();
                 System.out.println("ufesksfkeueibusgeiulbsdiugesfiugaefiugafeiub " + c.getCreationDate());
                 couponses.add(c);
             }
-            return coupons;
+            return couponses;
         } catch (HibernateException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
