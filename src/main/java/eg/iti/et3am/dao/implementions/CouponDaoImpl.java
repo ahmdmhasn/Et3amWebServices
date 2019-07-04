@@ -65,8 +65,8 @@ public class CouponDaoImpl implements CouponDao {
         }
         Results results = new Results();
         results.setPage(pageNumber);
-        results.setTotalPages(count);
-        results.setTotalResults(count);
+//        results.setTotalPages(count);
+//        results.setTotalResults(count);
         results.setResults(couponses);
         return results;
     }

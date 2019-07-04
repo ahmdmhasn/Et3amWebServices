@@ -25,6 +25,7 @@ import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.transform.ResultTransformer;
 
 /**
  *
@@ -49,11 +50,10 @@ public class RestaurantDaoImpl implements RestaurantDao {
         criteria.addOrder(Order.asc("longitude"));
         criteria.setFirstResult((pageNumber - 1) * pageSize);
         criteria.setMaxResults(pageSize);
+        criteria.setFetchSize(10);
 
         List<Restaurants> restaurantses = criteria.list();
-
-        criteria.setProjection(Projections.rowCount());
-        Long count = (Long) criteria.uniqueResult();
+        
 
         List<RestaurantDTO> listRDtos = new ArrayList<>();
         for (Restaurants restaurants : restaurantses) {
@@ -73,6 +73,10 @@ public class RestaurantDaoImpl implements RestaurantDao {
         }
 
         Results results = new Results();
+        criteria = session.createCriteria(Restaurants.class);
+        criteria.setProjection(Projections.rowCount());
+        Long count = (Long) criteria.uniqueResult();
+        System.out.println("Countssssss  " + count);
         results.setPage(pageNumber);
         results.setTotalPages(count);
         results.setTotalResults(count);
@@ -163,12 +167,12 @@ public class RestaurantDaoImpl implements RestaurantDao {
         }
         Results results = new Results();
         results.setPage(pageNumber);
-        results.setTotalPages(count);
-        results.setTotalResults(count);
+//        results.setTotalPages(count);
+//        results.setTotalResults(count);
         results.setResults(listRDtos);
         return results;
     }
-    
+
     // Not Used
     @Override
     public List<Restaurants> getRestaurantsListWithMeals() throws Exception {
