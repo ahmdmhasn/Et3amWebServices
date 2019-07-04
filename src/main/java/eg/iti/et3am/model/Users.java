@@ -68,6 +68,7 @@ public class Users implements java.io.Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
     private Set<UserDetails> userDetailses = new HashSet<UserDetails>(0);
     
+    @JsonIgnore
     @OneToMany(fetch=FetchType.LAZY, mappedBy="users")
     private Set<Inquiries> inquirieses = new HashSet<Inquiries>(0);
 

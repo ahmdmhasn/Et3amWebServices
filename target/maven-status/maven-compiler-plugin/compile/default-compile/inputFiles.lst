@@ -16,8 +16,11 @@ C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\Coupons.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\utils\EntityCopier.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dto\UserUsedCouponDTO.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\InquiryDao.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\controller\UserController.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\RestaurantCoupons.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\implementions\InquiryDaoImpl.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\InquiryService.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserDetails.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dto\MealDTO.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\PhotoService.java
@@ -34,6 +37,8 @@ C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\Restaurants.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\UserUsedCoupon.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\Status.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\implementations\InquiryServiceImpl.java
+C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\controller\InquiryController.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\service\interfaces\CouponService.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\dao\interfaces\UserDao.java
 C:\Users\A7med\Desktop\iTi\00- Extra\15- Et3am\Et3amWebServices\src\main\java\eg\iti\et3am\model\Admins.java

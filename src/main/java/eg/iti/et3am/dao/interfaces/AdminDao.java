@@ -6,7 +6,6 @@
 package eg.iti.et3am.dao.interfaces;
 
 import eg.iti.et3am.model.Admins;
-import eg.iti.et3am.model.Users;
 
 /**
  *
