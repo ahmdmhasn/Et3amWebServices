@@ -1,5 +1,5 @@
 package eg.iti.et3am.model;
-// Generated Jul 1, 2019 2:47:04 PM by Hibernate Tools 4.3.1
+// Generated Jul 4, 2019 9:55:21 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -29,8 +29,8 @@ public class Inquiries  implements java.io.Serializable {
      private Users users;
      private Integer status;
      private Date creationDate;
-     private String title;
      private String message;
+     private String image;
 
     public Inquiries() {
     }
@@ -40,12 +40,12 @@ public class Inquiries  implements java.io.Serializable {
         this.users = users;
         this.creationDate = creationDate;
     }
-    public Inquiries(Users users, Integer status, Date creationDate, String title, String message) {
+    public Inquiries(Users users, Integer status, Date creationDate, String message, String image) {
        this.users = users;
        this.status = status;
        this.creationDate = creationDate;
-       this.title = title;
        this.message = message;
+       this.image = image;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -81,23 +81,13 @@ public class Inquiries  implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="creation_date", nullable=false, length=26)
+    @Column(name="creation_date", nullable=false, length=19)
     public Date getCreationDate() {
         return this.creationDate;
     }
     
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
-    }
-
-    
-    @Column(name="title", length=128)
-    public String getTitle() {
-        return this.title;
-    }
-    
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     
@@ -108,6 +98,16 @@ public class Inquiries  implements java.io.Serializable {
     
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    
+    @Column(name="image", length=128)
+    public String getImage() {
+        return this.image;
+    }
+    
+    public void setImage(String image) {
+        this.image = image;
     }
 
 

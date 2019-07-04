@@ -71,10 +71,7 @@ public class CouponDaoImpl implements CouponDao {
         return results;
     }
 
-    
-    
-    
-    
+    //Esraa Problem
     @Override
     public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception {
         session = sessionFactory.getCurrentSession();
@@ -83,11 +80,13 @@ public class CouponDaoImpl implements CouponDao {
                 add(Restrictions.eq("r.restaurantId", restaurantId)).list();
         List<UserUsedCoupon> usedCouponsList2 = new ArrayList<>();
         for (UserUsedCoupon coupons : usedCouponsList) {
-            UserUsedCoupon u = new UserUsedCoupon(EntityCopier.getRestaurant(coupons.getRestaurants()), EntityCopier.getReservedCoupon(coupons.getUserReserveCoupon()),
-                    coupons.getUseDate(), coupons.getPrice(), coupons.getStatus());
+            //Esraa Problem -> i changed this line 
+//            UserUsedCoupon u = new UserUsedCoupon(EntityCopier.getRestaurant(coupons.getRestaurants()), EntityCopier.getReservedCoupon(coupons.getUserReserveCoupon()),
+//                    coupons.getUseDate(), coupons.getPrice(), coupons.getStatus());
             coupons.setUsedCouponId(coupons.getUsedCouponId());
             coupons.setRemainingBalances(coupons.getRemainingBalances());
-            usedCouponsList2.add(u);
+            //Esraa Problem -> i changed this line 
+//            usedCouponsList2.add(u);
         }
 
         List<RestaurantCoupons> restaurantCoupons = new ArrayList<>();
@@ -241,7 +240,7 @@ public class CouponDaoImpl implements CouponDao {
         session = sessionFactory.getCurrentSession();
         Coupons coupon = new Coupons();
         coupon.setUsers(user);
-        coupon.setIsBalance(1);
+        coupon.setInBalance(1);
         coupon.setCreationDate(new Date());
         coupon.setCouponValue(couponValue);
         coupon.setCouponBarcode(UUID.randomUUID().toString().substring(24).toUpperCase());
@@ -286,18 +285,19 @@ public class CouponDaoImpl implements CouponDao {
 //            updateReserveCouponStatus(reserveCoupon);
             session = sessionFactory.getCurrentSession();
             Restaurants restaurantAdmin = (Restaurants) session.createCriteria(Restaurants.class).add(Restrictions.eq("restaurantId", restaurantId)).uniqueResult();
-            UserUsedCoupon userUsedCoupon = new UserUsedCoupon(restaurantAdmin, reserveCoupon, new Date(), (float) price, 1);
-            userUsedCoupon.getUserReserveCoupon().setStatus(0);
-            System.out.println("jjj" + userUsedCoupon.getPrice());
-            session.saveOrUpdate(userUsedCoupon);
-            float remainingValue = (float) (reserveCoupon.getCoupons().getCouponValue() - price);
-            if (remainingValue > 0) {
-                RemainingBalance balance = new RemainingBalance(userUsedCoupon, remainingValue);
-                session.save(balance);
-            }
-            int id = (int) session.getIdentifier(userUsedCoupon);
-            return id;
 
+            //Esraa Problem -> i changed this line 
+//            UserUsedCoupon userUsedCoupon = new UserUsedCoupon(restaurantAdmin, reserveCoupon, new Date(), (float) price, 1);
+//            userUsedCoupon.getUserReserveCoupon().setStatus(0);
+//            System.out.println("jjj" + userUsedCoupon.getPrice());
+//            session.saveOrUpdate(userUsedCoupon);
+//            float remainingValue = (float) (reserveCoupon.getCoupons().getCouponValue() - price);
+//            if (remainingValue > 0) {
+//                RemainingBalance balance = new RemainingBalance(userUsedCoupon, remainingValue);
+//                session.save(balance);
+//            }
+//            int id = (int) session.getIdentifier(userUsedCoupon);
+//            return id;
         }
         return -1;
     }
@@ -537,10 +537,10 @@ public class CouponDaoImpl implements CouponDao {
 
         Coupons coupon = (Coupons) session.createCriteria(Coupons.class).add(Restrictions.eq("couponId", coupon_id)).uniqueResult();
         if (coupon != null) {
-            if (coupon.getIsBalance() == 1) {
-                System.out.println("enter func " + coupon.getIsBalance());
+            if (coupon.getInBalance() == 1) {
+                System.out.println("enter func " + coupon.getInBalance());
                 AvailableCoupons availableCoupon = new AvailableCoupons(coupon, new Date(), 1);
-                availableCoupon.getCoupons().setIsBalance(0);
+                availableCoupon.getCoupons().setInBalance(0);
                 session.save(availableCoupon);
                 //  tx.commit();
                 return true;
@@ -555,7 +555,7 @@ public class CouponDaoImpl implements CouponDao {
         session = sessionFactory.getCurrentSession();
         UserReserveCoupon reserveCoupon = (UserReserveCoupon) session.createCriteria(UserReserveCoupon.class).createAlias("coupons", "c").add(Restrictions.eq("c.couponId", coupon_id)).add(Restrictions.eq("status", 1)).uniqueResult();
         if (reserveCoupon != null) {
-            reserveCoupon.getCoupons().setIsBalance(1);
+            reserveCoupon.getCoupons().setInBalance(1);
             reserveCoupon.setStatus(0);
             session.update(reserveCoupon);
             return true;

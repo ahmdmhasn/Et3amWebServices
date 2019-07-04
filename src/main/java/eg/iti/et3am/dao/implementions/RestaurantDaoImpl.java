@@ -52,7 +52,6 @@ public class RestaurantDaoImpl implements RestaurantDao {
         criteria.setFetchSize(10);
 
         List<Restaurants> restaurantses = criteria.list();
-        
 
         List<RestaurantDTO> listRDtos = new ArrayList<>();
         for (Restaurants restaurants : restaurantses) {
@@ -235,9 +234,12 @@ public class RestaurantDaoImpl implements RestaurantDao {
     @Override
     public Meals findMealById(Integer id) throws Exception {
         session = sessionFactory.getCurrentSession();
-
         Meals meals = (Meals) session.load(Meals.class, id);
-        Meals meal2 = new Meals(meals.getRestaurants(), meals.getMealName(), meals.getMealValue(), meals.getMealImage());
+        Meals meal2 = new Meals();
+        meal2.setRestaurants(meals.getRestaurants());
+        meal2.setMealName(meals.getMealName());
+        meal2.setMealValue(meals.getMealValue());
+        meal2.setMealImage(meals.getMealImage());
         return meal2;
     }
 
