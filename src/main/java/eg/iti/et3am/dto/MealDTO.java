@@ -15,7 +15,7 @@ public class MealDTO {
     private String mealName;
     private float mealValue;
     private String mealImage;
-
+    private int count;
     public MealDTO() {
     }
 
@@ -24,6 +24,13 @@ public class MealDTO {
         this.mealName = mealName;
         this.mealValue = mealValue;
         this.mealImage = mealImage;
+    }
+      public MealDTO(Integer mealId, String mealName, float mealValue, String mealImage, int count) {
+        this.mealId = mealId;
+        this.mealName = mealName;
+        this.mealValue = mealValue;
+        this.mealImage = mealImage;
+        this.count =count;
     }
 
     public Integer getMealId() {
@@ -56,6 +63,20 @@ public class MealDTO {
 
     public void setMealImage(String mealImage) {
         this.mealImage = mealImage;
+    }
+
+    /**
+     * @return the count
+     */
+    public int getCount() {
+        return count;
+    }
+
+    /**
+     * @param count the count to set
+     */
+    public void setCount(int count) {
+        this.count = count;
     }
 
 }

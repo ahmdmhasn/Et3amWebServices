@@ -7,6 +7,7 @@ import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
+import eg.iti.et3am.model.UserUsedCoupon;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -36,14 +37,12 @@ public class RestaurantDaoImpl implements RestaurantDao {
     @Autowired(required = true)
     private SessionFactory sessionFactory;
 
-
     private Session session = null;
 
     private final int pageSize = 10;
 
     @Override
     public Results getRestaurantsListTrial(int pageNumber, double latitude, double longitude) throws Exception {
-
 
         session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Restaurants.class);
@@ -354,5 +353,37 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
         return String.valueOf(id);
 
+    }
+
+    public String getTopMeal(int restId) throws Exception {
+        Set<Meals> mealList = getMealsSetById(restId);
+        session = sessionFactory.getCurrentSession();
+        List<MealDTO> mealsDTOList = new ArrayList<>();
+        for (Meals meal : mealList) {
+            long count = (long) session.createCriteria(UserUsedCoupon.class)
+                    .createAlias("meals", "m")
+                    .add(Restrictions.eq("m.mealId", meal.getMealId()))
+                    .setProjection(Projections.rowCount()).uniqueResult();
+
+            MealDTO mealDTO = new MealDTO(meal.getMealId(),
+                    meal.getMealName(),
+                    meal.getMealValue(),
+                    meal.getMealImage(),
+                    (int) count);
+            mealsDTOList.add(mealDTO);
+        }
+        int bestMeal = 0;
+        int bestCount = mealsDTOList.get(0).getCount();
+        for (int i = 1; i < mealsDTOList.size(); i++) {
+            if (mealsDTOList.get(i).getCount() > bestCount) {
+                bestCount = mealsDTOList.get(i).getCount();
+                bestMeal = i;
+
+            }
+        }
+        if (mealsDTOList.get(bestMeal).getCount() == 0) {
+            return "no top meal";
+        }
+        return mealsDTOList.get(bestMeal).getMealName();
     }
 }
