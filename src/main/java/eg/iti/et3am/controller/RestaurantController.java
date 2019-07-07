@@ -249,5 +249,25 @@ public class RestaurantController {
         }
 
     }
+    
+    
+    @RequestMapping(value = "/{rest_id}/top_meal", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> getTopMeal(@PathVariable("rest_id") Integer id) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            String topMeal = restaurantService.getTopMeal(id);
+          
+                result.put("code", 1);
+                result.put("topMeal", topMeal);
+                return new ResponseEntity<>(result, HttpStatus.OK);
+           
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Logger.getLogger(RestaurantController.class.getName()).log(Level.SEVERE, null, ex);
+            result.put("code", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+    }
 }
 

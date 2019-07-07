@@ -85,4 +85,9 @@ public class RestaurantServiceImpl implements RestaurantService {
     public RestaurantAdmin login(String email, String password) throws Exception {
         return restaurantDao.login(email, password);
     }
+
+    @Override
+    public String getTopMeal(int restId) throws Exception {
+        return restaurantDao.getTopMeal(restId);
+    }
 }
