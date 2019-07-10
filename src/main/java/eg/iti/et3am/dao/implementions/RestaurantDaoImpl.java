@@ -4,10 +4,12 @@ import eg.iti.et3am.dao.interfaces.RestaurantDao;
 import eg.iti.et3am.dto.MealDTO;
 import eg.iti.et3am.dto.RestaurantDTO;
 import eg.iti.et3am.dto.Results;
+import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.model.UserUsedCoupon;
+import eg.iti.et3am.utils.EntityCopier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -172,6 +174,28 @@ public class RestaurantDaoImpl implements RestaurantDao {
         results.setTotalResults(count);
         results.setResults(listRDtos);
         return results;
+    }
+
+    @Override
+    public List<Restaurants> getAllRestaurantsByCity(String city) {
+
+        session = sessionFactory.getCurrentSession();
+        List<Restaurants> mySearchList = session.createCriteria(Restaurants.class).
+                add(Restrictions.eq("city", city)).list();
+        if (mySearchList != null) {
+            System.err.println("not null ");
+            List<Restaurants> selectedRestaurants = new ArrayList<Restaurants>() ;
+            for (Restaurants restaurants : mySearchList) {
+                Restaurants temp = EntityCopier.getRestaurant(restaurants);
+                selectedRestaurants.add(temp);
+            }
+           
+            return selectedRestaurants;
+        } else {
+            System.err.println("ERROR....");
+            return null;
+        }
+
     }
 
     // Not Used
