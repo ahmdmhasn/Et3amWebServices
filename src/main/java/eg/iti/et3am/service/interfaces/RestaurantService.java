@@ -35,4 +35,8 @@ public interface RestaurantService {
     boolean deleteMeal(Integer restaurantId, Integer mealId) throws Exception;
 
     RestaurantAdmin login(String email, String password) throws Exception;
+
+    public String getTopMeal(int restId) throws Exception ;
+
+    public List<Restaurants> getAllRestaurantsByCity(String city) throws Exception ;
 }

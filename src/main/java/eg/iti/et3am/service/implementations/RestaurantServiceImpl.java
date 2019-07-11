@@ -85,4 +85,15 @@ public class RestaurantServiceImpl implements RestaurantService {
     public RestaurantAdmin login(String email, String password) throws Exception {
         return restaurantDao.login(email, password);
     }
+
+    @Override
+    public String getTopMeal(int restId) throws Exception {
+        return restaurantDao.getTopMeal(restId);
+    }
+
+    @Override
+    public List <Restaurants> getAllRestaurantsByCity(String city) throws Exception{
+        System.err.println("ana gwa el Service getAllRestaurantsByCity " + restaurantDao.getAllRestaurantsByCity(city).get(0).getCity());
+return restaurantDao.getAllRestaurantsByCity(city);
+    }
 }

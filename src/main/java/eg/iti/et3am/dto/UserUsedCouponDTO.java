@@ -13,7 +13,7 @@ public class UserUsedCouponDTO implements Serializable {
     private String restaurantAddress;
     private Date useDate;
     private float price;
-
+  
     public UserUsedCouponDTO() {
     }
 

@@ -4,9 +4,12 @@ import eg.iti.et3am.dao.interfaces.RestaurantDao;
 import eg.iti.et3am.dto.MealDTO;
 import eg.iti.et3am.dto.RestaurantDTO;
 import eg.iti.et3am.dto.Results;
+import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
+import eg.iti.et3am.model.UserUsedCoupon;
+import eg.iti.et3am.utils.EntityCopier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -86,7 +89,9 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public Restaurants getRestaurantById(Integer id) throws Exception {
+
         session = sessionFactory.getCurrentSession();
+
         Restaurants restaurants = (Restaurants) session.load(Restaurants.class, id);
         //Copy Data from object To another
         Restaurants restaurants1 = (Restaurants) restaurants.clone();
@@ -171,9 +176,32 @@ public class RestaurantDaoImpl implements RestaurantDao {
         return results;
     }
 
+    @Override
+    public List<Restaurants> getAllRestaurantsByCity(String city) {
+
+        session = sessionFactory.getCurrentSession();
+        List<Restaurants> mySearchList = session.createCriteria(Restaurants.class).
+                add(Restrictions.eq("city", city)).list();
+        if (mySearchList != null) {
+            System.err.println("not null ");
+            List<Restaurants> selectedRestaurants = new ArrayList<Restaurants>() ;
+            for (Restaurants restaurants : mySearchList) {
+                Restaurants temp = EntityCopier.getRestaurant(restaurants);
+                selectedRestaurants.add(temp);
+            }
+           
+            return selectedRestaurants;
+        } else {
+            System.err.println("ERROR....");
+            return null;
+        }
+
+    }
+
     // Not Used
     @Override
     public List<Restaurants> getRestaurantsListWithMeals() throws Exception {
+
         session = sessionFactory.getCurrentSession();
 
         List<Restaurants> restaurantses = session.createCriteria(Restaurants.class).list();
@@ -191,6 +219,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public Set<Meals> getMealsSetById(Integer id) throws Exception {
+
         session = sessionFactory.getCurrentSession();
 
         List<Meals> mealses = session.createCriteria(Meals.class)
@@ -209,8 +238,10 @@ public class RestaurantDaoImpl implements RestaurantDao {
     }
 
     @Override
+
     public List<MealDTO> getMealsListById(Integer id, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
+
         List<Meals> mealses = session.createCriteria(Meals.class)
                 .setFirstResult((page - 1) * pageSize)
                 .setMaxResults(pageSize)
@@ -233,6 +264,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public Meals findMealById(Integer id) throws Exception {
+
         session = sessionFactory.getCurrentSession();
         Meals meals = (Meals) session.load(Meals.class, id);
         Meals meal2 = new Meals();
@@ -245,6 +277,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public String addRestaurant(Restaurants restaurant) throws Exception {
+
         session = sessionFactory.getCurrentSession();
 
         session.save(restaurant);
@@ -252,6 +285,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
         int id = (int) session.getIdentifier(restaurant);
 
         return String.valueOf(id);
+
     }
 
     @Override
@@ -268,8 +302,8 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public RestaurantAdmin login(String email, String password) throws Exception {
-        session = sessionFactory.getCurrentSession();
 
+        session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(RestaurantAdmin.class);
         criteria.add(Restrictions.eq("restaurantAdminEmail", email));
         criteria.add(Restrictions.eq("restaurantAdminPassword", password));
@@ -305,10 +339,12 @@ public class RestaurantDaoImpl implements RestaurantDao {
             ex.printStackTrace();
             return false;
         }
+
     }
 
     @Override
     public boolean deleteMeal(Integer restaurantId, Integer mealId) throws Exception {
+
         session = sessionFactory.getCurrentSession();
 
         try {
@@ -341,5 +377,37 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
         return String.valueOf(id);
 
+    }
+
+    public String getTopMeal(int restId) throws Exception {
+        Set<Meals> mealList = getMealsSetById(restId);
+        session = sessionFactory.getCurrentSession();
+        List<MealDTO> mealsDTOList = new ArrayList<>();
+        for (Meals meal : mealList) {
+            long count = (long) session.createCriteria(UserUsedCoupon.class)
+                    .createAlias("meals", "m")
+                    .add(Restrictions.eq("m.mealId", meal.getMealId()))
+                    .setProjection(Projections.rowCount()).uniqueResult();
+
+            MealDTO mealDTO = new MealDTO(meal.getMealId(),
+                    meal.getMealName(),
+                    meal.getMealValue(),
+                    meal.getMealImage(),
+                    (int) count);
+            mealsDTOList.add(mealDTO);
+        }
+        int bestMeal = 0;
+        int bestCount = mealsDTOList.get(0).getCount();
+        for (int i = 1; i < mealsDTOList.size(); i++) {
+            if (mealsDTOList.get(i).getCount() > bestCount) {
+                bestCount = mealsDTOList.get(i).getCount();
+                bestMeal = i;
+
+            }
+        }
+        if (mealsDTOList.get(bestMeal).getCount() == 0) {
+            return "no top meal";
+        }
+        return mealsDTOList.get(bestMeal).getMealName();
     }
 }

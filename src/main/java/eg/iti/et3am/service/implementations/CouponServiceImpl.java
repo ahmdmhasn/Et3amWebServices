@@ -98,8 +98,8 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public int useCoupon(String code, double price, int restaurantId) throws Exception {
-        return couponDao.useCoupon(code, price, restaurantId);
+    public int useCoupon(String code, double price, int restaurantId, int mealId) throws Exception {
+        return couponDao.useCoupon(code, price, restaurantId,mealId);
     }
 
     @Override

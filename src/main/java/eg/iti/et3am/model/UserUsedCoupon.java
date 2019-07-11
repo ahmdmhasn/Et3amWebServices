@@ -56,6 +56,15 @@ public class UserUsedCoupon implements java.io.Serializable, Cloneable {
         this.messageId = messageId;
         this.remainingBalances = remainingBalances;
     }
+      public UserUsedCoupon(Meals meals, Restaurants restaurants, UserReserveCoupon userReserveCoupon, Date useDate, float price, int status) {
+        this.meals = meals;
+        this.restaurants = restaurants;
+        this.userReserveCoupon = userReserveCoupon;
+        this.useDate = useDate;
+        this.price = price;
+        this.status = status;
+      
+    }
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -135,7 +144,7 @@ public class UserUsedCoupon implements java.io.Serializable, Cloneable {
     public void setMessageId(Integer messageId) {
         this.messageId = messageId;
     }
-    
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userUsedCoupon")
     public Set<RemainingBalance> getRemainingBalances() {
         return this.remainingBalances;

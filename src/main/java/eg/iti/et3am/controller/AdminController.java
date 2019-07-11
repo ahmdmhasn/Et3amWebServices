@@ -5,16 +5,13 @@
  */
 package eg.iti.et3am.controller;
 
-import eg.iti.et3am.dao.interfaces.AdminDao;
 import eg.iti.et3am.model.Admins;
-import eg.iti.et3am.model.Users;
 import eg.iti.et3am.service.interfaces.AdminService;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired (required = true)
+    @Autowired(required = true)
     AdminService adminService;
 
     @RequestMapping(value = "/validate/login", method = RequestMethod.GET)
@@ -88,5 +85,23 @@ public class AdminController {
             return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
+    }
+
+    @RequestMapping(value = "/summary", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<Map<String, Object>> summary() {
+
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Map<String, Object> result = adminService.getAdminSummary();
+            response.put("code", 1);
+            response.put("result", result);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.put("code", 0);
+            response.put("message", e.toString());
+            return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
     }
 }
