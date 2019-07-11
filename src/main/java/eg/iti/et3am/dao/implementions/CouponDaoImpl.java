@@ -183,7 +183,7 @@ public class CouponDaoImpl implements CouponDao {
             UserUsedCouponDTO couponDTO = new UserUsedCouponDTO();
 
             UserUsedCoupon c = (UserUsedCoupon) coupons1.clone();
-
+            System.out.println("UserUsedCoupon ID "+c.getUserReserveCoupon().getCoupons().getCouponId());
             couponDTO.setCouponId(c.getUserReserveCoupon().getCoupons().getCouponId());
             couponDTO.setUserId(c.getUserReserveCoupon().getUsers().getUserId());
             couponDTO.setBarCode(c.getUserReserveCoupon().getCoupons().getCouponBarcode());

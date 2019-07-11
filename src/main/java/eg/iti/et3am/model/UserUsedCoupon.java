@@ -34,7 +34,6 @@ public class UserUsedCoupon implements java.io.Serializable, Cloneable {
     private float price;
     private int status;
     private Integer messageId;
-    private String userUsedCouponcol;
     private Set<RemainingBalance> remainingBalances = new HashSet<>(0);
 
     public UserUsedCoupon() {
@@ -47,7 +46,7 @@ public class UserUsedCoupon implements java.io.Serializable, Cloneable {
         this.status = status;
     }
 
-    public UserUsedCoupon(Meals meals, Restaurants restaurants, UserReserveCoupon userReserveCoupon, Date useDate, float price, int status, Integer messageId, String userUsedCouponcol, Set<RemainingBalance> remainingBalances) {
+    public UserUsedCoupon(Meals meals, Restaurants restaurants, UserReserveCoupon userReserveCoupon, Date useDate, float price, int status, Integer messageId, Set<RemainingBalance> remainingBalances) {
         this.meals = meals;
         this.restaurants = restaurants;
         this.userReserveCoupon = userReserveCoupon;
@@ -55,7 +54,6 @@ public class UserUsedCoupon implements java.io.Serializable, Cloneable {
         this.price = price;
         this.status = status;
         this.messageId = messageId;
-        this.userUsedCouponcol = userUsedCouponcol;
         this.remainingBalances = remainingBalances;
     }
 
@@ -137,16 +135,7 @@ public class UserUsedCoupon implements java.io.Serializable, Cloneable {
     public void setMessageId(Integer messageId) {
         this.messageId = messageId;
     }
-
-    @Column(name = "user_used_couponcol", length = 45)
-    public String getUserUsedCouponcol() {
-        return this.userUsedCouponcol;
-    }
-
-    public void setUserUsedCouponcol(String userUsedCouponcol) {
-        this.userUsedCouponcol = userUsedCouponcol;
-    }
-
+    
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userUsedCoupon")
     public Set<RemainingBalance> getRemainingBalances() {
         return this.remainingBalances;
