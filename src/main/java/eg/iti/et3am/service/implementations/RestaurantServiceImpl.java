@@ -90,4 +90,10 @@ public class RestaurantServiceImpl implements RestaurantService {
     public String getTopMeal(int restId) throws Exception {
         return restaurantDao.getTopMeal(restId);
     }
+
+    @Override
+    public List<RestaurantDTO> getAllRestaurantsByCity(String city) throws Exception {
+        System.err.println("ana gwa el Service getAllRestaurantsByCity " + restaurantDao.getAllRestaurantsByCity(city).get(0).getCity());
+        return restaurantDao.getAllRestaurantsByCity(city);
+    }
 }

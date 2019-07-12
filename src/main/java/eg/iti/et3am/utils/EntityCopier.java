@@ -11,6 +11,7 @@ import eg.iti.et3am.model.AvailableCoupons;
 
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.Inquiries;
+import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.model.UserReserveCoupon;
@@ -77,7 +78,8 @@ public class EntityCopier {
         restaurants1.setLatitude(restaurants.getLatitude());
         restaurants1.setLongitude(restaurants.getLongitude());
         restaurants1.setMealses(restaurants.getMealses());
-        restaurants1.setRestaurantAdmins(restaurants.getRestaurantAdmins());
+        RestaurantAdmin rest = new RestaurantAdmin();
+       // restaurants1.setRestaurantAdmins(restaurants.getRestaurantAdmins());
         restaurants1.setRestaurantId(restaurants.getRestaurantId());
         restaurants1.setRestaurantImage(restaurants.getRestaurantImage());
         restaurants1.setRestaurantName(restaurants.getRestaurantName());

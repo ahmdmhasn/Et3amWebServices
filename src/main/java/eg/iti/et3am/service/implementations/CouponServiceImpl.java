@@ -93,7 +93,7 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public UserReserveCoupon checkCouponReservation(String code) throws Exception {
+    public UserReserveCouponDTO checkCouponReservation(String code) throws Exception {
         return couponDao.checkCoupon(code, false);
     }
 

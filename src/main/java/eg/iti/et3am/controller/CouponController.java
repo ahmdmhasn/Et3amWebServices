@@ -84,11 +84,11 @@ public class CouponController {
     public ResponseEntity<Map<String, Object>> getReservedCoupon(@RequestParam("code") String code) {
         Map<String, Object> result = new HashMap<>();
         try {
-            UserReserveCoupon coupon = couponService.checkCouponReservation(code);
+            UserReserveCouponDTO coupon = couponService.checkCouponReservation(code);
             if (coupon != null && coupon.getStatus() == 1) {
                 result.put("code", 1);
                 result.put("coupon", coupon);
-                result.put("id", coupon.getReservedCouponId());
+                
                 return new ResponseEntity<>(result, HttpStatus.OK);
             } else {
                 result.put("code", 0);

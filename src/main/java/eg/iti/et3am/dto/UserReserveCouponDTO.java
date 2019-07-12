@@ -11,6 +11,8 @@ public class UserReserveCouponDTO implements Serializable {
     private String couponQrCode;
     private double couponValue;
     private Date reservationDate;
+    private int reservationId;
+    private int status;
 
     public UserReserveCouponDTO() {
     }
@@ -70,6 +72,34 @@ public class UserReserveCouponDTO implements Serializable {
 
     public void setReservationDate(Date reservationDate) {
         this.reservationDate = reservationDate;
+    }
+
+    /**
+     * @return the reservationId
+     */
+    public int getReservationId() {
+        return reservationId;
+    }
+
+    /**
+     * @param reservationId the reservationId to set
+     */
+    public void setReservationId(int reservationId) {
+        this.reservationId = reservationId;
+    }
+
+    /**
+     * @return the status
+     */
+    public int getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(int status) {
+        this.status = status;
     }
 
 }

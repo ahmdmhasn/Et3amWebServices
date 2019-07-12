@@ -37,4 +37,6 @@ public interface RestaurantService {
     RestaurantAdmin login(String email, String password) throws Exception;
 
     public String getTopMeal(int restId) throws Exception ;
+
+    public List<RestaurantDTO> getAllRestaurantsByCity(String city) throws Exception ;
 }

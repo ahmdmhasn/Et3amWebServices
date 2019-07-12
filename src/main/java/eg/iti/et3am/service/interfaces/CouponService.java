@@ -39,7 +39,7 @@ public interface CouponService {
 
     public Coupons findByCode(String code) throws Exception;
 
-    public UserReserveCoupon checkCouponReservation(String code) throws Exception;
+    public UserReserveCouponDTO checkCouponReservation(String code) throws Exception;
 
     public int useCoupon(String code, double price, int restaurantId, int mealId) throws Exception;
 

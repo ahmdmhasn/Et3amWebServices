@@ -48,4 +48,5 @@ public interface RestaurantDao {
     String addResturantAdmin(String email, String password, int restaurantId) throws Exception;
     
     public String getTopMeal(int restId) throws Exception ;
+    public List<RestaurantDTO> getAllRestaurantsByCity(String city) throws Exception ;
 }

@@ -36,7 +36,7 @@ public interface CouponDao {
 
     Coupons findByCode(String code) throws Exception;
 
-    UserReserveCoupon checkCoupon(String code, boolean changeStatus) throws Exception;
+    UserReserveCouponDTO  checkCoupon(String code, boolean changeStatus) throws Exception;
 
     int useCoupon(String code, double price, int restaurantId, int mealId) throws Exception;
 
