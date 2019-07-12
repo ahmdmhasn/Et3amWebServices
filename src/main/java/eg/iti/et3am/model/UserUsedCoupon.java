@@ -34,7 +34,6 @@ public class UserUsedCoupon implements java.io.Serializable, Cloneable {
     private float price;
     private int status;
     private Integer messageId;
-
     private Set<RemainingBalance> remainingBalances = new HashSet<>(0);
 
     public UserUsedCoupon() {
@@ -145,8 +144,6 @@ public class UserUsedCoupon implements java.io.Serializable, Cloneable {
     public void setMessageId(Integer messageId) {
         this.messageId = messageId;
     }
-
-   
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userUsedCoupon")
     public Set<RemainingBalance> getRemainingBalances() {
