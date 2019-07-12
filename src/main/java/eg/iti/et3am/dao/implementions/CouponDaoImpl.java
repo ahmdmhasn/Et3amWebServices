@@ -43,7 +43,6 @@ public class CouponDaoImpl implements CouponDao {
     private UserDao userDao;
 
     Session session = null;
-    //Transaction tx = null;
     private final int pageSize = 10;
 
     @Override
@@ -196,7 +195,7 @@ public class CouponDaoImpl implements CouponDao {
         try {
             Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Coupons.class);
             criteria.add(Restrictions.eq("users.userId", userId));
-            criteria.add(Restrictions.eq("isBalance", 1));
+            criteria.add(Restrictions.eq("inBalance", 1));
             criteria.setFirstResult((pageNumber - 1) * pageSize);
             criteria.setMaxResults(pageSize);
 

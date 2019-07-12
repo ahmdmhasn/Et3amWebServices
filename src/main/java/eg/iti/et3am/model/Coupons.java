@@ -35,8 +35,8 @@ public class Coupons implements java.io.Serializable, Cloneable {
     private Date creationDate;
     private String couponQrcode;
     private Integer inBalance;
-    private Set<AvailableCoupons> availableCouponses = new HashSet<AvailableCoupons>(0);
-    private Set<UserReserveCoupon> userReserveCoupons = new HashSet<UserReserveCoupon>(0);
+    private Set<AvailableCoupons> availableCouponses = new HashSet<>(0);
+    private Set<UserReserveCoupon> userReserveCoupons = new HashSet<>(0);
 
     public Coupons() {
     }

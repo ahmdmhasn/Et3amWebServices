@@ -1,23 +1,17 @@
-
 package eg.iti.et3am.controller;
 
-import eg.iti.et3am.dao.implementions.RestaurantDaoImpl;
 import eg.iti.et3am.dto.MealDTO;
-import eg.iti.et3am.dto.RestaurantDTO;
 import eg.iti.et3am.dto.Results;
-import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.model.Status;
 import eg.iti.et3am.service.interfaces.RestaurantService;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.io.Charsets;
 import static org.hibernate.jpa.internal.EntityManagerImpl.LOG;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,7 +33,6 @@ public class RestaurantController {
     private RestaurantService restaurantService;
 
     // List of nearest restaurants
-    
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Object>> RestaurantsList(@RequestParam("page") int page, @RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude) {
         Map<String, Object> result = new HashMap<>();
@@ -67,35 +60,27 @@ public class RestaurantController {
             ex.printStackTrace();
             Logger.getLogger(RestaurantController.class.getName()).log(Level.SEVERE, null, ex);
             result.put("code", 0);
-            result.put("message", ex.getMessage() );
+            result.put("message", ex.getMessage());
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }
-    
-    
-    
-    
-    
-    
-    
+
     @RequestMapping(value = "/listByCity", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Object>> SearchRestaurantsList(@RequestParam("city") String city) {
         Map<String, Object> result = new HashMap<>();
         try {
-            
-                
-                
-                List <Restaurants> list  = restaurantService.getAllRestaurantsByCity(city);
-                if (list != null) {
-                    result.put("code", 1);
-                    result.put("results", list);
-                    return new ResponseEntity<>(result, HttpStatus.OK);
-                } else {
-                    result.put("code", 0);
-                    result.put("message", "there are not Coupons");
-                    return new ResponseEntity<>(result, HttpStatus.OK);
-                }
-            
+
+            List<Restaurants> list = restaurantService.getAllRestaurantsByCity(city);
+            if (list != null) {
+                result.put("code", 1);
+                result.put("results", list);
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                result.put("code", 0);
+                result.put("message", "there are not Coupons");
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            }
+
         } catch (Exception ex) {
             ex.printStackTrace();
             Logger.getLogger(RestaurantController.class.getName()).log(Level.SEVERE, null, ex);
@@ -104,17 +89,6 @@ public class RestaurantController {
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
     // search in List of nearest restaurants
     @RequestMapping(value = "/searchList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -295,18 +269,17 @@ public class RestaurantController {
         }
 
     }
-    
-    
+
     @RequestMapping(value = "/{rest_id}/top_meal", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Object>> getTopMeal(@PathVariable("rest_id") Integer id) throws Exception {
         Map<String, Object> result = new HashMap<>();
         try {
             String topMeal = restaurantService.getTopMeal(id);
-          
-                result.put("code", 1);
-                result.put("topMeal", topMeal);
-                return new ResponseEntity<>(result, HttpStatus.OK);
-           
+
+            result.put("code", 1);
+            result.put("topMeal", topMeal);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+
         } catch (Exception ex) {
             ex.printStackTrace();
             Logger.getLogger(RestaurantController.class.getName()).log(Level.SEVERE, null, ex);
@@ -316,4 +289,3 @@ public class RestaurantController {
         }
     }
 }
-
