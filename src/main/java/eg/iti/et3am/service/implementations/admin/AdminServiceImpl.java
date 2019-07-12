@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eg.iti.et3am.service.implementations;
+package eg.iti.et3am.service.implementations.admin;
 
-import eg.iti.et3am.dao.interfaces.AdminDao;
+import eg.iti.et3am.dao.interfaces.admin.AdminDao;
 import eg.iti.et3am.dao.interfaces.coupon.CouponDao;
-import eg.iti.et3am.dao.interfaces.RestaurantDao;
+import eg.iti.et3am.dao.interfaces.restaurant.RestaurantDao;
 import eg.iti.et3am.model.Admins;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.RestaurantAdmin;
-import eg.iti.et3am.service.interfaces.AdminService;
+import eg.iti.et3am.service.interfaces.admin.AdminService;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;

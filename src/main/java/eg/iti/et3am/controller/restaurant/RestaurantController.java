@@ -7,7 +7,7 @@ import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.model.Status;
-import eg.iti.et3am.service.interfaces.RestaurantService;
+import eg.iti.et3am.service.interfaces.restaurant.RestaurantService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

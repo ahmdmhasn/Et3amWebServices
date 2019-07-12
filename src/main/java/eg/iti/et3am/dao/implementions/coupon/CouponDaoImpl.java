@@ -1,7 +1,7 @@
 package eg.iti.et3am.dao.implementions.coupon;
 
 import eg.iti.et3am.dao.interfaces.coupon.CouponDao;
-import eg.iti.et3am.dao.interfaces.UserDao;
+import eg.iti.et3am.dao.interfaces.user.UserDao;
 import eg.iti.et3am.dto.UserReserveCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;

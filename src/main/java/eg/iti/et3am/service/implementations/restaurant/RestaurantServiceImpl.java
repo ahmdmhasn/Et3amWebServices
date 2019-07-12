@@ -1,10 +1,10 @@
-package eg.iti.et3am.service.implementations;
+package eg.iti.et3am.service.implementations.restaurant;
 
-import eg.iti.et3am.dao.interfaces.RestaurantDao;
+import eg.iti.et3am.dao.interfaces.restaurant.RestaurantDao;
 import eg.iti.et3am.dto.MealDTO;
 import eg.iti.et3am.dto.RestaurantDTO;
 import eg.iti.et3am.dto.Results;
-import eg.iti.et3am.service.interfaces.RestaurantService;
+import eg.iti.et3am.service.interfaces.restaurant.RestaurantService;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;

@@ -1,13 +1,12 @@
-package eg.iti.et3am.dao.implementions;
+package eg.iti.et3am.dao.implementions.user;
 
-import eg.iti.et3am.dao.interfaces.UserDao;
+import eg.iti.et3am.dao.interfaces.user.UserDao;
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Users;
 import eg.iti.et3am.utils.EntityCopier;
 import eg.iti.et3am.utils.Mail;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -15,11 +14,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -84,16 +79,18 @@ public class UserDaoImpl implements UserDao {
                 .createAlias("users", "u")
                 .add(Restrictions.eq("u.userId", id))
                 .uniqueResult();
-        
+
         String mobNumber = ud.getMobileNumber();
         String nationaId = ud.getNationalId();
-        
-        if (!mobNumber.isEmpty())
+
+        if (!mobNumber.isEmpty()) {
             userDetails.setMobileNumber(mobNumber);
-        
-        if (!nationaId.isEmpty())
+        }
+
+        if (!nationaId.isEmpty()) {
             userDetails.setNationalId(nationaId);
-        
+        }
+
         userDetails.setBirthdate(ud.getBirthdate());
         userDetails.setJob(ud.getJob());
         userDetails.setNationalIdBack(ud.getNationalIdBack());

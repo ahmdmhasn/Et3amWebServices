@@ -6,7 +6,7 @@
 package eg.iti.et3am.controller.admin;
 
 import eg.iti.et3am.model.Admins;
-import eg.iti.et3am.service.interfaces.AdminService;
+import eg.iti.et3am.service.interfaces.admin.AdminService;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;

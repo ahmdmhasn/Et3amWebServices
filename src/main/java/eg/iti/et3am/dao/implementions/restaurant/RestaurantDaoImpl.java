@@ -1,6 +1,6 @@
-package eg.iti.et3am.dao.implementions;
+package eg.iti.et3am.dao.implementions.restaurant;
 
-import eg.iti.et3am.dao.interfaces.RestaurantDao;
+import eg.iti.et3am.dao.interfaces.restaurant.RestaurantDao;
 import eg.iti.et3am.dto.MealDTO;
 import eg.iti.et3am.dto.RestaurantDTO;
 import eg.iti.et3am.dto.Results;

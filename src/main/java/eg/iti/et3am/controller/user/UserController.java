@@ -4,7 +4,7 @@ import eg.iti.et3am.controller.coupon.CouponController;
 import eg.iti.et3am.model.Status;
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Users;
-import eg.iti.et3am.service.interfaces.UserService;
+import eg.iti.et3am.service.interfaces.user.UserService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

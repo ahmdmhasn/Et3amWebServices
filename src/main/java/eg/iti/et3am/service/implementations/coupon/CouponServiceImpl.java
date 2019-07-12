@@ -6,7 +6,7 @@
 package eg.iti.et3am.service.implementations.coupon;
 
 import eg.iti.et3am.dao.interfaces.coupon.CouponDao;
-import eg.iti.et3am.dao.interfaces.UserDao;
+import eg.iti.et3am.dao.interfaces.user.UserDao;
 import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.dto.UserReserveCouponDTO;
 import eg.iti.et3am.dto.UserUsedCouponDTO;

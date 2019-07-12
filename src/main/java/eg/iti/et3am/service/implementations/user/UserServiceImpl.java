@@ -1,8 +1,8 @@
-package eg.iti.et3am.service.implementations;
+package eg.iti.et3am.service.implementations.user;
 
 import eg.iti.et3am.dao.interfaces.coupon.CouponDao;
-import eg.iti.et3am.service.interfaces.UserService;
-import eg.iti.et3am.dao.interfaces.UserDao;
+import eg.iti.et3am.service.interfaces.user.UserService;
+import eg.iti.et3am.dao.interfaces.user.UserDao;
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Users;
 import java.util.Calendar;

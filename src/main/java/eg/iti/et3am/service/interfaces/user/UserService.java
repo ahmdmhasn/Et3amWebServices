@@ -1,4 +1,4 @@
-package eg.iti.et3am.service.interfaces;
+package eg.iti.et3am.service.interfaces.user;
 
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Users;

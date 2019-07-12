@@ -1,4 +1,4 @@
-package eg.iti.et3am.service.interfaces;
+package eg.iti.et3am.service.interfaces.restaurant;
 
 import eg.iti.et3am.dto.MealDTO;
 import eg.iti.et3am.dto.RestaurantDTO;

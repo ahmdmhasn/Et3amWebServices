@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eg.iti.et3am.dao.interfaces;
+package eg.iti.et3am.dao.interfaces.admin;
 
 import eg.iti.et3am.model.Admins;
 import java.util.List;
