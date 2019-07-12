@@ -92,8 +92,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public List <Restaurants> getAllRestaurantsByCity(String city) throws Exception{
+    public List<RestaurantDTO> getAllRestaurantsByCity(String city) throws Exception {
         System.err.println("ana gwa el Service getAllRestaurantsByCity " + restaurantDao.getAllRestaurantsByCity(city).get(0).getCity());
-return restaurantDao.getAllRestaurantsByCity(city);
+        return restaurantDao.getAllRestaurantsByCity(city);
     }
 }

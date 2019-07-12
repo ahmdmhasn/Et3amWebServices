@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eg.iti.et3am.service.implementations;
+package eg.iti.et3am.service.implementations.coupon;
 
-import eg.iti.et3am.dao.interfaces.CouponDao;
+import eg.iti.et3am.dao.interfaces.coupon.CouponDao;
 import eg.iti.et3am.dao.interfaces.UserDao;
 import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.dto.UserReserveCouponDTO;
@@ -15,7 +15,7 @@ import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.RestaurantCoupons;
 import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.UserUsedCoupon;
-import eg.iti.et3am.service.interfaces.CouponService;
+import eg.iti.et3am.service.interfaces.coupon.CouponService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -67,33 +67,12 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public List<UserReserveCouponDTO> getAllReservedCoupons(int pageNumber, String userId) throws Exception {
-        return couponDao.getAllReservedCoupons(pageNumber, userId);
-    }
-
-    @Override
-    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception {
-        return couponDao.getInBalanceCoupon(pageNumber, userId);
-
-    }
-
-    @Override
-    public Results getInBalanceCouponTrial(int pageNumber, String userId) throws Exception {
-        return couponDao.getInBalanceCouponTrial(pageNumber, userId);
-    }
-
-    @Override
-    public List<UserUsedCouponDTO> getAllUsedCoupons(int pageNumber, String donatorId) throws Exception {
-        return couponDao.getAllUsedCoupons(pageNumber, donatorId);
-    }
-
-    @Override
     public Coupons findByCode(String code) throws Exception {
         return couponDao.findByCode(code);
     }
 
     @Override
-    public UserReserveCoupon checkCouponReservation(String code) throws Exception {
+    public UserReserveCouponDTO checkCouponReservation(String code) throws Exception {
         return couponDao.checkCoupon(code, false);
     }
 

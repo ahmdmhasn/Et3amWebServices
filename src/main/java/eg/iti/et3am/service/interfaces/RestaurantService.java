@@ -38,5 +38,5 @@ public interface RestaurantService {
 
     public String getTopMeal(int restId) throws Exception ;
 
-    public List<Restaurants> getAllRestaurantsByCity(String city) throws Exception ;
+    public List<RestaurantDTO> getAllRestaurantsByCity(String city) throws Exception ;
 }

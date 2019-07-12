@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eg.iti.et3am.controller;
+package eg.iti.et3am.controller.admin;
 
 import eg.iti.et3am.model.Admins;
 import eg.iti.et3am.service.interfaces.AdminService;

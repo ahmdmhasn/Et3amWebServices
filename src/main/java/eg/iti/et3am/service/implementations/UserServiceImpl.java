@@ -1,6 +1,6 @@
 package eg.iti.et3am.service.implementations;
 
-import eg.iti.et3am.dao.interfaces.CouponDao;
+import eg.iti.et3am.dao.interfaces.coupon.CouponDao;
 import eg.iti.et3am.service.interfaces.UserService;
 import eg.iti.et3am.dao.interfaces.UserDao;
 import eg.iti.et3am.model.UserDetails;

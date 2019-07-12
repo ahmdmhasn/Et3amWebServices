@@ -1,5 +1,6 @@
-package eg.iti.et3am.controller;
+package eg.iti.et3am.controller.user;
 
+import eg.iti.et3am.controller.coupon.CouponController;
 import eg.iti.et3am.model.Status;
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Users;

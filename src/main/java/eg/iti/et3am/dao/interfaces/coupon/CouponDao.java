@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eg.iti.et3am.dao.interfaces;
+package eg.iti.et3am.dao.interfaces.coupon;
 
-import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.dto.UserReserveCouponDTO;
-import eg.iti.et3am.dto.UserUsedCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.RestaurantCoupons;
-import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.UserUsedCoupon;
 import java.util.Date;
 import java.util.List;
@@ -26,17 +23,16 @@ public interface CouponDao {
 
     List<UserUsedCoupon> getUserUsedCoupon(int pageNumber, String userId) throws Exception;
 
-    List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception;
-
-    Results getInBalanceCouponTrial(int pageNumber, String userId) throws Exception;
-
-    List<UserReserveCouponDTO> getAllReservedCoupons(int pageNumber, String userId) throws Exception;
-
-    List<UserUsedCouponDTO> getAllUsedCoupons(int pageNumber, String donatorId) throws Exception;
-
+//    List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception;
+//
+//    Results getInBalanceCouponTrial(int pageNumber, String userId) throws Exception;
+//
+//    List<UserReserveCouponDTO> getAllReservedCoupons(int pageNumber, String userId) throws Exception;
+//
+//    List<UserUsedCouponDTO> getAllUsedCoupons(int pageNumber, String donatorId) throws Exception;
     Coupons findByCode(String code) throws Exception;
 
-    UserReserveCoupon checkCoupon(String code, boolean changeStatus) throws Exception;
+    UserReserveCouponDTO checkCoupon(String code, boolean changeStatus) throws Exception;
 
     int useCoupon(String code, double price, int restaurantId, int mealId) throws Exception;
 

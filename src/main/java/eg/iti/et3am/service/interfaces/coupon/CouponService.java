@@ -4,7 +4,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eg.iti.et3am.service.interfaces;
+package eg.iti.et3am.service.interfaces.coupon;
 
 import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.dto.UserReserveCouponDTO;
@@ -29,17 +29,9 @@ public interface CouponService {
 
     public List<UserUsedCoupon> getUserUsedCoupon(int pageNumber, String userId) throws Exception;
 
-    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception;
-    
-    public Results getInBalanceCouponTrial(int pageNumber, String userId) throws Exception;
-
-    public List<UserUsedCouponDTO> getAllUsedCoupons(int pageNumber, String donatorId) throws Exception;
-
-    public List<UserReserveCouponDTO> getAllReservedCoupons(int pageNumber, String userId) throws Exception;
-
     public Coupons findByCode(String code) throws Exception;
 
-    public UserReserveCoupon checkCouponReservation(String code) throws Exception;
+    public UserReserveCouponDTO checkCouponReservation(String code) throws Exception;
 
     public int useCoupon(String code, double price, int restaurantId, int mealId) throws Exception;
 

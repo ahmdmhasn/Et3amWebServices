@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eg.iti.et3am.controller;
+package eg.iti.et3am.controller.coupon;
 
+import eg.iti.et3am.controller.coupon.CouponController;
 import eg.iti.et3am.dto.Results;
-import eg.iti.et3am.dto.UserReserveCouponDTO;
-import eg.iti.et3am.dto.UserUsedCouponDTO;
-import eg.iti.et3am.service.interfaces.CouponService;
+import eg.iti.et3am.service.interfaces.coupon.CouponDonatedService;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,14 +29,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class CouponDonatedController {
 
     @Autowired
-    private CouponService couponService;
+    private CouponDonatedService couponService;
 
     //get coupons for user
     @RequestMapping(value = "/get_inBalance_coupon", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getInBalanceCoupon(@RequestParam("user_id") String userId, @RequestParam("page") int page) throws Exception {
         Map<String, Object> result = new HashMap<>();
         try {
-            Results coupons = couponService.getInBalanceCouponTrial(page, userId);
+            Results coupons = couponService.getInBalanceCoupon(page, userId);
             if (coupons != null) {
                 result.put("code", 1);
                 result.put("page", coupons.getPage());
@@ -65,10 +63,13 @@ public class CouponDonatedController {
     public ResponseEntity<Map<String, Object>> getAllReservedCoupon(@RequestParam("user_id") String userId, @RequestParam("page") int page) throws Exception {
         Map<String, Object> result = new HashMap<>();
         try {
-            List<UserReserveCouponDTO> coupons = couponService.getAllReservedCoupons(page, userId);
-            if (coupons != null && !coupons.isEmpty()) {
+            Results coupons = couponService.getAllReservedCoupons(page, userId);
+            if (coupons != null) {
                 result.put("code", 1);
-                result.put("Coupons", coupons);
+                result.put("page", coupons.getPage());
+                result.put("total_page", coupons.getTotalPages());
+                result.put("total_results", coupons.getTotalResults());
+                result.put("Coupons", coupons.getResults());
                 return new ResponseEntity<>(result, HttpStatus.OK);
             } else {
                 result.put("code", 0);
@@ -89,10 +90,13 @@ public class CouponDonatedController {
     public ResponseEntity<Map<String, Object>> getAllUsedCoupon(@RequestParam("user_id") String userId, @RequestParam("page") int page) throws Exception {
         Map<String, Object> result = new HashMap<>();
         try {
-            List<UserUsedCouponDTO> coupons = couponService.getAllUsedCoupons(page, userId);
-            if (coupons != null && !coupons.isEmpty()) {
+            Results coupons = couponService.getAllUsedCoupons(page, userId);
+            if (coupons != null) {
                 result.put("code", 1);
-                result.put("Coupons", coupons);
+                result.put("page", coupons.getPage());
+                result.put("total_page", coupons.getTotalPages());
+                result.put("total_results", coupons.getTotalResults());
+                result.put("Coupons", coupons.getResults());
                 return new ResponseEntity<>(result, HttpStatus.OK);
             } else {
                 result.put("code", 0);

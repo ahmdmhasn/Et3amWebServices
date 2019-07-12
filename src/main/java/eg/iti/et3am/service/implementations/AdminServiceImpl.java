@@ -6,7 +6,7 @@
 package eg.iti.et3am.service.implementations;
 
 import eg.iti.et3am.dao.interfaces.AdminDao;
-import eg.iti.et3am.dao.interfaces.CouponDao;
+import eg.iti.et3am.dao.interfaces.coupon.CouponDao;
 import eg.iti.et3am.dao.interfaces.RestaurantDao;
 import eg.iti.et3am.model.Admins;
 import eg.iti.et3am.model.Coupons;

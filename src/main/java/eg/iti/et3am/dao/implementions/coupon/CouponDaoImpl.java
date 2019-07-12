@@ -1,10 +1,8 @@
-package eg.iti.et3am.dao.implementions;
+package eg.iti.et3am.dao.implementions.coupon;
 
-import eg.iti.et3am.dao.interfaces.CouponDao;
+import eg.iti.et3am.dao.interfaces.coupon.CouponDao;
 import eg.iti.et3am.dao.interfaces.UserDao;
-import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.dto.UserReserveCouponDTO;
-import eg.iti.et3am.dto.UserUsedCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.Meals;
@@ -25,7 +23,6 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
@@ -46,43 +43,16 @@ public class CouponDaoImpl implements CouponDao {
     private final int pageSize = 10;
 
     @Override
-    public Results getInBalanceCouponTrial(int pageNumber, String userId) throws Exception {
-
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Coupons.class);
-        criteria.add(Restrictions.eq("users.userId", userId));
-        criteria.add(Restrictions.eq("isBalance", 1));
-        criteria.setFirstResult((pageNumber - 1) * pageSize);
-        criteria.setMaxResults(pageSize);
-
-        List<Coupons> coupons = criteria.list();
-
-        criteria.setProjection(Projections.rowCount());
-        Long count = (Long) criteria.uniqueResult();
-
-        List<Coupons> couponses = new ArrayList<>();
-        for (Coupons coupon : coupons) {
-            Coupons c = (Coupons) coupon.clone();
-            couponses.add(c);
-        }
-        Results results = new Results();
-        results.setPage(pageNumber);
-//        results.setTotalPages(count);
-//        results.setTotalResults(count);
-        results.setResults(couponses);
-        return results;
-    }
-
-    @Override
     public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception {
         session = sessionFactory.getCurrentSession();
-        
+
         List<UserUsedCoupon> usedCouponsList = session.createCriteria(UserUsedCoupon.class).
                 createAlias("restaurants", "r").
                 add(Restrictions.eq("r.restaurantId", restaurantId)).list();
-         List<RestaurantCoupons> restaurantCoupons = new ArrayList<>();
+        List<RestaurantCoupons> restaurantCoupons = new ArrayList<>();
         for (UserUsedCoupon coupons : usedCouponsList) {
-       RestaurantCoupons restCoupon = new RestaurantCoupons(coupons.getUserReserveCoupon().getCoupons().getCouponBarcode(), 
-                                                               coupons.getUseDate(), coupons.getPrice(), coupons.getStatus());
+            RestaurantCoupons restCoupon = new RestaurantCoupons(coupons.getUserReserveCoupon().getCoupons().getCouponBarcode(),
+                    coupons.getUseDate(), coupons.getPrice(), coupons.getStatus());
             restaurantCoupons.add(restCoupon);
 
         }
@@ -113,111 +83,6 @@ public class CouponDaoImpl implements CouponDao {
         return listOfUsedCouponse;
     }
 
-    //reserved coupon
-    @Override
-    public List<UserReserveCouponDTO> getAllReservedCoupons(int pageNumber, String donatorId) throws Exception {
-
-        //int pageSize = 10;
-        session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(UserReserveCoupon.class);
-        criteria.createAlias("coupons", "coupon");
-        criteria.createAlias("coupon.users", "donator");
-        criteria.add(Restrictions.eq("donator.userId", donatorId));
-        criteria.add(Restrictions.eq("status", 1));
-        criteria.setFirstResult((pageNumber - 1) * pageSize);
-        criteria.setMaxResults(pageSize);
-
-        List<UserReserveCoupon> coupons = criteria.list();
-        criteria.setProjection(Projections.rowCount());
-        Long count = (Long) criteria.uniqueResult();
-
-        List<UserReserveCouponDTO> couponses = new ArrayList<>();
-
-        for (UserReserveCoupon coupons1 : coupons) {
-            UserReserveCoupon c = (UserReserveCoupon) coupons1.clone();
-            UserReserveCouponDTO couponDTO = new UserReserveCouponDTO();
-            couponDTO.setUserId(c.getUsers().getUserId());
-            couponDTO.setCouponBarcode(c.getCoupons().getCouponBarcode());
-            couponDTO.setReservationDate(c.getReservationDate());
-            couponDTO.setCouponId(c.getCoupons().getCouponId());
-            couponDTO.setCouponQrCode(c.getCoupons().getCouponBarcode());
-            couponDTO.setCouponValue(c.getCoupons().getCouponValue());
-//            couponDTO.set
-            couponses.add(couponDTO);
-        }
-        return couponses;
-    }
-
-    //used coupon
-    @Override
-    public List<UserUsedCouponDTO> getAllUsedCoupons(int pageNumber, String donatorId) throws Exception {
-
-        session = sessionFactory.getCurrentSession();
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(UserUsedCoupon.class);
-        criteria.createAlias("userReserveCoupon", "urc");
-        criteria.createAlias("urc.coupons", "coupon");
-        criteria.createAlias("coupon.users", "donator");
-        criteria.add(Restrictions.eq("donator.userId", donatorId));
-        criteria.add(Restrictions.eq("status", 1));
-        criteria.setFirstResult((pageNumber - 1) * pageSize);
-        criteria.setMaxResults(pageSize);
-
-        List<UserUsedCoupon> coupons = criteria.list();
-
-        criteria.setProjection(Projections.rowCount());
-        Long count = (Long) criteria.uniqueResult();
-
-        List<UserUsedCouponDTO> couponses = new ArrayList<>();
-
-        for (UserUsedCoupon coupons1 : coupons) {
-
-            UserUsedCouponDTO couponDTO = new UserUsedCouponDTO();
-
-            UserUsedCoupon c = (UserUsedCoupon) coupons1.clone();
-            System.out.println("UserUsedCoupon ID "+c.getUserReserveCoupon().getCoupons().getCouponId());
-            couponDTO.setCouponId(c.getUserReserveCoupon().getCoupons().getCouponId());
-            couponDTO.setUserId(c.getUserReserveCoupon().getUsers().getUserId());
-            couponDTO.setBarCode(c.getUserReserveCoupon().getCoupons().getCouponBarcode());
-            couponDTO.setRestaurantName(c.getRestaurants().getRestaurantName());
-            couponDTO.setRestaurantAddress(c.getRestaurants().getCity() + ", " + c.getRestaurants().getCountry());
-            couponDTO.setUseDate(c.getUseDate());
-            couponDTO.setPrice(c.getPrice());
-            couponDTO.setUserName(c.getUserReserveCoupon().getUsers().getUserName());
-
-            couponses.add(couponDTO);
-        }
-
-        return couponses;
-    }
-
-    @Override
-    public List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception {
-        try {
-            Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Coupons.class);
-            criteria.add(Restrictions.eq("users.userId", userId));
-            criteria.add(Restrictions.eq("inBalance", 1));
-            criteria.setFirstResult((pageNumber - 1) * pageSize);
-            criteria.setMaxResults(pageSize);
-
-            List<Coupons> coupons = criteria.list();
-
-            criteria.setProjection(Projections.rowCount());
-            Long count = (Long) criteria.uniqueResult();
-
-            List<Coupons> couponses = new ArrayList<>();
-            for (Coupons coupon : coupons) {
-                Coupons c = (Coupons) coupon.clone();
-                System.out.println("ufesksfkeueibusgeiulbsdiugesfiugaefiugafeiub " + c.getCreationDate());
-                couponses.add(c);
-            }
-            return couponses;
-        } catch (HibernateException e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }
-        return null;
-    }
-
     @Override
     public Coupons findByCode(String code) throws Exception {
         session = sessionFactory.getCurrentSession();
@@ -243,7 +108,7 @@ public class CouponDaoImpl implements CouponDao {
 
     @Override
 
-    public UserReserveCoupon checkCoupon(String code, boolean changeStatus) throws Exception {
+    public UserReserveCouponDTO checkCoupon(String code, boolean changeStatus) throws Exception {
         session = sessionFactory.getCurrentSession();
 
         Criteria criteria = session.createCriteria(UserReserveCoupon.class).
@@ -256,8 +121,18 @@ public class CouponDaoImpl implements CouponDao {
                 session.update(coupon);
             }
             System.out.println("update done");
-            UserReserveCoupon coupon2 = EntityCopier.getReservedCoupon(coupon);;
-            return coupon2;
+            UserReserveCouponDTO couponDTO = new UserReserveCouponDTO();
+            couponDTO.setCouponId(coupon.getCoupons().getCouponId());
+            couponDTO.setCouponBarcode(coupon.getCoupons().getCouponBarcode());
+            couponDTO.setCouponQrCode(coupon.getCoupons().getCouponQrcode());
+            couponDTO.setCouponValue(coupon.getCoupons().getCouponValue());
+            couponDTO.setReservationDate(coupon.getReservationDate());
+            couponDTO.setStatus(coupon.getStatus());
+            System.out.println("user");
+            couponDTO.setUserId(coupon.getUsers().getUserId());
+            couponDTO.setReservationId(coupon.getReservedCouponId());
+
+            return couponDTO;
         } else {
             return null;
         }
@@ -273,18 +148,18 @@ public class CouponDaoImpl implements CouponDao {
     @Override
     public int useCoupon(String code, double price, int restaurantId, int mealId) throws Exception {
 
-        UserReserveCoupon reserveCoupon = checkCoupon(code, true);
-        if (reserveCoupon != null) {
+        UserReserveCouponDTO couponDTO = checkCoupon(code, true);
+        if (couponDTO != null) {
 //            updateReserveCouponStatus(reserveCoupon);
             session = sessionFactory.getCurrentSession();
             Restaurants restaurantAdmin = (Restaurants) session.createCriteria(Restaurants.class).add(Restrictions.eq("restaurantId", restaurantId)).uniqueResult();
             Meals meal = (Meals) session.createCriteria(Meals.class).add(Restrictions.eq("mealId", mealId)).uniqueResult();
-
-            UserUsedCoupon userUsedCoupon = new UserUsedCoupon(meal,restaurantAdmin, reserveCoupon, new Date(), (float) price, 1);
+            UserReserveCoupon reserveCoupon1 = (UserReserveCoupon) session.createCriteria(UserReserveCoupon.class).add(Restrictions.eq("reservedCouponId", couponDTO.getReservationId())).uniqueResult();
+            UserUsedCoupon userUsedCoupon = new UserUsedCoupon(meal, restaurantAdmin, reserveCoupon1, new Date(), (float) price, 1);
             userUsedCoupon.getUserReserveCoupon().setStatus(0);
             System.out.println("jjj" + userUsedCoupon.getPrice());
             session.saveOrUpdate(userUsedCoupon);
-            float remainingValue = (float) (reserveCoupon.getCoupons().getCouponValue() - price);
+            float remainingValue = (float) (reserveCoupon1.getCoupons().getCouponValue() - price);
             if (remainingValue > 0) {
                 RemainingBalance balance = new RemainingBalance(userUsedCoupon, remainingValue);
                 session.save(balance);

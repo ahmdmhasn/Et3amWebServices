@@ -3,18 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eg.iti.et3am.controller;
+package eg.iti.et3am.controller.coupon;
 
-import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.dto.UserReserveCouponDTO;
-import eg.iti.et3am.dto.UserUsedCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.RestaurantCoupons;
-import eg.iti.et3am.model.UserReserveCoupon;
 import eg.iti.et3am.model.UserUsedCoupon;
-import eg.iti.et3am.service.interfaces.CouponService;
-import java.util.ArrayList;
+import eg.iti.et3am.service.interfaces.coupon.CouponService;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -84,11 +80,11 @@ public class CouponController {
     public ResponseEntity<Map<String, Object>> getReservedCoupon(@RequestParam("code") String code) {
         Map<String, Object> result = new HashMap<>();
         try {
-            UserReserveCoupon coupon = couponService.checkCouponReservation(code);
+            UserReserveCouponDTO coupon = couponService.checkCouponReservation(code);
             if (coupon != null && coupon.getStatus() == 1) {
                 result.put("code", 1);
                 result.put("coupon", coupon);
-                result.put("id", coupon.getReservedCouponId());
+                
                 return new ResponseEntity<>(result, HttpStatus.OK);
             } else {
                 result.put("code", 0);
