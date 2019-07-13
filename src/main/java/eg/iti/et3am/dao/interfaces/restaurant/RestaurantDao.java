@@ -2,7 +2,6 @@ package eg.iti.et3am.dao.interfaces.restaurant;
 
 import eg.iti.et3am.dto.MealDTO;
 import eg.iti.et3am.dto.RestaurantDTO;
-import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
@@ -19,12 +18,6 @@ public interface RestaurantDao {
 
     // get restaurant by id
     Restaurants getRestaurantById(Integer id) throws Exception;
-
-    List<RestaurantDTO> getRestaurantsList(int page, double latitude, double longitude) throws Exception;
-    
-    Results getRestaurantsListTrial(int page, double latitude, double longitude) throws Exception;
-
-    Results searchInRestaurantsList(int pageNumber, double latitude, double longitude, String query) throws Exception;
 
     List<Restaurants> getRestaurantsListWithMeals() throws Exception;
 
@@ -46,7 +39,8 @@ public interface RestaurantDao {
     RestaurantAdmin login(String email, String password) throws Exception;
 
     String addResturantAdmin(String email, String password, int restaurantId) throws Exception;
-    
-    public String getTopMeal(int restId) throws Exception ;
-    public List<RestaurantDTO> getAllRestaurantsByCity(String city) throws Exception ;
+
+    public String getTopMeal(int restId) throws Exception;
+
+    public List<RestaurantDTO> getAllRestaurantsByCity(String city) throws Exception;
 }

@@ -3,7 +3,6 @@ package eg.iti.et3am.service.implementations.restaurant;
 import eg.iti.et3am.dao.interfaces.restaurant.RestaurantDao;
 import eg.iti.et3am.dto.MealDTO;
 import eg.iti.et3am.dto.RestaurantDTO;
-import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.service.interfaces.restaurant.RestaurantService;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
@@ -25,9 +24,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Autowired
     private RestaurantDao restaurantDao;
 
-    @Autowired
-    private CalculateRoute calculateRoute;
-
     @Override
     public String addRestaurant(Restaurants restaurant) throws Exception {
         return restaurantDao.addRestaurant(restaurant);
@@ -41,24 +37,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public Restaurants getRestaurantById(Integer id) throws Exception {
         return restaurantDao.getRestaurantById(id);
-    }
-
-    @Override
-    public List<RestaurantDTO> getRestaurantsList(int page, double latitude, double longitude) throws Exception {
-        List<RestaurantDTO> list = restaurantDao.getRestaurantsList(page, latitude, longitude);
-        return calculateRoute.calculateRoute(list, latitude, longitude);
-    }
-
-    @Override
-    public Results getRestaurantsListTrial(int page, double latitude, double longitude) throws Exception {
-        Results list = restaurantDao.getRestaurantsListTrial(page, latitude, longitude);
-        return calculateRoute.calculateRoute(list, latitude, longitude);
-    }
-
-    @Override
-    public Results searchInRestaurantsList(int page, double latitude, double longitude, String query) throws Exception {
-        Results list = restaurantDao.searchInRestaurantsList(page, latitude, longitude, query);
-        return calculateRoute.calculateRoute(list, latitude, longitude);
     }
 
     @Override

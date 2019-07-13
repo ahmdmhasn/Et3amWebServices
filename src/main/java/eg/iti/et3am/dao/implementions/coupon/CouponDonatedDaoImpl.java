@@ -41,13 +41,10 @@ public class CouponDonatedDaoImpl implements CouponDonatedDao {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Coupons.class);
         criteria.add(Restrictions.eq("users.userId", userId));
         criteria.add(Restrictions.eq("inBalance", 1));
+        long count = criteria.list().size();
         criteria.setFirstResult((pageNumber - 1) * pageSize);
         criteria.setMaxResults(pageSize);
-
         List<Coupons> coupons = criteria.list();
-
-        criteria.setProjection(Projections.rowCount());
-//        Long count = (Long) criteria.uniqueResult();
 
         List<CouponDTO> couponses = new ArrayList<>();
         for (Coupons coupon : coupons) {
@@ -59,9 +56,10 @@ public class CouponDonatedDaoImpl implements CouponDonatedDao {
             couponses.add(couponDTO);
         }
         Results results = new Results();
+        System.out.println("Countssssss  " + count);
         results.setPage(pageNumber);
-//        results.setTotalPages(count);
-//        results.setTotalResults(count);
+        results.setTotalPages(count);
+        results.setTotalResults(count);
         results.setResults(couponses);
         return results;
     }
@@ -74,30 +72,28 @@ public class CouponDonatedDaoImpl implements CouponDonatedDao {
         criteria.createAlias("coupon.users", "donator");
         criteria.add(Restrictions.eq("donator.userId", donatorId));
         criteria.add(Restrictions.eq("status", 1));
+        long count = criteria.list().size();
         criteria.setFirstResult((pageNumber - 1) * pageSize);
         criteria.setMaxResults(pageSize);
 
-        List<UserReserveCoupon> coupons = criteria.list();
-        criteria.setProjection(Projections.rowCount());
-        Long count = (Long) criteria.uniqueResult();
+        List<UserReserveCoupon> couponList = criteria.list();
 
         List<UserReserveCouponDTO> couponses = new ArrayList<>();
-
-        for (UserReserveCoupon coupons1 : coupons) {
-            UserReserveCoupon c = (UserReserveCoupon) coupons1.clone();
+        for (UserReserveCoupon coupons : couponList) {
             UserReserveCouponDTO couponDTO = new UserReserveCouponDTO();
-            couponDTO.setUserId(c.getUsers().getUserId());
-            couponDTO.setCouponBarcode(c.getCoupons().getCouponBarcode());
-            couponDTO.setReservationDate(c.getReservationDate());
-            couponDTO.setCouponId(c.getCoupons().getCouponId());
-            couponDTO.setCouponQrCode(c.getCoupons().getCouponBarcode());
-            couponDTO.setCouponValue(c.getCoupons().getCouponValue());
+            couponDTO.setUserId(coupons.getUsers().getUserId());
+            couponDTO.setCouponBarcode(coupons.getCoupons().getCouponBarcode());
+            couponDTO.setReservationDate(coupons.getReservationDate());
+            couponDTO.setCouponId(coupons.getCoupons().getCouponId());
+            couponDTO.setCouponQrCode(coupons.getCoupons().getCouponBarcode());
+            couponDTO.setCouponValue(coupons.getCoupons().getCouponValue());
             couponses.add(couponDTO);
         }
         Results results = new Results();
+        System.out.println("Countssssss  " + count);
         results.setPage(pageNumber);
-//        results.setTotalPages(count);
-//        results.setTotalResults(count);
+        results.setTotalPages(count);
+        results.setTotalResults(count);
         results.setResults(couponses);
         return results;
     }
@@ -111,39 +107,32 @@ public class CouponDonatedDaoImpl implements CouponDonatedDao {
         criteria.createAlias("coupon.users", "donator");
         criteria.add(Restrictions.eq("donator.userId", donatorId));
         criteria.add(Restrictions.eq("status", 1));
+        long count = criteria.list().size();
         criteria.setFirstResult((pageNumber - 1) * pageSize);
         criteria.setMaxResults(pageSize);
 
-        List<UserUsedCoupon> coupons = criteria.list();
-
-        criteria.setProjection(Projections.rowCount());
-        Long count = (Long) criteria.uniqueResult();
+        List<UserUsedCoupon> couponList = criteria.list();
 
         List<UserUsedCouponDTO> couponses = new ArrayList<>();
-
-        for (UserUsedCoupon coupons1 : coupons) {
-
+        for (UserUsedCoupon coupons : couponList) {
             UserUsedCouponDTO couponDTO = new UserUsedCouponDTO();
-
-            UserUsedCoupon c = (UserUsedCoupon) coupons1.clone();
-
-            System.out.println("UserUsedCoupon ID " + c.getUserReserveCoupon().getCoupons().getCouponId());
-
-            couponDTO.setCouponId(c.getUserReserveCoupon().getCoupons().getCouponId());
-            couponDTO.setUserId(c.getUserReserveCoupon().getUsers().getUserId());
-            couponDTO.setBarCode(c.getUserReserveCoupon().getCoupons().getCouponBarcode());
-            couponDTO.setRestaurantName(c.getRestaurants().getRestaurantName());
-            couponDTO.setRestaurantAddress(c.getRestaurants().getCity() + ", " + c.getRestaurants().getCountry());
-            couponDTO.setUseDate(c.getUseDate());
-            couponDTO.setPrice(c.getPrice());
-            couponDTO.setUserName(c.getUserReserveCoupon().getUsers().getUserName());
+            System.out.println("UserUsedCoupon ID " + coupons.getUserReserveCoupon().getCoupons().getCouponId() + "  UserUsed ID " + coupons.getUserReserveCoupon().getUsers().getUserId());
+            couponDTO.setCouponId(coupons.getUserReserveCoupon().getCoupons().getCouponId());
+            couponDTO.setUserId(coupons.getUserReserveCoupon().getUsers().getUserId());
+            couponDTO.setBarCode(coupons.getUserReserveCoupon().getCoupons().getCouponBarcode());
+            couponDTO.setRestaurantName(coupons.getRestaurants().getRestaurantName());
+            couponDTO.setRestaurantAddress(coupons.getRestaurants().getCity() + ", " + coupons.getRestaurants().getCountry());
+            couponDTO.setUseDate(coupons.getUseDate());
+            couponDTO.setPrice(coupons.getPrice());
+            couponDTO.setUserName(coupons.getUserReserveCoupon().getUsers().getUserName());
 
             couponses.add(couponDTO);
         }
         Results results = new Results();
+        System.out.println("Countssssss  " + count);
         results.setPage(pageNumber);
-//        results.setTotalPages(count);
-//        results.setTotalResults(count);
+        results.setTotalPages(count);
+        results.setTotalResults(count);
         results.setResults(couponses);
         return results;
     }

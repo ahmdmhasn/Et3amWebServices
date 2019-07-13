@@ -3,7 +3,6 @@ package eg.iti.et3am.dao.implementions.restaurant;
 import eg.iti.et3am.dao.interfaces.restaurant.RestaurantDao;
 import eg.iti.et3am.dto.MealDTO;
 import eg.iti.et3am.dto.RestaurantDTO;
-import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
@@ -21,9 +20,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import eg.iti.et3am.utils.Utils;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.LogicalExpression;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 
@@ -42,50 +38,6 @@ public class RestaurantDaoImpl implements RestaurantDao {
     private final int pageSize = 10;
 
     @Override
-    public Results getRestaurantsListTrial(int pageNumber, double latitude, double longitude) throws Exception {
-
-        session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Restaurants.class);
-        criteria.addOrder(Order.asc("latitude"));
-        criteria.addOrder(Order.asc("longitude"));
-        criteria.setFirstResult((pageNumber - 1) * pageSize);
-        criteria.setMaxResults(pageSize);
-        criteria.setFetchSize(10);
-
-        List<Restaurants> restaurantses = criteria.list();
-
-        List<RestaurantDTO> listRDtos = new ArrayList<>();
-        for (Restaurants restaurants : restaurantses) {
-            RestaurantDTO restaurantDTO = new RestaurantDTO();
-
-            restaurantDTO.setRestaurantID(restaurants.getRestaurantId());
-            restaurantDTO.setRestaurantName(restaurants.getRestaurantName());
-            restaurantDTO.setRestaurantImage(restaurants.getRestaurantImage());
-            restaurantDTO.setCity(restaurants.getCity());
-            restaurantDTO.setCountry(restaurants.getCountry());
-            restaurantDTO.setLatitude(restaurants.getLatitude());
-            restaurantDTO.setLongitude(restaurants.getLongitude());
-            double distance = Utils.distance(restaurants.getLatitude(), latitude, restaurants.getLongitude(), longitude, 0.0, 0.0);
-            restaurantDTO.setDistance(distance);
-
-            listRDtos.add(restaurantDTO);
-        }
-
-        Results results = new Results();
-        criteria = session.createCriteria(Restaurants.class);
-        criteria.setProjection(Projections.rowCount());
-        Long count = (Long) criteria.uniqueResult();
-        System.out.println("Countssssss  " + count);
-        results.setPage(pageNumber);
-        results.setTotalPages(count);
-        results.setTotalResults(count);
-        results.setResults(listRDtos);
-        System.out.println("TotalPages -> DaoImpl " + results.getTotalPages());
-        return results;
-
-    }
-
-    @Override
     public Restaurants getRestaurantById(Integer id) throws Exception {
 
         session = sessionFactory.getCurrentSession();
@@ -98,83 +50,6 @@ public class RestaurantDaoImpl implements RestaurantDao {
     }
 
     @Override
-    public List<RestaurantDTO> getRestaurantsList(int pageNumber, double latitude, double longitude) throws Exception {
-
-        session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Restaurants.class);
-        criteria.addOrder(Order.asc("latitude"));
-        criteria.addOrder(Order.asc("longitude"));
-        criteria.setFirstResult((pageNumber - 1) * pageSize);
-        criteria.setMaxResults(pageSize);
-
-        List<Restaurants> restaurantses = criteria.list();
-
-        criteria.setProjection(Projections.rowCount());
-        Long count = (Long) criteria.uniqueResult();
-
-        List<RestaurantDTO> listRDtos = new ArrayList<>();
-        for (Restaurants restaurants : restaurantses) {
-            RestaurantDTO restaurantDTO = new RestaurantDTO();
-
-            restaurantDTO.setRestaurantID(restaurants.getRestaurantId());
-            restaurantDTO.setRestaurantName(restaurants.getRestaurantName());
-            restaurantDTO.setRestaurantImage(restaurants.getRestaurantImage());
-            restaurantDTO.setCity(restaurants.getCity());
-            restaurantDTO.setCountry(restaurants.getCountry());
-            restaurantDTO.setLatitude(restaurants.getLatitude());
-            restaurantDTO.setLongitude(restaurants.getLongitude());
-            double distance = Utils.distance(restaurants.getLatitude(), latitude, restaurants.getLongitude(), longitude, 0.0, 0.0);
-            restaurantDTO.setDistance(distance);
-
-            listRDtos.add(restaurantDTO);
-        }
-
-        return listRDtos;
-    }
-
-    @Override
-    public Results searchInRestaurantsList(int pageNumber, double latitude, double longitude, String query) throws Exception {
-
-        session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Restaurants.class);
-        Criterion restaurantName = Restrictions.ilike("restaurantName", "" + query + "", MatchMode.ANYWHERE);
-        Criterion city = Restrictions.ilike("city", query, MatchMode.ANYWHERE);
-        LogicalExpression orExp = Restrictions.or(restaurantName, city);
-        criteria.add(orExp);
-        criteria.addOrder(Order.asc("restaurantName"));
-        criteria.setFirstResult((pageNumber - 1) * pageSize);
-        criteria.setMaxResults(pageSize);
-
-        List<Restaurants> restaurantses = criteria.list();
-
-        List<RestaurantDTO> listRDtos = new ArrayList<>();
-
-        for (Restaurants restaurants : restaurantses) {
-            RestaurantDTO restaurantDTO = new RestaurantDTO();
-
-            restaurantDTO.setRestaurantID(restaurants.getRestaurantId());
-            restaurantDTO.setRestaurantName(restaurants.getRestaurantName());
-            restaurantDTO.setRestaurantImage(restaurants.getRestaurantImage());
-            restaurantDTO.setCity(restaurants.getCity());
-            restaurantDTO.setCountry(restaurants.getCountry());
-            restaurantDTO.setLatitude(restaurants.getLatitude());
-            restaurantDTO.setLongitude(restaurants.getLongitude());
-            double distance = Utils.distance(restaurants.getLatitude(), latitude, restaurants.getLongitude(), longitude, 0.0, 0.0);
-            restaurantDTO.setDistance(distance);
-            listRDtos.add(restaurantDTO);
-        }
-        Results results = new Results();
-        criteria = session.createCriteria(Restaurants.class);
-        criteria.setProjection(Projections.rowCount());
-        Long count = (Long) criteria.uniqueResult();
-        results.setPage(pageNumber);
-        results.setTotalPages(count);
-        results.setTotalResults(count);
-        results.setResults(listRDtos);
-        return results;
-    }
-
-    @Override
     public List<RestaurantDTO> getAllRestaurantsByCity(String city) {
 
         session = sessionFactory.getCurrentSession();
@@ -182,7 +57,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
                 add(Restrictions.eq("city", city)).list();
         if (mySearchList != null) {
             System.err.println("not null ");
-            List<RestaurantDTO> selectedRestaurants = new ArrayList<RestaurantDTO>();
+            List<RestaurantDTO> selectedRestaurants = new ArrayList<>();
             for (Restaurants restaurants : mySearchList) {
 
                 System.out.println("city:" + restaurants.getCity());
@@ -388,6 +263,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     }
 
+    @Override
     public String getTopMeal(int restId) throws Exception {
         Set<Meals> mealList = getMealsSetById(restId);
         session = sessionFactory.getCurrentSession();
