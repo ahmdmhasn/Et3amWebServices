@@ -102,6 +102,72 @@ public class RestaurantDaoImpl implements RestaurantDao {
     }
 
     @Override
+    public RestaurantAdmin login(String email, String password) throws Exception {
+
+        session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(RestaurantAdmin.class);
+        criteria.add(Restrictions.eq("restaurantAdminEmail", email));
+        criteria.add(Restrictions.eq("restaurantAdminPassword", password));
+
+        RestaurantAdmin admin = (RestaurantAdmin) criteria.uniqueResult();
+
+        Restaurants restaurant = admin.getRestaurants();
+        System.out.println(restaurant.getCity() + "city");
+        RestaurantAdmin admin2 = new RestaurantAdmin();
+        Restaurants restaurant2 = new Restaurants(restaurant.getRestaurantName(),
+                restaurant.getCity(), restaurant.getCountry(), restaurant.getLatitude(),
+                restaurant.getLongitude(), restaurant.getRestaurantImage(), null, null, null);
+        restaurant2.setRestaurantId(restaurant.getRestaurantId());
+
+        admin2.setRestaurantAdminId(admin.getRestaurantAdminId());
+        admin2.setRestaurantAdminEmail(admin.getRestaurantAdminEmail());
+        admin2.setRestaurants(restaurant2);
+
+        return admin2;
+    }
+
+    @Override
+    public String addRestaurant(Restaurants restaurant) throws Exception {
+
+        session = sessionFactory.getCurrentSession();
+
+        session.save(restaurant);
+
+        int id = (int) session.getIdentifier(restaurant);
+
+        return String.valueOf(id);
+
+    }
+
+    @Override
+    public String addResturantAdmin(String email, String password, int restaurantId) throws Exception {
+        Restaurants restaurants = getRestaurantById(restaurantId);
+        System.out.println(restaurants.getCountry() + "country nnnnnnn");
+        session = sessionFactory.getCurrentSession();
+        RestaurantAdmin restaurantAdmin = new RestaurantAdmin();
+        restaurantAdmin.setRestaurantAdminEmail(email);
+        restaurantAdmin.setRestaurantAdminPassword(password);
+        restaurantAdmin.setRestaurants(restaurants);
+        session.save(restaurantAdmin);
+        int id = (int) session.getIdentifier(restaurantAdmin);
+
+        return String.valueOf(id);
+
+    }
+
+    @Override
+    public Integer addMeal(Meals meal, Integer restaurantId) throws Exception {
+        session = sessionFactory.getCurrentSession();
+
+        Restaurants r = (Restaurants) session.load(Restaurants.class, restaurantId);
+        meal.setRestaurants(r);
+        session.save(meal);
+
+        int id = (Integer) session.getIdentifier(meal);
+        return id;
+    }
+
+    @Override
     public Set<Meals> getMealsSetById(Integer id) throws Exception {
 
         session = sessionFactory.getCurrentSession();
@@ -122,7 +188,6 @@ public class RestaurantDaoImpl implements RestaurantDao {
     }
 
     @Override
-
     public List<MealDTO> getMealsListById(Integer id, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
 
@@ -157,56 +222,6 @@ public class RestaurantDaoImpl implements RestaurantDao {
         meal2.setMealValue(meals.getMealValue());
         meal2.setMealImage(meals.getMealImage());
         return meal2;
-    }
-
-    @Override
-    public String addRestaurant(Restaurants restaurant) throws Exception {
-
-        session = sessionFactory.getCurrentSession();
-
-        session.save(restaurant);
-
-        int id = (int) session.getIdentifier(restaurant);
-
-        return String.valueOf(id);
-
-    }
-
-    @Override
-    public Integer addMeal(Meals meal, Integer restaurantId) throws Exception {
-        session = sessionFactory.getCurrentSession();
-
-        Restaurants r = (Restaurants) session.load(Restaurants.class, restaurantId);
-        meal.setRestaurants(r);
-        session.save(meal);
-
-        int id = (Integer) session.getIdentifier(meal);
-        return id;
-    }
-
-    @Override
-    public RestaurantAdmin login(String email, String password) throws Exception {
-
-        session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(RestaurantAdmin.class);
-        criteria.add(Restrictions.eq("restaurantAdminEmail", email));
-        criteria.add(Restrictions.eq("restaurantAdminPassword", password));
-
-        RestaurantAdmin admin = (RestaurantAdmin) criteria.uniqueResult();
-
-        Restaurants restaurant = admin.getRestaurants();
-        System.out.println(restaurant.getCity() + "city");
-        RestaurantAdmin admin2 = new RestaurantAdmin();
-        Restaurants restaurant2 = new Restaurants(restaurant.getRestaurantName(),
-                restaurant.getCity(), restaurant.getCountry(), restaurant.getLatitude(),
-                restaurant.getLongitude(), restaurant.getRestaurantImage(), null, null, null);
-        restaurant2.setRestaurantId(restaurant.getRestaurantId());
-
-        admin2.setRestaurantAdminId(admin.getRestaurantAdminId());
-        admin2.setRestaurantAdminEmail(admin.getRestaurantAdminEmail());
-        admin2.setRestaurants(restaurant2);
-
-        return admin2;
     }
 
     @Override
@@ -245,22 +260,6 @@ public class RestaurantDaoImpl implements RestaurantDao {
             ex.printStackTrace();
             return false;
         }
-    }
-
-    @Override
-    public String addResturantAdmin(String email, String password, int restaurantId) throws Exception {
-        Restaurants restaurants = getRestaurantById(restaurantId);
-        System.out.println(restaurants.getCountry() + "country nnnnnnn");
-        session = sessionFactory.getCurrentSession();
-        RestaurantAdmin restaurantAdmin = new RestaurantAdmin();
-        restaurantAdmin.setRestaurantAdminEmail(email);
-        restaurantAdmin.setRestaurantAdminPassword(password);
-        restaurantAdmin.setRestaurants(restaurants);
-        session.save(restaurantAdmin);
-        int id = (int) session.getIdentifier(restaurantAdmin);
-
-        return String.valueOf(id);
-
     }
 
     @Override
