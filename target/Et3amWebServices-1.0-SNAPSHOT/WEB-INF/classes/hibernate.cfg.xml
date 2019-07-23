@@ -46,5 +46,23 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:mysql://us-cdbr-iron-east-02.cleardb.net/heroku_24f192cc0bbf6af?reconnect=true</property>
     <property name="hibernate.connection.username">b7ea7f298a1796</property>
     <property name="hibernate.connection.password">87eeaffa</property>
+<<<<<<< HEAD
+=======
+    <mapping class="eg.iti.et3am.model.Inquiries"/>
+    <mapping class="eg.iti.et3am.model.UserReserveCoupon"/>
+    <mapping class="eg.iti.et3am.model.Meals"/>
+    <mapping class="eg.iti.et3am.model.RemainingBalance"/>
+    <mapping class="eg.iti.et3am.model.RestaurantAdmin"/>
+    <mapping class="eg.iti.et3am.model.ImageFile"/>
+    <mapping class="eg.iti.et3am.model.Users"/>
+    <mapping class="eg.iti.et3am.model.AvailableCoupons"/>
+    <mapping class="eg.iti.et3am.model.Coupons"/>
+    <mapping class="eg.iti.et3am.model.UserUsedCoupon"/>
+    <mapping class="eg.iti.et3am.model.UserDetails"/>
+    <mapping class="eg.iti.et3am.model.Restaurants"/>
+    <mapping class="eg.iti.et3am.model.Admins"/>
+    <mapping class="eg.iti.et3am.model.ThanksMessages"/>
+    <mapping class="eg.iti.et3am.model.Status"/>
+>>>>>>> 0bf9d3ac4e9a820ecb71138ca53fe09f6c43779f
   </session-factory>
 </hibernate-configuration>

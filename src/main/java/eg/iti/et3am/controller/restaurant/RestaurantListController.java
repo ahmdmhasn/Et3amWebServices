@@ -96,5 +96,38 @@ public class RestaurantListController {
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }
+    
+      //  list of restaurants for admin app
+    @RequestMapping(value = "/list_without_location", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> RestaurantsListWithoutLocation(@RequestParam("page") int page) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            if (page <= 0) {
+                result.put("code", 0);
+                result.put("message", "page must be greater than 0");
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                Results results = restaurantService.getRestaurantListWithoutNeedForLocation(page);
+                if (results != null) {
+                    result.put("code", 1);
+                    result.put("page", results.getPage());
+                    result.put("total_page", results.getTotalPages());
+                    result.put("total_results", results.getTotalResults());
+                    result.put("results", results.getResults());
+                    return new ResponseEntity<>(result, HttpStatus.OK);
+                } else {
+                    result.put("code", 0);
+                    result.put("message", "there are not Coupons");
+                    return new ResponseEntity<>(result, HttpStatus.OK);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Logger.getLogger(RestaurantController.class.getName()).log(Level.SEVERE, null, ex);
+            result.put("code", 0);
+            result.put("message", ex.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+    }
 
 }

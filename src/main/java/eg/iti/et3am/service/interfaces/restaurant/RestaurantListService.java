@@ -17,4 +17,8 @@ public interface RestaurantListService {
 
     Results searchInRestaurantsList(int pageNumber, double latitude, double longitude, String query) throws Exception;
 
+    Results getRestaurantListWithoutNeedForLocation(int pageNumber) throws Exception;
+    
+    
 }
+

@@ -14,7 +14,7 @@ import eg.iti.et3am.dto.Results;
 public interface RestaurantListDao {
 
     Results getRestaurantsList(int page, double latitude, double longitude) throws Exception;
-
+    Results getRestaurantListWithoutNeedForLocation(int page) throws Exception;
     Results searchInRestaurantsList(int pageNumber, double latitude, double longitude, String query) throws Exception;
 
 }

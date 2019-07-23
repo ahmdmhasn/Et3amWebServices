@@ -50,12 +50,12 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public boolean updateMeal(Integer mealId, Meals meals) throws Exception {
+    public MealDTO updateMeal(Integer mealId, Meals meals) throws Exception {
         return restaurantDao.updateMeal(mealId, meals);
     }
 
     @Override
-    public Meals findMealById(Integer id) throws Exception {
+    public MealDTO findMealById(Integer id) throws Exception {
         return restaurantDao.findMealById(id);
     }
 
@@ -73,5 +73,21 @@ public class RestaurantServiceImpl implements RestaurantService {
     public List<RestaurantDTO> getAllRestaurantsByCity(String city) throws Exception {
         System.err.println("ana gwa el Service getAllRestaurantsByCity " + restaurantDao.getAllRestaurantsByCity(city).get(0).getCity());
         return restaurantDao.getAllRestaurantsByCity(city);
+    }
+
+    @Override
+    public boolean updateRestaurant(int restaurantId, Restaurants restaurants) throws Exception {
+
+        return restaurantDao.updateRestaurant(restaurantId, restaurants);
+    }
+
+    @Override
+    public boolean deleterestaurant(int restaurantId) throws Exception {
+        return restaurantDao.deleteRestaurant(restaurantId);
+    }
+
+    @Override
+    public boolean updateAdmin(int adminId, RestaurantAdmin admin) throws Exception {
+        return restaurantDao.updateRestaurantAdmin(adminId, admin);
     }
 }

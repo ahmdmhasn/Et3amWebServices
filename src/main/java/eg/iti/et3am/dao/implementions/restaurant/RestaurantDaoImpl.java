@@ -37,7 +37,8 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     private final int pageSize = 10;
 
-    @Override
+  
+   
     public Restaurants getRestaurantById(Integer id) throws Exception {
 
         session = sessionFactory.getCurrentSession();
@@ -54,7 +55,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
         session = sessionFactory.getCurrentSession();
         List<Restaurants> mySearchList = session.createCriteria(Restaurants.class).
-                add(Restrictions.eq("city", city)).list();
+                add(Restrictions.eq("city", city)).add(Restrictions.eq("status", 0)).list();
         if (mySearchList != null) {
             System.err.println("not null ");
             List<RestaurantDTO> selectedRestaurants = new ArrayList<>();
@@ -88,7 +89,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
         session = sessionFactory.getCurrentSession();
 
-        List<Restaurants> restaurantses = session.createCriteria(Restaurants.class).list();
+        List<Restaurants> restaurantses = session.createCriteria(Restaurants.class).add(Restrictions.eq("status", 0)).list();
 
         // Create another array to be sent on response
         List<Restaurants> restaurantList = new ArrayList<>();
@@ -99,6 +100,89 @@ public class RestaurantDaoImpl implements RestaurantDao {
         }
         Collections.sort(restaurantList);
         return restaurantList;
+    }
+
+    @Override
+    public Set<Meals> getMealsSetById(Integer id) throws Exception {
+
+        session = sessionFactory.getCurrentSession();
+
+        List<Meals> mealses = session.createCriteria(Meals.class)
+                .add(Restrictions.eq("restaurants.restaurantId", id)).list();
+
+        // Create another array to be sent on response
+        Set<Meals> mealList = new HashSet<>();
+        for (Meals meals : mealses) {
+            Meals mealsResponse = new Meals();
+            mealsResponse.setMealId(meals.getMealId());
+            mealsResponse.setMealName(meals.getMealName());
+            mealsResponse.setMealValue(meals.getMealValue());
+            mealList.add(mealsResponse);
+        }
+        return mealList;
+    }
+
+    @Override
+
+    public List<MealDTO> getMealsListById(Integer id, int page) throws Exception {
+        session = sessionFactory.getCurrentSession();
+
+        List<Meals> mealses = session.createCriteria(Meals.class)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .add(Restrictions.eq("restaurants.restaurantId", id)).list();
+
+        // Create another array to be sent on response
+        List<MealDTO> mealList = new ArrayList<>();
+        for (Meals meals : mealses) {
+            MealDTO mealsResponse = new MealDTO();
+            mealsResponse.setMealId(meals.getMealId());
+            mealsResponse.setMealName(meals.getMealName());
+            mealsResponse.setMealValue(meals.getMealValue());
+            mealsResponse.setMealImage(meals.getMealImage());
+            //mealsResponse.setRestaurants(meals.getRestaurants());
+            mealList.add(mealsResponse);
+        }
+
+        return mealList;
+    }
+
+    @Override
+    public MealDTO findMealById(Integer id) throws Exception {
+
+        session = sessionFactory.getCurrentSession();
+        Meals meals = (Meals) session.load(Meals.class, id);
+        MealDTO mealDTO = new MealDTO();
+        mealDTO.setMealId(meals.getMealId());
+        mealDTO.setMealImage(meals.getMealImage());
+        mealDTO.setMealValue(meals.getMealValue());
+        mealDTO.setCount(0);
+        return mealDTO;
+    }
+
+    @Override
+    public String addRestaurant(Restaurants restaurant) throws Exception {
+
+        session = sessionFactory.getCurrentSession();
+
+        session.save(restaurant);
+
+        int id = (int) session.getIdentifier(restaurant);
+
+        return String.valueOf(id);
+
+    }
+
+    @Override
+    public Integer addMeal(Meals meal, Integer restaurantId) throws Exception {
+        session = sessionFactory.getCurrentSession();
+
+        Restaurants r = (Restaurants) session.load(Restaurants.class, restaurantId);
+        meal.setRestaurants(r);
+        session.save(meal);
+
+        int id = (Integer) session.getIdentifier(meal);
+        return id;
     }
 
     @Override
@@ -127,116 +211,19 @@ public class RestaurantDaoImpl implements RestaurantDao {
     }
 
     @Override
-    public String addRestaurant(Restaurants restaurant) throws Exception {
-
+    public MealDTO updateMeal(Integer mealId, Meals meals) throws Exception {
         session = sessionFactory.getCurrentSession();
 
-        session.save(restaurant);
-
-        int id = (int) session.getIdentifier(restaurant);
-
-        return String.valueOf(id);
-
-    }
-
-    @Override
-    public String addResturantAdmin(String email, String password, int restaurantId) throws Exception {
-        Restaurants restaurants = getRestaurantById(restaurantId);
-        System.out.println(restaurants.getCountry() + "country nnnnnnn");
-        session = sessionFactory.getCurrentSession();
-        RestaurantAdmin restaurantAdmin = new RestaurantAdmin();
-        restaurantAdmin.setRestaurantAdminEmail(email);
-        restaurantAdmin.setRestaurantAdminPassword(password);
-        restaurantAdmin.setRestaurants(restaurants);
-        session.save(restaurantAdmin);
-        int id = (int) session.getIdentifier(restaurantAdmin);
-
-        return String.valueOf(id);
-
-    }
-
-    @Override
-    public Integer addMeal(Meals meal, Integer restaurantId) throws Exception {
-        session = sessionFactory.getCurrentSession();
-
-        Restaurants r = (Restaurants) session.load(Restaurants.class, restaurantId);
-        meal.setRestaurants(r);
-        session.save(meal);
-
-        int id = (Integer) session.getIdentifier(meal);
-        return id;
-    }
-
-    @Override
-    public Set<Meals> getMealsSetById(Integer id) throws Exception {
-
-        session = sessionFactory.getCurrentSession();
-
-        List<Meals> mealses = session.createCriteria(Meals.class)
-                .add(Restrictions.eq("restaurants.restaurantId", id)).list();
-
-        // Create another array to be sent on response
-        Set<Meals> mealList = new HashSet<>();
-        for (Meals meals : mealses) {
-            Meals mealsResponse = new Meals();
-            mealsResponse.setMealId(meals.getMealId());
-            mealsResponse.setMealName(meals.getMealName());
-            mealsResponse.setMealValue(meals.getMealValue());
-            mealList.add(mealsResponse);
-        }
-        return mealList;
-    }
-
-    @Override
-    public List<MealDTO> getMealsListById(Integer id, int page) throws Exception {
-        session = sessionFactory.getCurrentSession();
-
-        List<Meals> mealses = session.createCriteria(Meals.class)
-                .setFirstResult((page - 1) * pageSize)
-                .setMaxResults(pageSize)
-                .add(Restrictions.eq("restaurants.restaurantId", id)).list();
-
-        // Create another array to be sent on response
-        List<MealDTO> mealList = new ArrayList<>();
-        for (Meals meals : mealses) {
-            MealDTO mealsResponse = new MealDTO();
-            mealsResponse.setMealId(meals.getMealId());
-            mealsResponse.setMealName(meals.getMealName());
-            mealsResponse.setMealValue(meals.getMealValue());
-            mealsResponse.setMealImage(meals.getMealImage());
-            //mealsResponse.setRestaurants(meals.getRestaurants());
-            mealList.add(mealsResponse);
-        }
-
-        return mealList;
-    }
-
-    @Override
-    public Meals findMealById(Integer id) throws Exception {
-
-        session = sessionFactory.getCurrentSession();
-        Meals meals = (Meals) session.load(Meals.class, id);
-        Meals meal2 = new Meals();
-        meal2.setRestaurants(meals.getRestaurants());
-        meal2.setMealName(meals.getMealName());
-        meal2.setMealValue(meals.getMealValue());
-        meal2.setMealImage(meals.getMealImage());
-        return meal2;
-    }
-
-    @Override
-    public boolean updateMeal(Integer mealId, Meals meals) throws Exception {
-        session = sessionFactory.getCurrentSession();
-        try {
-            Meals meal = (Meals) session.load(Meals.class, mealId);
+        Meals meal = (Meals) session.createCriteria(Meals.class).add(Restrictions.eq("mealId", mealId)).uniqueResult();
+        if (meal != null) {
             meal.setMealName(meals.getMealName());
             meal.setMealValue(meals.getMealValue());
             meal.setMealImage(meals.getMealImage());
             session.update(meal);
-            return true;
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
-            return false;
+            MealDTO mealDTO = new MealDTO(mealId, meal.getMealName(), meal.getMealValue(), meal.getMealImage());
+            return mealDTO;
+        } else {
+            return null;
         }
 
     }
@@ -263,6 +250,75 @@ public class RestaurantDaoImpl implements RestaurantDao {
     }
 
     @Override
+    public String addResturantAdmin(String email, String password, int restaurantId) throws Exception {
+        Restaurants restaurants = getRestaurantById(restaurantId);
+        System.out.println(restaurants.getCountry() + "country nnnnnnn");
+        session = sessionFactory.getCurrentSession();
+        RestaurantAdmin restaurantAdmin = new RestaurantAdmin();
+        restaurantAdmin.setRestaurantAdminEmail(email);
+        restaurantAdmin.setRestaurantAdminPassword(password);
+        restaurantAdmin.setRestaurants(restaurants);
+        session.save(restaurantAdmin);
+        int id = (int) session.getIdentifier(restaurantAdmin);
+
+        return String.valueOf(id);
+
+    }
+
+    @Override
+
+    public boolean updateRestaurant(int restaurantId, Restaurants restaurants) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        try {
+            Restaurants restaurant = (Restaurants) session.load(Restaurants.class, restaurantId);
+            restaurant.setRestaurantName(restaurants.getRestaurantName());
+            restaurant.setCity(restaurants.getCity());
+            restaurant.setCountry(restaurants.getCountry());
+            restaurant.setLongitude(restaurants.getLongitude());
+            restaurant.setLatitude(restaurants.getLatitude());
+            restaurant.setRestaurantImage(restaurants.getRestaurantImage());
+            session.update(restaurant);
+            return true;
+
+        } catch (RuntimeException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteRestaurant(int restaurantId) throws Exception {
+
+        session = sessionFactory.getCurrentSession();
+
+        try {
+            Restaurants restaurants = (Restaurants) session.load(Restaurants.class, restaurantId);
+            restaurants.setStatus(1);
+            session.update(restaurants);
+            return true;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateRestaurantAdmin(int adminId, RestaurantAdmin admin) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        try {
+            RestaurantAdmin restaurantAdmin = (RestaurantAdmin) session.load(RestaurantAdmin.class, adminId);
+            restaurantAdmin.setRestaurantAdminEmail(admin.getRestaurantAdminEmail());
+            restaurantAdmin.setRestaurantAdminPassword(admin.getRestaurantAdminPassword());
+            session.update(restaurantAdmin);
+            return true;
+        } catch (RuntimeException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+//TODO: get restaurants list without location
+
     public String getTopMeal(int restId) throws Exception {
         Set<Meals> mealList = getMealsSetById(restId);
         session = sessionFactory.getCurrentSession();

@@ -6,8 +6,10 @@
 package eg.iti.et3am.dao.implementions.restaurant;
 
 import eg.iti.et3am.dao.interfaces.restaurant.RestaurantListDao;
+import eg.iti.et3am.dto.RestaurantAdminDTO;
 import eg.iti.et3am.dto.RestaurantDTO;
 import eg.iti.et3am.dto.Results;
+import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.utils.Utils;
 import java.util.ArrayList;
@@ -41,9 +43,10 @@ public class RestaurantListDaoImpl implements RestaurantListDao {
     public Results getRestaurantsList(int pageNumber, double latitude, double longitude) throws Exception {
 
         session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Restaurants.class);
+        Criteria criteria = session.createCriteria(Restaurants.class).add(Restrictions.eq("status", 0));
         criteria.addOrder(Order.asc("latitude"));
         criteria.addOrder(Order.asc("longitude"));
+        
         long count = criteria.list().size();
         criteria.setFirstResult((pageNumber - 1) * pageSize);
         criteria.setMaxResults(pageSize);
@@ -81,7 +84,7 @@ public class RestaurantListDaoImpl implements RestaurantListDao {
     public Results searchInRestaurantsList(int pageNumber, double latitude, double longitude, String query) throws Exception {
 
         session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Restaurants.class);
+        Criteria criteria = session.createCriteria(Restaurants.class).add(Restrictions.eq("status", 0));
         Criterion restaurantName = Restrictions.ilike("restaurantName", "" + query + "", MatchMode.ANYWHERE);
         Criterion city = Restrictions.ilike("city", query, MatchMode.ANYWHERE);
         LogicalExpression orExp = Restrictions.or(restaurantName, city);
@@ -117,4 +120,45 @@ public class RestaurantListDaoImpl implements RestaurantListDao {
         return results;
     }
 
+    @Override
+    public Results getRestaurantListWithoutNeedForLocation(int pageNumber) throws Exception {
+ session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Restaurants.class).add(Restrictions.eq("status", 0));
+        
+        long count = criteria.list().size();
+        criteria.setFirstResult((pageNumber - 1) * pageSize);
+        criteria.setMaxResults(pageSize);
+        criteria.setFetchSize(10);
+
+        List<Restaurants> restaurantses = criteria.list();
+        List<RestaurantDTO> listRDtos = new ArrayList<>();
+        for (Restaurants restaurants : restaurantses) {
+            RestaurantDTO restaurantDTO = new RestaurantDTO();
+
+            restaurantDTO.setRestaurantID(restaurants.getRestaurantId());
+            restaurantDTO.setRestaurantName(restaurants.getRestaurantName());
+            restaurantDTO.setRestaurantImage(restaurants.getRestaurantImage());
+            restaurantDTO.setCity(restaurants.getCity());
+            restaurantDTO.setCountry(restaurants.getCountry());
+            restaurantDTO.setLatitude(restaurants.getLatitude());
+            restaurantDTO.setLongitude(restaurants.getLongitude());
+            for(RestaurantAdmin admin: restaurants.getRestaurantAdmins())
+            {
+                RestaurantAdminDTO adminDTO = new RestaurantAdminDTO();
+            adminDTO.setRestaurantAdminId(admin.getRestaurantAdminId());
+            adminDTO.setRestaurantAdminEmail(admin.getRestaurantAdminEmail());
+            adminDTO.setRestaurantAdminPassword(admin.getRestaurantAdminPassword());
+            restaurantDTO.setRestaurantAdmin(adminDTO);
+            }
+            listRDtos.add(restaurantDTO);
+
+    }
+
+        Results results = new Results();
+        results.setPage(pageNumber);
+        results.setTotalPages(count);
+        results.setTotalResults(count);
+        results.setResults(listRDtos);
+        return results;
+    }
 }

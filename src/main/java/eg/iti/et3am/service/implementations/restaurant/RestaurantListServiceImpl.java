@@ -38,4 +38,10 @@ public class RestaurantListServiceImpl implements RestaurantListService {
         Results list = restaurantDao.searchInRestaurantsList(page, latitude, longitude, query);
         return calculateRoute.calculateRoute(list, latitude, longitude);
     }
+
+    @Override
+    public Results getRestaurantListWithoutNeedForLocation(int pageNumber) throws Exception {
+return  restaurantDao.getRestaurantListWithoutNeedForLocation(pageNumber);
+
+    }
 }

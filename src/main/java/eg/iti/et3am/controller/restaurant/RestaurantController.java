@@ -117,19 +117,30 @@ public class RestaurantController {
 
     // Update meal to restaurant
     @RequestMapping(value = "/rest/{rest_id}/updateMeal/{meal_id}", method = RequestMethod.PUT)
-    public ResponseEntity<Meals> updateMeal(@PathVariable("meal_id") Integer id, @RequestBody Meals meals) throws Exception {
-        Meals meal = restaurantService.findMealById(id);
-        if (meal == null) {
-            LOG.info("Meal with id {} not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Map<String, Object>> updateMeal(@PathVariable("meal_id") Integer id, @RequestBody Meals meals) throws Exception {
+      
+       
+       Map<String, Object> result = new HashMap<>();
         try {
-            restaurantService.updateMeal(id, meals);
+            MealDTO updatedMeal = restaurantService.updateMeal(id, meals); 
+             if(updatedMeal!=null)
+             {
+                 result.put("code",1);
+                 result.put("meal", updatedMeal);
+             }
+             else
+             {
+              result.put("code",0);
+              result.put("message","something wrong");
+             }
         } catch (Exception ex) {
             Logger.getLogger(RestaurantController.class.getName()).log(Level.SEVERE, null, ex);
+             result.put("code",0);
+             result.put("message",ex.getMessage());
+             ex.printStackTrace();
+             return new ResponseEntity<>(result, HttpStatus.CONFLICT);
         }
-        restaurantService.updateMeal(id, meals);
-        return new ResponseEntity<>(meal, HttpStatus.OK);
+      return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     // Remove meal to restaurant
@@ -220,4 +231,93 @@ public class RestaurantController {
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }
+     @RequestMapping(value = "/update_restaurant", method = RequestMethod.PUT)
+    public @ResponseBody
+    ResponseEntity<Map<String, Object>> updateRestaurant(@RequestParam("restuarant_id") int restaurantId,@RequestBody Restaurants restaurants ) {
+        Map<String, Object> response = new HashMap<>();
+
+        if (restaurants != null) {
+            try {
+               
+                boolean isRestaurantUpdated = restaurantService.updateRestaurant(restaurantId,restaurants);
+                if(isRestaurantUpdated ){
+                response.put("code", 1);
+                response.put("message", "restuarant updated succesfully");
+                return new ResponseEntity<>(response, HttpStatus.OK);
+                }
+
+            } catch (Exception e) {
+                response.put("code", 0);
+                response.put("message", " exception while updating resturant \n" + e.toString());
+                e.printStackTrace();
+                return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+            }
+        } else {
+            response.put("code", 0);
+            response.put("message", "restuarant data must not be empty.");
+            return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        return null;
+
+    }
+    
+     @RequestMapping(value = "/delete_restaurant", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<Map<String, Object>> deleteRestaurant(@RequestParam("restuarant_id") String restaurantId ) {
+        Map<String, Object> response = new HashMap<>();
+
+       
+            try {
+               
+                boolean isRestaurantUpdated = restaurantService.deleterestaurant(Integer.parseInt(restaurantId));
+                if(isRestaurantUpdated ){
+                response.put("code", 1);
+                response.put("message", "restuarant deleted succesfully");
+                return new ResponseEntity<>(response, HttpStatus.OK);
+                }
+
+            } catch (Exception e) {
+                response.put("code", 0);
+                response.put("message", "exception while deleting resturant \n" + e.toString());
+                e.printStackTrace();
+                return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+            }
+        return null;
+        
+
+    }
+    
+      @RequestMapping(value = "/update_restaurant_admin", method = RequestMethod.PUT)
+    public @ResponseBody
+    ResponseEntity<Map<String, Object>> updateRestaurantAdmin(@RequestParam("admin_id") int adminId,@RequestBody RestaurantAdmin admin ) {
+        Map<String, Object> response = new HashMap<>();
+
+        if (admin != null) {
+            try {
+               
+                boolean isRestaurantUpdated = restaurantService.updateAdmin(adminId,admin);
+                if(isRestaurantUpdated ){
+                response.put("code", 1);
+                response.put("message", "admin updated succesfully");
+                return new ResponseEntity<>(response, HttpStatus.OK);
+                }
+
+            } catch (Exception e) {
+                response.put("code", 0);
+                response.put("message", " exception while updating admin \n" + e.toString());
+                e.printStackTrace();
+                return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+            }
+        } else {
+            response.put("code", 0);
+            response.put("message", "admin data must not be empty.");
+            return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        return null;
+
+    }
+    
+    
+    
+    
 }

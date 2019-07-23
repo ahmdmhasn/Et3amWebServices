@@ -14,16 +14,17 @@ import java.util.Set;
  */
 public interface RestaurantDao {
 
-    RestaurantAdmin login(String email, String password) throws Exception;
-
     String addRestaurant(Restaurants restaurant) throws Exception;
-
+    
+    boolean updateRestaurant(int restaurantId,Restaurants restaurants)throws Exception;
+    
+    boolean updateRestaurantAdmin(int restaruantId,RestaurantAdmin admin)throws Exception;
+    
+    boolean deleteRestaurant(int restaruantId)throws Exception;
     // get restaurant by id
     Restaurants getRestaurantById(Integer id) throws Exception;
 
     List<Restaurants> getRestaurantsListWithMeals() throws Exception;
-
-    String addResturantAdmin(String email, String password, int restaurantId) throws Exception;
 
     // add meal to specific restaurant
     Integer addMeal(Meals meal, Integer restaurantId) throws Exception;
@@ -34,11 +35,15 @@ public interface RestaurantDao {
     //
     Set<Meals> getMealsSetById(Integer id) throws Exception;
 
-    Meals findMealById(Integer id) throws Exception;
+    MealDTO findMealById(Integer id) throws Exception;
 
-    boolean updateMeal(Integer mealId, Meals meals) throws Exception;
+     MealDTO updateMeal(Integer mealId, Meals meals) throws Exception;
 
     boolean deleteMeal(Integer restaurantId, Integer mealId) throws Exception;
+
+    RestaurantAdmin login(String email, String password) throws Exception;
+
+    String addResturantAdmin(String email, String password, int restaurantId) throws Exception;
 
     public String getTopMeal(int restId) throws Exception;
 

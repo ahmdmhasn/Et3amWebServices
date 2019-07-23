@@ -11,6 +11,20 @@ package eg.iti.et3am.dto;
  */
 public class RestaurantDTO implements Comparable<RestaurantDTO> {
 
+    /**
+     * @return the restaurantAdmin
+     */
+    public RestaurantAdminDTO getRestaurantAdmin() {
+        return restaurantAdmin;
+    }
+
+    /**
+     * @param restaurantAdmin the restaurantAdmin to set
+     */
+    public void setRestaurantAdmin(RestaurantAdminDTO restaurantAdmin) {
+        this.restaurantAdmin = restaurantAdmin;
+    }
+
     private Integer restaurantID;
     private String restaurantName;
     private String city;
@@ -20,6 +34,8 @@ public class RestaurantDTO implements Comparable<RestaurantDTO> {
     private double distance;
     private double travelTime;
     private String restaurantImage;
+    private RestaurantAdminDTO restaurantAdmin;
+    
     
     public RestaurantDTO() {
     }

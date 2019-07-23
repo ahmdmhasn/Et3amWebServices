@@ -21,9 +21,9 @@ public interface RestaurantService {
 
     List<MealDTO> getMealById(Integer id, int page) throws Exception;
 
-    Meals findMealById(Integer id) throws Exception;
+    MealDTO findMealById(Integer id) throws Exception;
 
-    boolean updateMeal(Integer mealId, Meals meals) throws Exception;
+    MealDTO updateMeal(Integer mealId, Meals meals) throws Exception;
 
     boolean deleteMeal(Integer restaurantId, Integer mealId) throws Exception;
 
@@ -32,4 +32,8 @@ public interface RestaurantService {
     public String getTopMeal(int restId) throws Exception;
 
     public List<RestaurantDTO> getAllRestaurantsByCity(String city) throws Exception;
+    
+    boolean updateRestaurant(int restaurantId, Restaurants restaurants)throws Exception;
+    boolean deleterestaurant(int restaurantId )throws Exception;
+    boolean updateAdmin(int adminId, RestaurantAdmin admin)throws Exception;
 }

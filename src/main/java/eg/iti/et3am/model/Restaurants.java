@@ -21,6 +21,21 @@ import javax.persistence.Table;
 )
 public class Restaurants implements java.io.Serializable, Cloneable, Comparable<Restaurants> {
 
+    /**
+     * @return the status
+     */
+     @Column(name = "status", nullable = false)
+    public Integer getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     private Integer restaurantId;
     private String restaurantName;
     private String city;
@@ -31,6 +46,7 @@ public class Restaurants implements java.io.Serializable, Cloneable, Comparable<
     private Set<RestaurantAdmin> restaurantAdmins = new HashSet<RestaurantAdmin>(0);
     private Set<Meals> mealses = new HashSet<Meals>(0);
     private Set<UserUsedCoupon> userUsedCoupons = new HashSet<UserUsedCoupon>(0);
+    private Integer status;
 
     public Restaurants() {
     }
