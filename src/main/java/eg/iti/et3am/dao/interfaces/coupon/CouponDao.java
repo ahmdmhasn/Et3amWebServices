@@ -5,6 +5,7 @@
  */
 package eg.iti.et3am.dao.interfaces.coupon;
 
+import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.dto.UserReserveCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
@@ -21,7 +22,7 @@ public interface CouponDao {
 
     List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception;
 
-    List<UserUsedCoupon> getUserUsedCoupon(int pageNumber, String userId) throws Exception;
+    Results getUserUsedCoupon(int pageNumber, String userId) throws Exception;
 
 //    List<Coupons> getInBalanceCoupon(int pageNumber, String userId) throws Exception;
 //

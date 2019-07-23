@@ -8,12 +8,9 @@ package eg.iti.et3am.service.interfaces.coupon;
 
 import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.dto.UserReserveCouponDTO;
-import eg.iti.et3am.dto.UserUsedCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.RestaurantCoupons;
-import eg.iti.et3am.model.UserReserveCoupon;
-import eg.iti.et3am.model.UserUsedCoupon;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +24,7 @@ public interface CouponService {
 
     public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception;
 
-    public List<UserUsedCoupon> getUserUsedCoupon(int pageNumber, String userId) throws Exception;
+    public Results getUserUsedCoupon(int pageNumber, String userId) throws Exception;
 
     public Coupons findByCode(String code) throws Exception;
 

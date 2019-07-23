@@ -5,6 +5,7 @@
  */
 package eg.iti.et3am.controller.coupon;
 
+import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.dto.UserReserveCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
@@ -84,7 +85,7 @@ public class CouponController {
             if (coupon != null && coupon.getStatus() == 1) {
                 result.put("code", 1);
                 result.put("coupon", coupon);
-                
+
                 return new ResponseEntity<>(result, HttpStatus.OK);
             } else {
                 result.put("code", 0);
@@ -134,7 +135,7 @@ public class CouponController {
             @RequestParam("price") float price) {
         Map<String, Object> result = new HashMap<>();
         try {
-            int id = couponService.useCoupon(barCode, price, restaurantId,mealId);
+            int id = couponService.useCoupon(barCode, price, restaurantId, mealId);
             if (id != -1) {
                 result.put("code", 1);
                 result.put("id", id);
@@ -182,19 +183,15 @@ public class CouponController {
     public ResponseEntity<Map<String, Object>> getUserUsedCoupon(@RequestParam("userId") String userId, @RequestParam("page") int page) {
         Map<String, Object> result = new HashMap<>();
         try {
-            List<UserUsedCoupon> listOfUsedCouponse = couponService.getUserUsedCoupon(page, userId);
-            if (listOfUsedCouponse != null && !listOfUsedCouponse.isEmpty()) {
-
-                result.put("code", 1);
-                result.put("Coupons", listOfUsedCouponse);
-                return new ResponseEntity<>(result, HttpStatus.OK);
-            } else {
-                result.put("code", 0);
-                result.put("message", "there are not Coupons");
-                return new ResponseEntity<>(result, HttpStatus.CONFLICT);
-            }
+            Results coupons = couponService.getUserUsedCoupon(page, userId);
+            result.put("code", 1);
+            result.put("page", coupons.getPage());
+            result.put("total_page", coupons.getTotalPages());
+            result.put("total_results", coupons.getTotalResults());
+            result.put("Coupons", coupons.getResults());
+            return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception ex) {
-            Logger.getLogger(CouponController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
             result.put("code", 0);
             result.put("message", ex.getMessage());
             return new ResponseEntity<>(result, HttpStatus.CONFLICT);

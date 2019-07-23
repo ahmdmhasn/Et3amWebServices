@@ -62,7 +62,7 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public List<UserUsedCoupon> getUserUsedCoupon(int pageNumber, String userId) throws Exception {
+    public Results getUserUsedCoupon(int pageNumber, String userId) throws Exception {
         return couponDao.getUserUsedCoupon(pageNumber, userId);
     }
 
