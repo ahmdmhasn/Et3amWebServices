@@ -1,5 +1,5 @@
 package eg.iti.et3am.model;
-// Generated May 16, 2019 11:54:55 PM by Hibernate Tools 4.3.1
+// Generated Jul 4, 2019 9:55:21 PM by Hibernate Tools 4.3.1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -23,8 +23,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @Table(name = "user_details",
          catalog = "heroku_24f192cc0bbf6af",
          uniqueConstraints = {
-            @UniqueConstraint(columnNames = "mobile_number"),
-            @UniqueConstraint(columnNames = "national_id")}
+            @UniqueConstraint(columnNames = "national_id"),
+            @UniqueConstraint(columnNames = "mobile_number")}
 )
 public class UserDetails implements java.io.Serializable {
 
@@ -41,14 +41,11 @@ public class UserDetails implements java.io.Serializable {
     public UserDetails() {
     }
 
-    public UserDetails(Users users, String nationalIdFront, String nationalIdBack, Date barthdate) {
+    public UserDetails(Users users) {
         this.users = users;
-        this.nationalIdFront = nationalIdFront;
-        this.nationalIdBack = nationalIdBack;
-        this.birthdate = barthdate;
     }
 
-    public UserDetails(Users users, String mobileNumber, String nationalId, String job, String nationalIdFront, String nationalIdBack, String profileImage, Date barthdate) {
+    public UserDetails(Users users, String mobileNumber, String nationalId, String job, String nationalIdFront, String nationalIdBack, String profileImage, Date birthdate) {
         this.users = users;
         this.mobileNumber = mobileNumber;
         this.nationalId = nationalId;
@@ -56,11 +53,12 @@ public class UserDetails implements java.io.Serializable {
         this.nationalIdFront = nationalIdFront;
         this.nationalIdBack = nationalIdBack;
         this.profileImage = profileImage;
-        this.birthdate = barthdate;
+        this.birthdate = birthdate;
     }
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+
     @Column(name = "user_detail_id", unique = true, nullable = false)
     public Integer getUserDetailId() {
         return this.userDetailId;
@@ -141,8 +139,8 @@ public class UserDetails implements java.io.Serializable {
         return this.birthdate;
     }
 
-    public void setBirthdate(Date barthdate) {
-        this.birthdate = barthdate;
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
     }
 
 }

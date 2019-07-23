@@ -10,6 +10,8 @@ import eg.iti.et3am.model.Admins;
 import eg.iti.et3am.model.AvailableCoupons;
 
 import eg.iti.et3am.model.Coupons;
+import eg.iti.et3am.model.Inquiries;
+import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Restaurants;
 import eg.iti.et3am.model.UserReserveCoupon;
@@ -45,7 +47,7 @@ public class EntityCopier {
         coupon2.setCouponQrcode(coupon.getCouponQrcode());
         coupon2.setCouponValue(coupon.getCouponValue());
         coupon2.setCreationDate(coupon.getCreationDate());
-        coupon2.setIsBalance(coupon.getIsBalance());
+        coupon2.setInBalance(coupon.getInBalance());
         coupon2.setUsers(getUser(coupon.getUsers()));
 
         return coupon2;
@@ -72,11 +74,12 @@ public class EntityCopier {
         Restaurants restaurants1 = new Restaurants();
         restaurants1.setCity(restaurants.getCity());
         restaurants1.setCountry(restaurants.getCountry());
-        restaurants1.setDistance(restaurants.getDistance());
+//        restaurants1.setDistance(restaurants.getDistance());
         restaurants1.setLatitude(restaurants.getLatitude());
         restaurants1.setLongitude(restaurants.getLongitude());
         restaurants1.setMealses(restaurants.getMealses());
-        restaurants1.setRestaurantAdmins(restaurants.getRestaurantAdmins());
+        RestaurantAdmin rest = new RestaurantAdmin();
+       // restaurants1.setRestaurantAdmins(restaurants.getRestaurantAdmins());
         restaurants1.setRestaurantId(restaurants.getRestaurantId());
         restaurants1.setRestaurantImage(restaurants.getRestaurantImage());
         restaurants1.setRestaurantName(restaurants.getRestaurantName());
@@ -130,5 +133,18 @@ public class EntityCopier {
         ac2.setDate(ac1.getDate());
         ac2.setStatus(ac1.getStatus());
         return ac2;
+    }
+
+    public static Inquiries getInquiry(Inquiries inquiry) {
+        Inquiries temp = new Inquiries();
+        
+        temp.setCreationDate(inquiry.getCreationDate());
+        temp.setIdInquiries(inquiry.getIdInquiries());
+        temp.setImage(inquiry.getImage());
+        temp.setMessage(inquiry.getMessage());
+        temp.setStatus(inquiry.getStatus());
+        temp.setUsers(EntityCopier.getUser(inquiry.getUsers()));
+        
+        return temp;
     }
 }

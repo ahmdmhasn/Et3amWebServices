@@ -12,7 +12,7 @@ import java.util.Date;
  *
  * @author HP
  */
-public class RestaurantCoupons implements Serializable{
+public class RestaurantCoupons implements Serializable {
 
     /**
      * @return the status
@@ -28,7 +28,7 @@ public class RestaurantCoupons implements Serializable{
         this.status = status;
     }
 
-    public RestaurantCoupons(String barCode, Date usedDate, float price ,int status) {
+    public RestaurantCoupons(String barCode, Date usedDate, float price, int status) {
         this.barCode = barCode;
         this.usedDate = usedDate;
         this.price = price;
@@ -80,5 +80,5 @@ public class RestaurantCoupons implements Serializable{
     public void setPrice(float price) {
         this.price = price;
     }
-    
+
 }

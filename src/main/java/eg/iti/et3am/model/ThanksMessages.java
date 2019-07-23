@@ -1,17 +1,13 @@
 package eg.iti.et3am.model;
-// Generated Jul 1, 2019 3:42:38 PM by Hibernate Tools 4.3.1
+// Generated Jul 4, 2019 9:55:21 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,7 +26,6 @@ public class ThanksMessages  implements java.io.Serializable {
      private Integer status;
      private String message;
      private Date creationDate;
-     private Set<UserUsedCoupon> userUsedCoupons = new HashSet<UserUsedCoupon>(0);
 
     public ThanksMessages() {
     }
@@ -39,11 +34,10 @@ public class ThanksMessages  implements java.io.Serializable {
     public ThanksMessages(Date creationDate) {
         this.creationDate = creationDate;
     }
-    public ThanksMessages(Integer status, String message, Date creationDate, Set<UserUsedCoupon> userUsedCoupons) {
+    public ThanksMessages(Integer status, String message, Date creationDate) {
        this.status = status;
        this.message = message;
        this.creationDate = creationDate;
-       this.userUsedCoupons = userUsedCoupons;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -79,22 +73,13 @@ public class ThanksMessages  implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="creation_date", nullable=false, length=26)
+    @Column(name="creation_date", nullable=false, length=19)
     public Date getCreationDate() {
         return this.creationDate;
     }
     
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="thanksMessages")
-    public Set<UserUsedCoupon> getUserUsedCoupons() {
-        return this.userUsedCoupons;
-    }
-    
-    public void setUserUsedCoupons(Set<UserUsedCoupon> userUsedCoupons) {
-        this.userUsedCoupons = userUsedCoupons;
     }
 
 

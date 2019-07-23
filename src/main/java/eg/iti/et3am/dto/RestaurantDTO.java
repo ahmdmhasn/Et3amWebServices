@@ -9,7 +9,7 @@ package eg.iti.et3am.dto;
  *
  * @author Wael M Elmahask
  */
-public class RestaurantDTO implements Comparable<RestaurantDTO>{
+public class RestaurantDTO implements Comparable<RestaurantDTO> {
 
     private Integer restaurantID;
     private String restaurantName;
@@ -20,7 +20,7 @@ public class RestaurantDTO implements Comparable<RestaurantDTO>{
     private double distance;
     private double travelTime;
     private String restaurantImage;
-
+    
     public RestaurantDTO() {
     }
 

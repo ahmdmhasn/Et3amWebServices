@@ -1,5 +1,5 @@
 package eg.iti.et3am.model;
-// Generated May 16, 2019 11:54:55 PM by Hibernate Tools 4.3.1
+// Generated Jul 4, 2019 9:55:21 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
