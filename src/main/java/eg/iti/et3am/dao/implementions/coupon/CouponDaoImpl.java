@@ -2,6 +2,7 @@ package eg.iti.et3am.dao.implementions.coupon;
 
 import eg.iti.et3am.dao.interfaces.coupon.CouponDao;
 import eg.iti.et3am.dao.interfaces.user.UserDao;
+import eg.iti.et3am.dto.Results;
 import eg.iti.et3am.dto.UserReserveCouponDTO;
 import eg.iti.et3am.model.AvailableCoupons;
 import eg.iti.et3am.model.Coupons;
@@ -60,8 +61,7 @@ public class CouponDaoImpl implements CouponDao {
     }
 
     @Override
-    public List<UserUsedCoupon> getUserUsedCoupon(int pageNumber, String userId) throws Exception {
-        //int pageSize = 10;
+    public Results getUserUsedCoupon(int pageNumber, String userId) throws Exception {
         session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(UserUsedCoupon.class);
         criteria.createAlias("userReserveCoupon", "r");
@@ -71,16 +71,23 @@ public class CouponDaoImpl implements CouponDao {
         criteria.setMaxResults(pageSize);
         List<UserUsedCoupon> userUsedCoupons = criteria.list();
 
-        List<UserUsedCoupon> listOfUsedCouponse = new ArrayList<>();
-
         criteria.setProjection(Projections.rowCount());
         Long count = (Long) criteria.uniqueResult();
-
+        count = (count != null) ? count : 0;
+        
+        List<UserUsedCoupon> listOfUsedCouponse = new ArrayList<>();
+        
         for (UserUsedCoupon userUsedCoupon : userUsedCoupons) {
             listOfUsedCouponse.add(EntityCopier.getUsedCoupon(userUsedCoupon));
         }
+        
+        Results result = new Results();
+        result.setPage(pageNumber);
+        result.setTotalPages(count);
+        result.setTotalResults(count);
+        result.setResults(listOfUsedCouponse);
 
-        return listOfUsedCouponse;
+        return result;
     }
 
     @Override

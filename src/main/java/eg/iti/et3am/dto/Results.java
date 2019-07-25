@@ -49,9 +49,8 @@ public class Results<T> {
     }
 
     public void setTotalPages(Long totalPages) {
-        Long total = totalPages / 10;
+        Long total = (totalPages != null) ? (totalPages / 10) : 0;
         if ((totalPages % 10) > 0) {
-            System.out.println("Sum = " + total);
             total += 1;
         }
         this.totalPages = total;

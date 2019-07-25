@@ -5,12 +5,14 @@
  */
 package eg.iti.et3am.utils;
 
+import eg.iti.et3am.dto.MealDTO;
 import eg.iti.et3am.model.Admins;
 
 import eg.iti.et3am.model.AvailableCoupons;
 
 import eg.iti.et3am.model.Coupons;
 import eg.iti.et3am.model.Inquiries;
+import eg.iti.et3am.model.Meals;
 import eg.iti.et3am.model.RestaurantAdmin;
 import eg.iti.et3am.model.UserDetails;
 import eg.iti.et3am.model.Restaurants;
@@ -78,7 +80,7 @@ public class EntityCopier {
         restaurants1.setLatitude(restaurants.getLatitude());
         restaurants1.setLongitude(restaurants.getLongitude());
         restaurants1.setMealses(restaurants.getMealses());
-        RestaurantAdmin rest = new RestaurantAdmin();
+//        RestaurantAdmin rest = new RestaurantAdmin();
        // restaurants1.setRestaurantAdmins(restaurants.getRestaurantAdmins());
         restaurants1.setRestaurantId(restaurants.getRestaurantId());
         restaurants1.setRestaurantImage(restaurants.getRestaurantImage());
@@ -115,15 +117,25 @@ public class EntityCopier {
     
     public static UserUsedCoupon getUsedCoupon(UserUsedCoupon userUsedCoupon) {
         UserUsedCoupon userUsedCoupon2 = new UserUsedCoupon();
-        userUsedCoupon2.setUserReserveCoupon(EntityCopier.getReservedCoupon(userUsedCoupon.getUserReserveCoupon()));
-        userUsedCoupon2.setPrice(userUsedCoupon.getPrice());
+        
         userUsedCoupon2.setUsedCouponId(userUsedCoupon.getUsedCouponId());
-        userUsedCoupon2.setUseDate(userUsedCoupon.getUseDate());
-        
-        userUsedCoupon2.setRestaurants(EntityCopier.getRestaurant(userUsedCoupon.getRestaurants()));
-        
+        userUsedCoupon2.setMeals(EntityCopier.getMeal(userUsedCoupon.getMeals()));
+        userUsedCoupon2.setRestaurants(EntityCopier.getRestaurantWithNoMeals(userUsedCoupon.getRestaurants()));
         userUsedCoupon2.setUserReserveCoupon(EntityCopier.getReservedCoupon(userUsedCoupon.getUserReserveCoupon()));
+        userUsedCoupon2.setUseDate(userUsedCoupon.getUseDate());
+        userUsedCoupon2.setPrice(userUsedCoupon.getPrice());
+        userUsedCoupon2.setStatus(userUsedCoupon.getStatus());
+
         return userUsedCoupon2;
+    }
+    
+    public static Meals getMeal(Meals meal) {
+        Meals temp = new Meals();
+        temp.setMealId(meal.getMealId());
+        temp.setMealImage(meal.getMealImage());
+        temp.setMealName(meal.getMealName());
+        temp.setMealValue(meal.getMealValue());
+        return temp;
     }
     
     public static AvailableCoupons getAvailableCoupons(AvailableCoupons ac1) {
@@ -146,5 +158,18 @@ public class EntityCopier {
         temp.setUsers(EntityCopier.getUser(inquiry.getUsers()));
         
         return temp;
+    }
+    
+    private static Restaurants getRestaurantWithNoMeals(Restaurants restaurants) {
+        Restaurants restaurants1 = new Restaurants();
+        restaurants1.setCity(restaurants.getCity());
+        restaurants1.setCountry(restaurants.getCountry());
+        restaurants1.setLatitude(restaurants.getLatitude());
+        restaurants1.setLongitude(restaurants.getLongitude());
+        restaurants1.setRestaurantId(restaurants.getRestaurantId());
+        restaurants1.setRestaurantImage(restaurants.getRestaurantImage());
+        restaurants1.setRestaurantName(restaurants.getRestaurantName());
+
+        return restaurants1;
     }
 }
