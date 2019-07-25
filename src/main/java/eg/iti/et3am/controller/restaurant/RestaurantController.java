@@ -193,6 +193,7 @@ public class RestaurantController {
                 restaurants.setLongitude(longitude);
                 restaurants.setLatitude(latitude);
                 restaurants.setRestaurantImage(restaurantImage);
+                restaurants.setStatus(0);
                 int idOfRestuarant = Integer.parseInt(restaurantService.addRestaurant(restaurants));
                 response.put("code", 1);
                 response.put("message", "restuarant added succesfully");
