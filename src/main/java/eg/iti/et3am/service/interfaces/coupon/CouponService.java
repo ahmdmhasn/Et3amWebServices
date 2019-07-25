@@ -22,7 +22,7 @@ public interface CouponService {
 
     public List<String> addCoupon(String userId, int coupon50, int coupon100, int coupon200) throws Exception;
 
-    public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception;
+    public List<RestaurantCoupons> getUsedCoupon(int restaurantId ,  int pageNumber)  throws Exception;
 
     public Results getUserUsedCoupon(int pageNumber, String userId) throws Exception;
 

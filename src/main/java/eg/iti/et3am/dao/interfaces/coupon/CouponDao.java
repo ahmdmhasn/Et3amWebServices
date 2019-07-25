@@ -20,7 +20,7 @@ import java.util.List;
  */
 public interface CouponDao {
 
-    List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception;
+    List<RestaurantCoupons> getUsedCoupon(int restaurantId ,  int pageNumber)  throws Exception;
 
     Results getUserUsedCoupon(int pageNumber, String userId) throws Exception;
 

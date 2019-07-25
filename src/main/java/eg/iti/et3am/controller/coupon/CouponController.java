@@ -156,10 +156,11 @@ public class CouponController {
 
     //get restaurant coupons
     @RequestMapping(value = "/use_coupon_list", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, Object>> getUsedCoupon(@RequestParam("restaurantId") int restaurantId) {
+    public ResponseEntity<Map<String, Object>> getUsedCoupon(@RequestParam("restaurantId") int restaurantId,
+            @RequestParam("pageNum") int pageNum) {
         Map<String, Object> result = new HashMap<>();
         try {
-            List<RestaurantCoupons> restaurantCoupons = couponService.getUsedCoupon(restaurantId);
+            List<RestaurantCoupons> restaurantCoupons = couponService.getUsedCoupon(restaurantId, pageNum);
             if (restaurantCoupons != null && !restaurantCoupons.isEmpty()) {
                 result.put("code", 1);
                 result.put("message", "");

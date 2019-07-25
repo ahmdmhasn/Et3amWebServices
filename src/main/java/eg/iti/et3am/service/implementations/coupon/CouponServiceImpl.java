@@ -57,8 +57,8 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception {
-        return couponDao.getUsedCoupon(restaurantId);
+    public List<RestaurantCoupons> getUsedCoupon(int restaurantId ,  int pageNumber)  throws Exception {
+        return couponDao.getUsedCoupon(restaurantId,pageNumber);
     }
 
     @Override

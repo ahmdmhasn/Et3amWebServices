@@ -44,12 +44,15 @@ public class CouponDaoImpl implements CouponDao {
     private final int pageSize = 10;
 
     @Override
-    public List<RestaurantCoupons> getUsedCoupon(int restaurantId) throws Exception {
+    public List<RestaurantCoupons> getUsedCoupon(int restaurantId ,  int pageNumber) throws Exception {
         session = sessionFactory.getCurrentSession();
 
         List<UserUsedCoupon> usedCouponsList = session.createCriteria(UserUsedCoupon.class).
                 createAlias("restaurants", "r").
-                add(Restrictions.eq("r.restaurantId", restaurantId)).list();
+                add(Restrictions.eq("r.restaurantId", restaurantId))
+          .setFirstResult((pageNumber - 1)* pageSize)
+                 
+        .setMaxResults(pageSize).setFetchSize(10).list();
         List<RestaurantCoupons> restaurantCoupons = new ArrayList<>();
         for (UserUsedCoupon coupons : usedCouponsList) {
             RestaurantCoupons restCoupon = new RestaurantCoupons(coupons.getUserReserveCoupon().getCoupons().getCouponBarcode(),
