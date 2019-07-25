@@ -81,7 +81,7 @@ public class InquiryController {
     }
     
     /* Update inquiry state */
-    @RequestMapping(value = "/update/status", method = RequestMethod.PUT)
+    @RequestMapping(value = "/update/status", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<Map<String, Object>> updateInquiryStatus(@RequestParam("id") int id, 
             @RequestParam("is_read") int isRead) {
